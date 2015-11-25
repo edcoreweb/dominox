@@ -1,5 +1,9 @@
 import './common/dependencies.js'
+import './../../bower_components/jquery.shapeshift/core/jquery.shapeshift.js'
 
-$('.Card').on('click', function(e) {
-
+$(".board-game").shapeshift({
+    minColumns: 100,
+    cutoffStart: 3,
+    cutoffEnd: 3,
+    dragWhitelist: ".active"
 });

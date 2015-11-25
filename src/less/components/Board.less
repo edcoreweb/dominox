@@ -1,3 +1,24 @@
 .Board {
     overflow: hidden;
+
+    .board-game {
+        border: 1px dashed #ccc;
+        position: relative;
+
+        div {
+            background: #CCC;
+            height: 100px;
+            position: absolute;
+            width: 80px;
+        }
+
+        .ss-placeholder-child {
+            background: transparent;
+            border: 1px dashed red;
+        }
+
+        &.main {
+            height: 700px !important;
+        }
+    }
 }
