@@ -24,6 +24,15 @@ class Auth {
     }
 
     /**
+     * Get the currently authenticated user api token.
+     *
+     * @return {String|null}
+     */
+    apiToken() {
+        return this.user().apiToken();
+    }
+
+    /**
      * Set the current user.
      *
      * @param  {User} user
@@ -57,10 +66,20 @@ class Auth {
      * @param  {Object}  credentials
      * @param  {Boolean} remember
      * @param  {Boolean} login
-     * @return {Object}
+     * @return {Promise}
      */
     attempt(credentials, remember = false, login = true) {
-
+        return new Promise((resolve, reject) => {
+            http.post('/auth/login', credentials)
+                .then((response) => {
+                    console.log(response);
+                    resolve(response);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    reject(err);
+                });
+        });
     }
 }
 
