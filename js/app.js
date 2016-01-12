@@ -1,17 +1,8 @@
 import './bootstrap';
+import router from './router';
 
-new Vue({
-    el: '#app',
+let App = Vue.extend({
 
-    data: {
-
-    },
-
-    ready() {
-
-    },
-
-    methods: {
-
-    }
 });
+
+router.start(App, '#app');

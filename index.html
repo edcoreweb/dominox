@@ -10,7 +10,10 @@
 </head>
 <body>
     <div id="app">
+        <a v-link="{ path: '/home' }">Go Home</a>
+        <a v-link="{ path: '/login' }">Go to Login</a>
 
+        <router-view></router-view>
     </div>
 
     <script src="/dist/app.js"></script>
