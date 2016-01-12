@@ -27,8 +27,8 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         Auth::viaRequest('api', function ($request) {
-            if ($request->input('api_token')) {
-                return User::where('api_token', $request->input('api_token'))->first();
+            if ($token = $request->input('api_token')) {
+                return User::where('api_token', $token)->first();
             }
         });
     }
