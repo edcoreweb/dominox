@@ -1,5 +1,5 @@
 /node_modules
 /bower_components
-dominox.sublime-workspace
-dominox.sublime-project
+*.sublime-workspace
+*.sublime-project
 *.tmp

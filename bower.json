@@ -1,6 +1,0 @@
-{
-  "name": "Dominox",
-  "dependencies": {
-    "jquery.shapeshift": "~2.0.0"
-  }
-}
