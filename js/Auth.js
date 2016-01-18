@@ -1,4 +1,5 @@
 let instance = null;
+const STORAGE_KEY = '_api_token';
 
 class Auth {
     /**
@@ -70,16 +71,70 @@ class Auth {
      */
     attempt(credentials, remember = false, login = true) {
         return new Promise((resolve, reject) => {
-            http.post('/auth/login', credentials)
-                .then((response) => {
-                    console.log(response);
-                    resolve(response);
+            http.post('auth/login', credentials)
+                .then((user) => {
+                    this.setUser(new User(user));
+
+                    if (remember) {
+                        this.saveToken(user.api_token);
+                    }
+
+                    resolve(this.user());
                 })
                 .catch((err) => {
-                    console.log(err);
                     reject(err);
                 });
         });
+    }
+
+    /**
+     * Retrive user by api token.
+     *
+     * @return {Promise|null}
+     */
+    retriveUserByToken() {
+        return new Promise((resolve, reject) => {
+            let token = this.getToken();
+
+            if (token) {
+                this.attempt({api_token: token}, true, true)
+                    .then((user) => resolve(user))
+                    .catch(() => {
+                        this.forgetToken();
+                        reject();
+                    });
+            } else {
+                reject();
+            }
+        });
+    }
+
+    /**
+     * Save token into local storage.
+     *
+     * @param  {String} token
+     * @return {void}
+     */
+    saveToken(token) {
+        localStorage.setItem(STORAGE_KEY, token);
+    }
+
+    /**
+     * Get token from local storage.
+     *
+     * @return {String|null}
+     */
+    getToken() {
+        return localStorage.getItem(STORAGE_KEY);
+    }
+
+    /**
+     * Forget token from local storage.
+     *
+     * @return {void}
+     */
+    forgetToken() {
+        localStorage.removeItem(STORAGE_KEY);
     }
 }
 

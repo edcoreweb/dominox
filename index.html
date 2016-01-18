@@ -9,17 +9,19 @@
     <link href="/dist/app.css" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
-        <a v-link="{ path: '/home' }">Go Home</a>
-        <a v-link="{ path: '/login' }">Go to Login</a>
+    <div id="app" v-cloak>
+        <!-- <a v-link="{ path: '/home' }">Go Home</a>
+        <a v-link="{ path: '/login' }">Go to Login</a> -->
+
+        <div v-if="busy">Loading...</div>
 
         <router-view></router-view>
     </div>
 
     <script>
-    window.Config = {
-        api: 'http://api.dominox.app',
-    };
+        window.Config = {
+            api: 'http://api.dominox.app',
+        };
     </script>
     <script src="/dist/app.js"></script>
 </body>

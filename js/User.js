@@ -1,9 +1,21 @@
 class User {
     /**
      * Create a new user instance.
+     *
+     * @param {Object} attributes
      */
-    constructor() {
+    constructor(attributes) {
+        this.name = attributes.name;
+        this.apiToken = attributes.apiToken;
+    }
 
+    /**
+     * Get the api token.
+     *
+     * @return {String}
+     */
+    apiToken() {
+        return this.apiToken;
     }
 }
 

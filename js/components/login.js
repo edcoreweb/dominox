@@ -9,6 +9,6 @@ module.exports = {
             password: 'test1234',
         };
 
-        Auth.attempt(credentials);
+        // Auth.attempt(credentials);
     }
 };
