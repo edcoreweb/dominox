@@ -37,6 +37,12 @@ $app->routeMiddleware([
 $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
+//$app->register(Barryvdh\Cors\LumenServiceProvider::class);
+//$app->configure('cors');
+
+$app->register(Laravel\Socialite\SocialiteServiceProvider::class);
+$app->configure('services');
+
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__.'/Http/routes.php';
 });

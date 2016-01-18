@@ -7,7 +7,10 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/lumen-framework": "5.2.*",
-        "vlucas/phpdotenv": "~2.2"
+        "vlucas/phpdotenv": "~2.2",
+        "asm89/stack-cors": "dev-master as 0.2.2",
+        "barryvdh/laravel-cors": "^0.7.3",
+        "laravel/socialite": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
@@ -18,15 +19,39 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email',
+        'name', 'email', 'api_token', 'provider', 'provider_id',
     ];
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * Find user by api token.
      *
-     * @var array
+     * @param  string $token
+     * @return $this
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    protected $hidden = [
-        'password', 'api_token'
-    ];
+    public static function findByToken($token)
+    {
+        $user = static::where('api_token', $token)->first();
+
+        if (! is_null($user)) {
+            return $user;
+        }
+
+        throw new ModelNotFoundException;
+    }
+
+    /**
+     * Find user by provider.
+     *
+     * @param  string $provider
+     * @param  string $id
+     * @return $this
+     */
+    public static function findByProvider($provider, $id)
+    {
+        return static::where('provider', $provider)
+                     ->where('provider_id', $id)
+                     ->first();
+    }
 }
