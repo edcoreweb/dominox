@@ -19,6 +19,10 @@ router.map({
         component: require('./components/login'),
         guest: true,
     },
+    '/game': {
+        component: require('./components/game/main'),
+        auth: true,
+    },
 });
 
 /**
