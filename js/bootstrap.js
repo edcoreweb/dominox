@@ -9,7 +9,6 @@ import Form from './forms/Form';
 
 Vue.use(Resource);
 Vue.http.options.root = Config.api;
-Vue.http.options.xhr = {withCredentials: true};
 
 /**
  * Global variables.
