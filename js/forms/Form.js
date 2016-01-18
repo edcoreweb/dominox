@@ -1,6 +1,11 @@
 import FormErrors from './FormErrors';
 
 class Form {
+    /**
+     * Create a new form instance.
+     *
+     * @param  {Object} data
+     */
     constructor(data) {
         this.data = data;
         this.busy = false;

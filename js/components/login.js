@@ -11,12 +11,23 @@ module.exports = {
     },
 
     methods: {
+        /**
+         * Login by provider.
+         *
+         * @param  {String} provider
+         */
         login(provider) {
             http.post('oauth/url', {provider: provider})
                 .then((response) => this.openPopup(response.data, provider))
                 .catch((err) => alert('Error!'));
         },
 
+        /**
+         * Open popup window to authorize app.
+         *
+         * @param  {String} url
+         * @param  {String} provider
+         */
         openPopup(url, provider) {
             let loginWindow = popup(1100, 800, url);
 
@@ -29,6 +40,11 @@ module.exports = {
             }, 1000);
         },
 
+        /**
+         * Retrive user with the oauth code.
+         *
+         * @param  {String} provider
+         */
         retriveUser(provider) {
             let code = localStorage.getItem('_code');
 

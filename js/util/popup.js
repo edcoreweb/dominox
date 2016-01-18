@@ -1,4 +1,4 @@
-module.exports  = (width, height, url, title, win) => {
+module.exports = (width, height, url, title, win) => {
     if (typeof width !== 'number' || typeof height !== 'number') {
         throw new TypeError('Width and height must be numbers');
     }
