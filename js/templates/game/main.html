@@ -1,3 +1,17 @@
 <div class="outer-div">
-  <div class="inner-div"></div>
+    <div class="piece center">
+        <div class="piece-content" @click="select"></div>
+        <div class="piece right">
+            <div class="piece-content" @click="select"></div>
+        </div>
+        <div class="piece switch vertical">
+            <div class="piece-content" @click="select"></div>
+            <div class="piece switch horizontal">
+                <div class="piece-content" @click="select"></div>
+                <div class="piece left">
+                    <div class="piece-content" @click="select"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

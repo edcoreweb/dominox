@@ -5,9 +5,21 @@ module.exports = {
 
     data() {
         return {
+            selected: null,
         }
     },
 
+    ready() {
+    },
+
     methods: {
+
+        select(event) {
+            this.selected = event.target;
+        },
+
+        add(direction) {
+
+        }
     }
 };
