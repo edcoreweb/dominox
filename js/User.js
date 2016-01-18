@@ -5,8 +5,10 @@ class User {
      * @param {Object} attributes
      */
     constructor(attributes) {
+        this.id = attributes.id;
         this.name = attributes.name;
-        this.apiToken = attributes.apiToken;
+        this.email = attributes.email;
+        this.api_token = attributes.api_token;
     }
 
     /**
@@ -15,7 +17,7 @@ class User {
      * @return {String}
      */
     apiToken() {
-        return this.apiToken;
+        return this.api_token;
     }
 }
 

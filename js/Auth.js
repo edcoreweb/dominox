@@ -1,3 +1,5 @@
+import User from './User';
+
 let instance = null;
 const STORAGE_KEY = '_api_token';
 
@@ -71,17 +73,18 @@ class Auth {
      */
     attempt(credentials, remember = false, login = true) {
         return new Promise((resolve, reject) => {
-            http.post('auth/login', credentials)
-                .then((user) => {
-                    this.setUser(new User(user));
+            http.post('api_token', credentials)
+                .then((response) => {
+                    this.setUser(new User(response.data));
 
                     if (remember) {
-                        this.saveToken(user.api_token);
+                        this.saveToken(response.api_token);
                     }
 
                     resolve(this.user());
                 })
                 .catch((err) => {
+                    console.log(err);
                     reject(err);
                 });
         });
@@ -112,10 +115,13 @@ class Auth {
     /**
      * Save token into local storage.
      *
-     * @param  {String} token
      * @return {void}
      */
-    saveToken(token) {
+    saveToken(token = null) {
+        if (!token) {
+            token = this.user().apiToken();
+        }
+
         localStorage.setItem(STORAGE_KEY, token);
     }
 

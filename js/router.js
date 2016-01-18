@@ -1,7 +1,11 @@
 import Auth from './Auth';
 import VueRouter from 'vue-router';
 
-let router = new VueRouter();
+let router = null;
+
+if (!router) {
+    router = new VueRouter();
+}
 
 /**
  * Define route mappings.
