@@ -27,22 +27,30 @@ body
     right: 0;
 }
 
-.left {
-    left: -100%;
+.right {
+    right: 100%;
 }
 
-.right {
+.left {
     right: 100%;
 }
 .switch {
     transform: rotate(90deg);
 
-    &.vertical {
+    &.right-vertical {
         left: 75%;
     }
 
-    &.horizontal {
+    &.left-vertical {
+        left: -75%;
+    }
+
+    &.right-horizontal {
         top: -150%;
+    }
+
+    &.left-horizontal {
+        top: 150%;
     }
 }
 
