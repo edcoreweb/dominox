@@ -4,19 +4,30 @@
  * Dependencies.
  */
 @import '@{nmodules}/bootstrap/less/bootstrap';
+@import '@{nmodules}/font-awesome/less/font-awesome';
 
 /**
  * Elements.
  */
 
+@import "elements/forms";
 @import "elements/alerts";
+@import "elements/modals";
+@import "elements/buttons";
+@import "elements/sweet-alert";
 
 /**
  * Components.
  */
 
-@import "components/login";
+@import "components/splash-screen";
 @import "components/game/main";
+
+/**
+ * Variables.
+ */
+@body-bg: #f8f8f8;
+@font-family-base: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 /**
  * Misc.
@@ -26,6 +37,6 @@
     display: none;
 }
 
-body {
-    background-color: #f0f3f5;
+html, body, #app {
+    height: 100%;
 }
