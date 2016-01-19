@@ -19,6 +19,10 @@ router.map({
         component: require('./components/splash-screen'),
         guest: true,
     },
+    '/logout': {
+        component: require('./components/logout'),
+        auth: true,
+    },
     '/game': {
         component: require('./components/game/main'),
         auth: true,
@@ -56,7 +60,10 @@ router.beforeEach(function(transition) {
     // by the saved api token from local storage.
     Auth.retriveUserByToken()
         .then(() => before())
-        .catch(() => before());
+        .catch(() => before())
+        .then(() => {
+            router.app.$dispatch('user.login', Auth.user());
+        });
 });
 
 module.exports = router;

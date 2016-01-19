@@ -58,9 +58,11 @@ module.exports = {
                     Auth.setUser(new User(response.data));
                     Auth.saveToken();
 
-                    this.$router.go('/home');
-
                     $('#login-modal').modal('hide');
+
+                    this.$dispatch('user.login', Auth.user());
+
+                    this.$router.go('/home');
                 })
                 .catch((response) => {
                     swal('Opps!', response.status == 422 ? response.data : 'Something went wrong. Please try again.', 'warning');

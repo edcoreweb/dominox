@@ -1,1 +1,1 @@
-//
+import './partials/navbar';
