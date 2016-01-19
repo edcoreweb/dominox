@@ -64,6 +64,16 @@ class Auth {
     }
 
     /**
+     * Log the user out of the application.
+     *
+     * @return {void}
+     */
+    logout() {
+        this.setUser(null);
+        this.forgetToken();
+    }
+
+    /**
      * Attempt to authenticate a user using the given credentials.
      *
      * @param  {Object}  credentials
