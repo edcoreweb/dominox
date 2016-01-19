@@ -10,12 +10,11 @@
 </head>
 <body>
     <div id="app" v-cloak>
-        <!-- <a v-link="{ path: '/home' }">Go Home</a>
-        <a v-link="{ path: '/login' }">Go to Login</a> -->
+        <div class="loading-app" v-if="busy" transition="fade">
+            <div class="spinner">Loading...</div>
+        </div>
 
-        <div v-if="busy">Loading...</div>
-
-        <router-view></router-view>
+        <router-view transition="fade"></router-view>
     </div>
 
     <script>

@@ -1,0 +1,49 @@
+@navbar-accent-color: #1abc9c;
+@navbar-border-radius: 0px;
+@navbar-default-bg: #34495e;
+@navbar-default-link-color: #fff;
+@navbar-default-link-hover-color: @navbar-accent-color;
+@navbar-default-link-active-color: @navbar-accent-color;
+@dropdown-link-active-bg: #34495e;
+
+.navbar-default {
+    .navbar-brand {
+        font-weight: 700;
+
+        &:hover, &:focus {
+            color: @navbar-accent-color;
+        }
+    }
+
+    .navbar-right {
+        .fa {
+            margin-right: 4px;
+        }
+
+        @media (min-width: 768px) {
+            margin-right: -28px;
+        }
+    }
+
+    .navbar-toggle {
+        border: none;
+
+        .icon-bar {
+            height: 3px;
+            border-radius: 1px;
+            background-color: #fff;
+
+            + .icon-bar {
+                margin-top: 3px;
+            }
+        }
+
+        &:hover, &:focus {
+            background: none;
+
+            > .icon-bar {
+                background-color: @navbar-accent-color;
+            }
+        }
+    }
+}

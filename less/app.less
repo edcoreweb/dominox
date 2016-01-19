@@ -10,18 +10,20 @@
  * Elements.
  */
 
-@import "elements/forms";
-@import "elements/alerts";
-@import "elements/modals";
-@import "elements/buttons";
-@import "elements/sweet-alert";
+@import 'elements/forms';
+@import 'elements/navbar';
+@import 'elements/alerts';
+@import 'elements/modals';
+@import 'elements/buttons';
+@import 'elements/spinner';
+@import 'elements/sweet-alert';
 
 /**
  * Components.
  */
 
-@import "components/splash-screen";
-@import "components/game/main";
+@import 'components/game/main';
+@import 'components/splash-screen';
 
 /**
  * Variables.
@@ -39,4 +41,14 @@
 
 html, body, #app {
     height: 100%;
+}
+
+.loading-app {
+    .spinner {
+        top: 40%;
+        left: 50%;
+        width: 60px;
+        height: 60px;
+        position: fixed;
+    }
 }
