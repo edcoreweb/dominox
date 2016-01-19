@@ -16,7 +16,7 @@ router.map({
         auth: true,
     },
     '/login': {
-        component: require('./components/login'),
+        component: require('./components/splash-screen'),
         guest: true,
     },
     '/game': {

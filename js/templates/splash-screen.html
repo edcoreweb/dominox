@@ -1,0 +1,56 @@
+<div class="splash-screen">
+    <div class="container">
+        <div class="splash-screen-content">
+            <div class="splash-screen-logo">
+                <img src="/dist/img/logo.png">
+            </div>
+
+            <header>Domino<span>X</span></header>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#login-modal">Muliplayer</button>
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-primary btn-lg">Singleplayer</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="login-modal" data-animation="pop" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Connect with a social network:</h4>
+                </div>
+                <div class="modal-body">
+                    <p>In order to play a multiplayer game you will need to connect with a social network.</p>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="splash-screen-connect facebook" @click="login('facebook')">
+                                <i class="fa fa-facebook"></i>
+                                Facebook
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="splash-screen-connect google-plus" @click="login('google')">
+                                <i class="fa fa-google-plus"></i>
+                                Google+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="splash-screen-connect twitter" @click="login('twitter')">
+                                <i class="fa fa-twitter"></i>
+                                Twitter
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+</div>

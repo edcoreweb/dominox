@@ -1,9 +1,10 @@
 import User from './../User';
 import Auth from './../Auth';
+import swal from 'sweetalert';
 import popup from './../util/popup';
 
 module.exports = {
-    template: require('./../templates/login.html'),
+    template: require('./../templates/splash-screen.html'),
 
     data() {
         return {
@@ -18,8 +19,12 @@ module.exports = {
          */
         login(provider) {
             http.post('oauth/url', {provider: provider})
-                .then((response) => this.openPopup(response.data, provider))
-                .catch((err) => alert('Error!'));
+                .then((response) => {
+                    this.openPopup(response.data, provider);
+                })
+                .catch(() => {
+                    swal('Opps!', 'Something went wrong. Please try again.', 'warning');
+                });
         },
 
         /**
@@ -54,9 +59,11 @@ module.exports = {
                     Auth.saveToken();
 
                     this.$router.go('/home');
+
+                    $('#login-modal').modal('hide');
                 })
-                .catch((err) => {
-                    alert('Error!');
+                .catch((response) => {
+                    swal('Opps!', response.status == 422 ? response.data : 'Something went wrong. Please try again.', 'warning');
                 })
                 .then(() => {
                     localStorage.removeItem('_code');
