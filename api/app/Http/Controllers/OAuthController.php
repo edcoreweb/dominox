@@ -16,7 +16,7 @@ class OAuthController extends Controller
      */
     public function url(Request $request)
     {
-        $url = $this->provider($request)
+        $url = $this->provider($request->input('provider'))
                     ->redirect()->headers->get('Location');
 
         return $this->json($url);
@@ -30,18 +30,22 @@ class OAuthController extends Controller
      */
     public function user(Request $request)
     {
-        $user = $this->provider($request)->user();
+        $provider = $request->input('provider');
 
-        $model = User::findByProvider($request->input('provider'), $user->getId());
+        $user = $this->provider($provider)->user();
 
-        if ($model) {
-            return $this->json($model);
+        if ($u = User::findByProvider($provider, $user->getId())) {
+            return $this->json($u);
+        }
+
+        if (User::where('email', $user->getEmail())->exists()) {
+            return $this->json(['The email has already been taken.'], 422);
         }
 
         $user = User::create([
             'name' => $user->getName(),
             'email' => $user->getEmail(),
-            'provider' => $request->input('provider'),
+            'provider' => $provider,
             'provider_id' => $user->getId(),
             'api_token' => str_random(32),
         ]);
@@ -50,11 +54,11 @@ class OAuthController extends Controller
     }
 
     /**
-     * @param  \Illuminate\Http\Request $request
+     * @param  string $provider
      * @return \Laravel\Socialite\Contracts\Provider
      */
-    protected function provider(Request $request)
+    protected function provider($provider)
     {
-        return Socialite::driver($request->input('provider'))->stateless();
+        return Socialite::driver($provider)->stateless();
     }
 }
