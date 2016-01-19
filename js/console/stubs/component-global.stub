@@ -1,0 +1,13 @@
+Vue.component('{{component}}', {
+    template: require('{{template}}'),
+
+    data() {
+        return {
+
+        };
+    },
+
+    methods: {
+
+    }
+});
