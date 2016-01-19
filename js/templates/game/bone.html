@@ -1,0 +1,13 @@
+<div
+    class="piece"
+    v-bind:class="classObject">
+    <div class="piece-content" @click="select"></div>
+
+    <bone
+        v-if="hasChildren"
+        v-for="child in model.children"
+        :model="child"
+        :parent="model"
+        :grandparent="parent">
+    </bone>
+</div>

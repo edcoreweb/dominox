@@ -1,17 +1,7 @@
 <div class="outer-div">
-    <div class="piece center">
-        <div class="piece-content" @click="select"></div>
-     <!--    <div class="piece left">
-            <div class="piece-content" @click="select"></div>
-        </div>
-        <div class="piece switch right-vertical">
-            <div class="piece-content" @click="select"></div>
-            <div class="piece switch right-horizontal">
-                <div class="piece-content" @click="select"></div>
-                <div class="piece right">
-                    <div class="piece-content" @click="select"></div>
-                </div>
-            </div>
-        </div> -->
-    </div>
+    <bone
+        :model="boardData"
+        :parent="boardData"
+        :grandparent="boardData">
+    </bone>
 </div>
