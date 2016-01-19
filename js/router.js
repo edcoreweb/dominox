@@ -23,6 +23,9 @@ router.map({
         component: require('./components/game/main'),
         auth: true,
     },
+    '/singleplayer': {
+        component: require('./components/game/single-player'),
+    }
 });
 
 /**
