@@ -5,11 +5,11 @@ import Resource from 'vue-resource';
 
 import './components';
 import './util/helpers';
-
 import Auth from './Auth';
 import Form from './forms/Form';
 
 Vue.use(Resource);
+Vue.config.debug = true;
 Vue.http.options.root = Config.api;
 
 /**
