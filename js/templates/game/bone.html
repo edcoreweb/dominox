@@ -1,13 +1,11 @@
 <div
     class="piece"
-    v-bind:class="classObject">
+    v-bind:class="classes">
     <div class="piece-content" @click="select"></div>
 
     <bone
         v-if="hasChildren"
         v-for="child in model.children"
-        :model="child"
-        :parent="model"
-        :grandparent="parent">
+        :model="child">
     </bone>
 </div>

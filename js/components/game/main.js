@@ -29,6 +29,16 @@ var data = {
                         direction: 'up',
                         children: [
 
+                        {
+                            name: '20',
+                            corner: false,
+                            vertical: true,
+                            direction: 'up',
+                            children: [
+
+                            ]
+                        },
+
                         ]
                     },
 

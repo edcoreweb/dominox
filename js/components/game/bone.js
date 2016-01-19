@@ -6,13 +6,23 @@ Vue.component('bone', {
 
     props: {
         model: Object,
-        parent: Object,
-        grandparent: Object,
     },
 
     data: function () {
         return {
+            parent: null,
+            classes: {},
         };
+    },
+
+    created() {
+        this.parent = this.$parent.constructor.name == 'Bone' ? this.$parent : null;
+
+        this.classes = this.getClassObject();
+
+        if (this.parent) {
+            console.log(this.parent.classes);
+        }
     },
 
     computed: {
@@ -20,15 +30,27 @@ Vue.component('bone', {
             return this.model.children &&
                 this.model.children.length;
         },
+    },
 
-        classObject: function () {
+    methods: {
+        select(event) {
+            console.log(this);
+            let selected = $(event.target).parent();
+            console.log(this.model.name);
+        },
+
+        getClassObject: function () {
             let style = {};
 
-            this.switch = (this.parent.vertical != this.model.vertical);
-            this.counter = (this.parent.vertical) ;
+            if (this.parent) {
 
-            style.switch = this.switch;
-            style.counter = this.counter;
+                this.switch = (this.parent.model.vertical != this.model.vertical);
+                this.counter = (this.parent.model.vertical) ;
+
+                style.switch = this.switch;
+                style.counter = this.counter;
+
+            }
 
             if (this.switch) {
                 style.vertical = this.model.vertical;
@@ -39,13 +61,6 @@ Vue.component('bone', {
 
             return style;
         }
-    },
-
-    methods: {
-        select(event) {
-            let selected = $(event.target).parent();
-            console.log(this.model.name);
-        },
     }
 });
 
