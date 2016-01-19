@@ -21,30 +21,61 @@
     right: 0;
 }
 
+.up {
+    top: 0;
+    left: -100%;
+}
+
+.down {
+    top: 0;
+    left: 100%;
+
+    &.horizontal {
+        top: -150%;
+        right: 0;
+    }
+}
+
 .right {
-    right: 100%;
-}
+    right: -100%;
 
-.left {
-    right: 100%;
-}
-.switch {
-    transform: rotate(90deg);
-
-    &.right-vertical {
+    &.vertical {
         left: 75%;
     }
 
-    &.left-vertical {
+    &.horizontal {
+        top: -150%;
+        right: 0;
+    }
+}
+
+.left {
+    left: -100%;
+
+    &.vertical {
         left: -75%;
     }
 
-    &.right-horizontal {
-        top: -150%;
-    }
-
-    &.left-horizontal {
+    &.horizontal {
         top: 150%;
+        left: 0;
+    }
+}
+
+&.switch {
+    transform: rotate(90deg);
+
+    &.counter {
+        transform: rotate(-90deg);
+
+        &.up {
+            left: -75%;
+        }
+
+        &.down {
+            top: 0;
+            left: 75%;
+        }
     }
 }
 
