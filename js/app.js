@@ -5,7 +5,7 @@ let App = Vue.extend({
     data() {
         return {
             user: null,
-            busy: true,
+            busy: true
         };
     },
 
@@ -23,7 +23,7 @@ let App = Vue.extend({
             this.user = user;
         },
 
-        userHasLoggedOut(user) {
+        userHasLoggedOut() {
             this.user = null;
         }
     }

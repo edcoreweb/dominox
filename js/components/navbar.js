@@ -14,7 +14,7 @@ Vue.component('navbar', {
     components: {
         'user-profile': require('./user/profile'),
         'user-settings': require('./user/settings'),
-        'create-game': require('./game/create'),
+        'create-game': require('./game/create')
     },
 
     methods: {

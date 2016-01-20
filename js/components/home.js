@@ -1,5 +1,5 @@
 module.exports = {
     props: ['user'],
 
-    template: require('./../templates/home.html'),
+    template: require('./../templates/home.html')
 };

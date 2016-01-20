@@ -8,7 +8,7 @@ module.exports = {
 
     data() {
         return {
-            busy: false,
+            busy: false
         };
     },
 
@@ -81,6 +81,6 @@ module.exports = {
                     localStorage.removeItem('_code');
                 })
                 .then(() => this.busy = false);
-        },
+        }
     }
 };

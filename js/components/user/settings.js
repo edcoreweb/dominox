@@ -7,8 +7,8 @@ module.exports = {
         return {
             form: new Form({
                 name: null,
-                email: null,
-            }),
+                email: null
+            })
         };
     },
 

@@ -1,8 +1,12 @@
 {
     "globals": {
+        "_": true,
         "$": true,
+        "Form": true,
+        "jQuery": true,
         "Vue": true,
-        "jQuery": true
+        "Config": true,
+        "http": true
     },
     "rules": {
         "indent": [
@@ -27,6 +31,7 @@
     },
     "env": {
         "es6": true,
+        "node": true,
         "browser": true
     },
     "ecmaFeatures": {

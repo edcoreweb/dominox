@@ -78,10 +78,9 @@ class Auth {
      *
      * @param  {Object}  credentials
      * @param  {Boolean} remember
-     * @param  {Boolean} login
      * @return {Promise}
      */
-    attempt(credentials, remember = false, login = true) {
+    attempt(credentials, remember = false) {
         return new Promise((resolve, reject) => {
             http.post('api_token', credentials)
                 .then((response) => {

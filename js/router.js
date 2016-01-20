@@ -13,23 +13,23 @@ if (!router) {
 router.map({
     '/home': {
         component: require('./components/home'),
-        auth: true,
+        auth: true
     },
     '/login': {
         component: require('./components/splash-screen'),
-        guest: true,
+        guest: true
     },
     '/logout': {
         component: require('./components/logout'),
-        auth: true,
+        auth: true
     },
     '/game': {
         component: require('./components/game/main'),
-        auth: true,
+        auth: true
     },
     '/singleplayer': {
-        component: require('./components/game/single-player'),
-    },
+        component: require('./components/game/single-player')
+    }
 });
 
 /**
@@ -54,7 +54,7 @@ router.beforeEach(function(transition) {
 
         router.app.setBusy(false);
         transition.next();
-    }
+    };
 
     // Attempt to authenticate the user
     // by the saved api token from local storage.

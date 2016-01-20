@@ -18,4 +18,4 @@ module.exports = (width, height, url, title, win) => {
     let top = (win.outerHeight / 2) + (win.screenY || win.screenTop || 0) - (height / 2);
 
     return win.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
-}
+};

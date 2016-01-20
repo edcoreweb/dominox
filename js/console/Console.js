@@ -7,7 +7,7 @@ let config = {
     stubs: 'js/console/stubs',
     templates: 'js/templates',
     components: 'js/components',
-    componentsImport: 'js/components.js',
+    componentsImport: 'js/components.js'
 };
 
 class Console {
@@ -18,15 +18,15 @@ class Console {
 
     switch() {
         switch (this.arg()) {
-            case 'make:component':
-                return this.makeComponent();
+        case 'make:component':
+            return this.makeComponent();
 
-            case '--help':
-                return this.help();
+        case '--help':
+            return this.help();
 
-            default:
-                this.write('Invalid command.');
-                return this.help();
+        default:
+            this.write('Invalid command.');
+            return this.help();
         }
     }
 
@@ -61,7 +61,7 @@ class Console {
         this.writeFile(componentPath, stub);
 
         if (sImport) {
-            fs.appendFileSync(config.componentsImport, "import './components/"+path+"';\n");
+            fs.appendFileSync(config.componentsImport, 'import \'./components/'+path+'\';\n');
         }
 
         this.write('Component created!');

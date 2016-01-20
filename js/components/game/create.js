@@ -4,7 +4,7 @@ module.exports = {
     data() {
         return {
             form: new Form({
-                name: null,
+                name: null
             })
         };
     },
