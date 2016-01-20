@@ -27,7 +27,16 @@ Vue.component('bone', {
 
     methods: {
         select() {
-            console.log(this.model.name);
+            this.model.children.push(
+                {
+                    name: '2',
+                    corner: null,
+                    vertical: false,
+                    direction: 'left',
+                    children: [
+
+                    ]
+                });
         },
 
         getClassObject() {

@@ -1,6 +1,7 @@
 // import Auth from './../../Auth';
 // import Piece from './../../Piece';
 import './bone';
+import 'jquery.panzoom';
 
 var data = {
     name: '1',
@@ -218,6 +219,17 @@ module.exports = {
     },
 
     ready() {
+
+        var $panzoom = $('.outer-div').panzoom();
+        $panzoom.parent().on('mousewheel.focal', function( e ) {
+            var delta = e.delta || e.originalEvent.wheelDelta;
+            var zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
+            $panzoom.panzoom('zoom', zoomOut, {
+                increment: 0.1,
+                animate: false,
+                focal: e
+            });
+        });
     },
 
     methods: {
