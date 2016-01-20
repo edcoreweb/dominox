@@ -8,7 +8,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="index.html" class="navbar-brand">DominoX</a>
+                <a v-link="{path: 'home'}" href="#" class="navbar-brand">DominoX</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -20,10 +20,10 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.name }} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#" v-link="{path: 'profile'}"><i class="fa fa-user"></i> My Profile</a></li>
-                            <li><a href="#" v-link="{path: 'settings'}"><i class="fa fa-cog"></i> Settings</a></li>
+                            <li><a v-link="{path: 'profile'}" href="#"><i class="fa fa-user"></i> My Profile</a></li>
+                            <li><a v-link="{path: 'settings'}" href="#"><i class="fa fa-cog"></i> Settings</a></li>
                             <li class="divider"></li>
-                            <li><a href="#" v-link="{path: 'logout'}"><i class="fa fa-sign-out"></i> Logout</a></li>
+                            <li><a v-link="{path: 'logout'}" href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
                         </ul>
                     </li>
                 </ul>

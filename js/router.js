@@ -30,6 +30,15 @@ router.map({
     '/singleplayer': {
         component: require('./components/game/single-player'),
     },
+
+    '/profile': {
+        component: require('./components/user/profile'),
+        auth: true,
+    },
+    '/settings': {
+        component: require('./components/user/settings'),
+        auth: true,
+    },
 });
 
 /**
