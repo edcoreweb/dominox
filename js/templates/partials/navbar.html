@@ -9,12 +9,12 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a v-link="{path: 'home'}" href="#" class="navbar-brand">DominoX</a>
+                    <a v-link="{path: 'home'}" href="#" class="navbar-brand">Domino<span>X</span></a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="#">Browse</a></li>
-                        <li><a href="#">Create</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#create-game-modal">Create</a></li>
                         <li><a href="#">My Games</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -34,6 +34,7 @@
     </div>
 
     <user-profile :user="user"></user-profile>
-
     <user-settings :user="user"></user-settings>
+
+    <create-game></create-game>
 </div>

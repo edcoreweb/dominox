@@ -58,12 +58,10 @@ class Form {
         });
     }
 
-    /**
-     * Send the form to the server with PATCH method.
-     *
-     * @param  {String} uri
-     * @return {Promise}
-     */
+    post(uri) {
+        return this.send('post', uri);
+    }
+
     patch(uri) {
         return this.send('patch', uri);
     }
