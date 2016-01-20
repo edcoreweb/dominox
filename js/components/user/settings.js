@@ -14,11 +14,9 @@ module.exports = {
 
     ready() {
         $('#user-settings-modal').on('show.bs.modal', () => {
+            this.form.clear();
             this.form.name = this.user.name;
             this.form.email = this.user.email;
-        })
-        .on('hidden.bs.modal', () => {
-            this.form.clear();
         });
     },
 
