@@ -10,11 +10,11 @@
 </head>
 <body>
     <div id="app" v-cloak>
-        <div class="loading-app" v-if="busy" transition="fade">
+        <div class="loading-app" v-if="busy">
             <div class="spinner">Loading...</div>
         </div>
 
-        <router-view transition="fade" :user="user"></router-view>
+        <router-view :user="user"></router-view>
     </div>
 
     <script>

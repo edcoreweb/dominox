@@ -104,6 +104,11 @@ class Console {
 
     optionValue(name, _default) {
         let option = this.option(name);
+
+        if (!option) {
+            return _default;
+        }
+
         let eq = option.indexOf('=');
 
         return eq > -1 ? option.substr(eq + 1, option.length) : _default;

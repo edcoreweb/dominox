@@ -1,33 +1,39 @@
-<div class="navbar navbar-default">
-    <div class="container">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a v-link="{path: 'home'}" href="#" class="navbar-brand">DominoX</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="#">Browse</a></li>
-                    <li><a href="#">Create</a></li>
-                    <li><a href="#">My Games</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.name }} <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a v-link="{path: 'profile'}" href="#"><i class="fa fa-user"></i> My Profile</a></li>
-                            <li><a v-link="{path: 'settings'}" href="#"><i class="fa fa-cog"></i> Settings</a></li>
-                            <li class="divider"></li>
-                            <li><a v-link="{path: 'logout'}" href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
+<div>
+    <div class="navbar navbar-default">
+        <div class="container">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a v-link="{path: 'home'}" href="#" class="navbar-brand">DominoX</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">Browse</a></li>
+                        <li><a href="#">Create</a></li>
+                        <li><a href="#">My Games</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.name }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" data-toggle="modal" data-target="#user-profile-modal"><i class="fa fa-user"></i> My Profile</a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#user-settings-modal"><i class="fa fa-cog"></i> Settings</a></li>
+                                <li class="divider"></li>
+                                <li><a v-link="{path: 'logout'}" href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
+
+    <user-profile :user="user"></user-profile>
+
+    <user-settings :user="user"></user-settings>
 </div>

@@ -1,0 +1,6 @@
+<div class="alert alert-danger" v-if="errors && errors.hasErrors()">
+    <button type="button" class="close" @click="errors.clear()">&times;</button>
+    <ul v-for="error in errors.flatten()">
+        <li>{{{ error }}}</li>
+    </ul>
+</div>
