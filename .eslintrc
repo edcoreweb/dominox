@@ -1,0 +1,39 @@
+{
+    "globals": {
+        "$": true,
+        "Vue": true,
+        "jQuery": true
+    },
+    "rules": {
+        "indent": [
+            2,
+            4
+        ],
+        "quotes": [
+            1,
+            "single"
+        ],
+        "linebreak-style": 0,
+        "semi": [
+            1,
+            "always"
+        ],
+        "no-console": 0
+    },
+    "settings": {
+        "import/ignore": [
+            "vue"
+        ]
+    },
+    "env": {
+        "es6": true,
+        "browser": true
+    },
+    "ecmaFeatures": {
+        "modules": true
+    },
+    "plugins": [
+        "import"
+    ],
+    "extends": "eslint:recommended"
+}
