@@ -1,6 +1,7 @@
 'use strict';
 
 let fs = require('fs');
+let path = require('path');
 
 let config = {
     stubs: 'js/console/stubs',
@@ -41,20 +42,23 @@ class Console {
 
         let component = path.substr(path.lastIndexOf('/') + 1, path.length);
 
+        let stub = fs.readFileSync(config.stubs + '/template.stub');
+        stub = stub.toString().replace('{{component}}', component);
+
         let template = config.templates +'/'+ path + '.html';
-        fs.writeFileSync(template, '');
+        this.writeFile(template, stub);
 
         let back = '';
         for (let i = 0; i < path.split('/').length; i++) {
             back = '../';
         }
 
-        let stub = fs.readFileSync(config.stubs +'/component'+(isGlobal?'-global':'')+'.stub');
-        stub = stub.toString().replace('{{template}}', './../' + back + 'templates/' + component + '.html')
+        stub = fs.readFileSync(config.stubs +'/component'+(isGlobal?'-global':'')+'.stub');
+        stub = stub.toString().replace('{{template}}', './../' + back + 'templates/' + path + '.html')
                               .replace('{{component}}', component);
 
         let componentPath = config.components +'/'+ path + '.js';
-        fs.writeFileSync(componentPath, stub);
+        this.writeFile(componentPath, stub);
 
         if (sImport) {
             fs.appendFileSync(config.componentsImport, "import './components/"+path+"';\n");
@@ -65,9 +69,19 @@ class Console {
         if (route) {
             stub = fs.readFileSync(config.stubs + '/route.stub');
             stub = stub.toString().replace('{{route}}', route)
-                            .replace('{{component}}', component);
+                            .replace('{{component}}', path);
             this.write(stub);
         }
+    }
+
+    writeFile(filePath, contents) {
+        let dir = path.dirname(filePath);
+
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir);
+        }
+
+        fs.writeFileSync(filePath, contents);
     }
 
     write(msg) {

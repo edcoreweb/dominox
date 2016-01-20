@@ -1,4 +1,6 @@
 Vue.component('{{component}}', {
+    props: ['user'],
+
     template: require('{{template}}'),
 
     data() {
