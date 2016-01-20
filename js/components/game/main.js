@@ -4,80 +4,30 @@ import './bone';
 
 var data = {
     name: '1',
-    corner: false,
+    corner: null,
     vertical: false,
     direction: 'center',
     children: [
         {
             name: '2',
-            corner: false,
+            corner: null,
             vertical: false,
             direction: 'left',
             children: [
-
-                // {
-                //     name: '3',
-                //     corner: false,
-                //     vertical: true,
-                //     direction: 'left',
-                //     children: [
-
-                //         {
-                //             name: '8',
-                //             corner: false,
-                //             vertical: false,
-                //             direction: 'up',
-                //             children: [
-
-                //                 {
-                //                     name: '20',
-                //                     corner: false,
-                //                     vertical: true,
-                //                     direction: 'up',
-                //                     children: [
-
-                //                     ]
-                //                 }
-
-                //             ]
-                //         },
-
-                //         {
-                //             name: '9',
-                //             corner: false,
-                //             vertical: false,
-                //             direction: 'down',
-                //             children: [
-
-                //             ]
-                //         },
-
-                //         {
-                //             name: '10',
-                //             corner: false,
-                //             vertical: false,
-                //             direction: 'left',
-                //             children: [
-
-                //             ]
-                //         }
-
-                //     ]
-                // }
 
             ]
         },
 
         {
             name: '3',
-            corner: false,
+            corner: null,
             vertical: true,
             direction: 'up',
             children: [
 
                 {
                     name: '20',
-                    corner: false,
+                    corner: 'up',
                     vertical: false,
                     direction: 'up',
                     children: [
@@ -90,14 +40,14 @@ var data = {
 
         {
             name: '4',
-            corner: false,
+            corner: null,
             vertical: true,
             direction: 'down',
             children: [
 
                 {
                     name: '21',
-                    corner: false,
+                    corner: 'down',
                     vertical: false,
                     direction: 'down',
                     children: [
@@ -110,28 +60,28 @@ var data = {
 
         {
             name: '5',
-            corner: false,
+            corner: null,
             vertical: false,
             direction: 'right',
             children: [
 
                 {
                     name: '6',
-                    corner: false,
+                    corner: 'down',
                     vertical: true,
                     direction: 'right',
                     children: [
 
                         {
                             name: '8',
-                            corner: false,
+                            corner: null,
                             vertical: true,
                             direction: 'up',
                             children: [
 
                                 {
                                     name: '10',
-                                    corner: false,
+                                    corner: null,
                                     vertical: true,
                                     direction: 'up',
                                     children: [
@@ -144,7 +94,7 @@ var data = {
 
                         {
                             name: '9',
-                            corner: false,
+                            corner: null,
                             vertical: true,
                             direction: 'down',
                             children: [
@@ -154,28 +104,28 @@ var data = {
 
                         {
                             name: '7',
-                            corner: false,
+                            corner: 'down',
                             vertical: false,
                             direction: 'right',
                             children: [
 
                                 {
                                     name: '11',
-                                    corner: false,
+                                    corner: 'down',
                                     vertical: true,
                                     direction: 'up',
                                     children: [
 
                                         {
                                             name: '12',
-                                            corner: false,
+                                            corner: null,
                                             vertical: true,
                                             direction: 'up',
                                             children: [
 
                                                 {
                                                     name: '13',
-                                                    corner: false,
+                                                    corner: 'up',
                                                     vertical: false,
                                                     direction: 'right',
                                                     children: [
@@ -197,7 +147,7 @@ var data = {
 
                 // {
                 //     name: '12',
-                //     corner: false,
+                //     corner: null,
                 //     vertical: false,
                 //     direction: 'down',
                 //     children: [
@@ -207,21 +157,21 @@ var data = {
 
                 // {
                 //     name: '5',
-                //     corner: false,
+                //     corner: null,
                 //     vertical: false,
                 //     direction: 'right',
                 //     children: [
 
                 //         {
                 //             name: '6',
-                //             corner: false,
+                //             corner: null,
                 //             vertical: true,
                 //             direction: 'right',
                 //             children: [
 
                 //                 {
                 //                     name: '13',
-                //                     corner: false,
+                //                     corner: null,
                 //                     vertical: false,
                 //                     direction: 'up',
                 //                     children: [
@@ -231,7 +181,7 @@ var data = {
 
                 //                 {
                 //                     name: '14',
-                //                     corner: false,
+                //                     corner: null,
                 //                     vertical: false,
                 //                     direction: 'down',
                 //                     children: [
@@ -241,7 +191,7 @@ var data = {
 
                 //                 {
                 //                     name: '7',
-                //                     corner: false,
+                //                     corner: null,
                 //                     vertical: false,
                 //                     direction: 'right',
                 //                     children: [

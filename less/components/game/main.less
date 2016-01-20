@@ -67,19 +67,51 @@
         &.up {
             top: -150%;
             right: 0;
+
+            &.corner-up {
+                right: 25%;
+            }
+
+            &.corner-down {
+                right: -25%;
+            }
         }
 
         &.down {
             top: 150%;
             left: 0;
+
+            &.corner-up {
+                right: 25%;
+            }
+
+            &.corner-down {
+                right: -25%;
+            }
         }
 
         &.right {
             right: -75%;
+
+            &.corner-up {
+                top: -50%;
+            }
+
+            &.corner-down {
+                top: 50%;
+            }
         }
 
         &.left {
             right: 75%;
+
+            &.corner-up {
+                top: -50%;
+            }
+
+            &.corner-down {
+                top: 50%;
+            }
         }
     }
 
@@ -101,21 +133,53 @@
         &.right {
             top: -150%;
             right: 0;
+
+            &.corner-up {
+                right: 25%;
+            }
+
+            &.corner-down {
+                right: -25%;
+            }
         }
 
         &.left {
             top: 150%;
             right: 0;
+
+            &.corner-up {
+                right: 25%;
+            }
+
+            &.corner-down {
+                right: -25%;
+            }
         }
 
         &.up {
             left: -75%;
             top: 0;
+
+            &.corner-up {
+                top: 50%;
+            }
+
+            &.corner-down {
+                top: -50%;
+            }
         }
 
         &.down {
             left: 75%;
             top: 0;
+
+            &.corner-up {
+                top: 50%;
+            }
+
+            &.corner-down {
+                top: -50%;
+            }
         }
     }
 }

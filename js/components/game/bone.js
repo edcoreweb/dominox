@@ -52,12 +52,15 @@ Vue.component('bone', {
             style.horizontal = !this.model.vertical;
 
             if (this.parent) {
-                console.log(this.model.name, this.parent.classes.vertical, !this.model.vertical);
                 style.counter = (this.parent.classes.vertical && !this.model.vertical);
                 style.rotate = (!this.parent.classes.vertical && this.model.vertical);
             }
 
             style[this.model.direction] = true;
+
+            if (this.model.corner) {
+                style['corner-' + this.model.corner] = true;
+            }
 
             return style;
         }
