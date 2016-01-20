@@ -6,6 +6,7 @@ let config = {
     stubs: 'js/console/stubs',
     templates: 'js/templates',
     components: 'js/components',
+    componentsImport: 'js/components.js',
 };
 
 class Console {
@@ -29,15 +30,16 @@ class Console {
     }
 
     makeComponent() {
-        let name = this.arg();
+        let path = this.arg();
         let isGlobal = this.option('global');
+        let route = this.optionValue('route');
+        let sImport = this.option('import');
 
-        if (!name) {
+        if (!path) {
             return this.write('Invalid component name.');
         }
 
-        let path = name;
-        name = name.substr(name.lastIndexOf('/') + 1, name.length);
+        let component = path.substr(path.lastIndexOf('/') + 1, path.length);
 
         let template = config.templates +'/'+ path + '.html';
         fs.writeFileSync(template, '');
@@ -48,21 +50,28 @@ class Console {
         }
 
         let stub = fs.readFileSync(config.stubs +'/component'+(isGlobal?'-global':'')+'.stub');
-        stub = stub.toString().replace('{{template}}', './../' + back + 'templates/' + name + '.html')
-                              .replace('{{component}}', name);
+        stub = stub.toString().replace('{{template}}', './../' + back + 'templates/' + component + '.html')
+                              .replace('{{component}}', component);
 
-        let component = config.components +'/'+ path + '.js';
-        fs.writeFileSync(component, stub);
+        let componentPath = config.components +'/'+ path + '.js';
+        fs.writeFileSync(componentPath, stub);
+
+        if (sImport) {
+            fs.appendFileSync(config.componentsImport, "import './components/"+path+"';\n");
+        }
 
         this.write('Component created!');
+
+        if (route) {
+            stub = fs.readFileSync(config.stubs + '/route.stub');
+            stub = stub.toString().replace('{{route}}', route)
+                            .replace('{{component}}', component);
+            this.write(stub);
+        }
     }
 
     write(msg) {
         console.log(msg);
-    }
-
-    help() {
-        this.write('make:component <name> [--global] \t Create a component with template.');
     }
 
     arg(_default) {
@@ -70,9 +79,31 @@ class Console {
     }
 
     option(name, _default) {
-        let pos = this.args.indexOf('--'+name);
+        for (let i = 0; i < this.args.length; i++) {
+            if (this.args[i].indexOf('--' + name) > -1) {
+                return this.args[i];
+            }
+        }
 
-        return pos >= -1 ? this.args[pos] : _default || null;
+        return _default || null;
+    }
+
+    optionValue(name, _default) {
+        let option = this.option(name);
+        let eq = option.indexOf('=');
+
+        return eq > -1 ? option.substr(eq + 1, option.length) : _default;
+    }
+
+    help() {
+        this.write('\nAvailable commands:\n');
+
+        this.write(
+            'make:component <name> [options] \t Create a component with template.\n' +
+            ' --global \t\t Register global.\n' +
+            ' --route=<route> \t Generate route.\n' +
+            ' --import \t\t Import component.'
+        );
     }
 }
 

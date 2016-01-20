@@ -1,0 +1,5 @@
+Add this in router.js:
+
+'/{{route}}': {
+    component: require('./components/{{component}}'),
+},

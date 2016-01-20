@@ -29,7 +29,7 @@ router.map({
     },
     '/singleplayer': {
         component: require('./components/game/single-player'),
-    }
+    },
 });
 
 /**
