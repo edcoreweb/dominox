@@ -1,6 +1,6 @@
 <?php
 
-$redirect = 'http://dominox.app/oauth-handler.html';
+$redirect = 'http://localhost/dominox/oauth-handler.html';
 
 return [
 
