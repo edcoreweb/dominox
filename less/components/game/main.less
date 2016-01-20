@@ -22,62 +22,120 @@
 }
 
 .up {
-    top: 0;
-    left: -100%;
+    top: -100%;
 }
 
 .down {
-    top: 0;
-    left: 100%;
+    top: 100%;
 
-    &.horizontal {
-        top: -150%;
-        right: 0;
-    }
+    // &.horizontal {
+    //     top: -150%;
+    //     right: 0;
+    // }
 }
 
 .right {
     right: -100%;
 
-    &.vertical {
-        left: 75%;
-    }
+    // &.vertical {
+    //     left: 75%;
+    // }
 
-    &.horizontal {
-        top: -150%;
-        right: 0;
-    }
+    // &.horizontal {
+    //     top: -150%;
+    //     right: 0;
+    // }
 }
 
 .left {
-    left: -100%;
+    right: 100%;
 
-    &.vertical {
-        left: -75%;
-    }
+    // &.vertical {
+    //     left: -75%;
+    // }
 
-    &.horizontal {
-        top: 150%;
-        left: 0;
-    }
+    // &.horizontal {
+    //     top: 150%;
+    //     left: 0;
+    // }
 }
 
-&.switch {
-    transform: rotate(90deg);
-
-    &.counter {
-        transform: rotate(-90deg);
+.vertical {
+    &.rotate {
+        transform: rotate(90deg);
 
         &.up {
-            left: -75%;
+            top: -150%;
+            right: 0;
         }
 
         &.down {
+            top: 150%;
+            left: 0;
+        }
+
+        &.right {
+            right: -75%;
+        }
+
+        &.left {
+            right: 75%;
+        }
+    }
+
+    &.up {
+        right: 100%;
+        top: 0;
+    }
+
+    &.down {
+        right: -100%;
+        top: 0;
+    }
+}
+
+.horizontal {
+    &.counter {
+        transform: rotate(-90deg);
+
+        &.right {
+            top: -150%;
+            right: 0;
+        }
+
+        &.left {
+            top: 150%;
+            right: 0;
+        }
+
+        &.up {
+            left: -75%;
             top: 0;
+        }
+
+        &.down {
             left: 75%;
+            top: 0;
         }
     }
 }
+
+// &.switch {
+//     transform: rotate(90deg);
+
+//     &.counter {
+//         transform: rotate(-90deg);
+
+//         &.up {
+//             left: -75%;
+//         }
+
+//         &.down {
+//             top: 0;
+//             left: 75%;
+//         }
+//     }
+// }
 
 .piece-content {
     position: absolute;
