@@ -1,5 +1,4 @@
-.outer-div
-{
+.outer-div {
     padding: 30px;
     background-color: #f3f3f3;
     height: 100vh;
@@ -12,55 +11,28 @@
     position: absolute;
 }
 
-.center
-{
-    margin: auto;
-    bottom: 0;
-    top: 0;
-    left: 0;
-    right: 0;
-}
-
 .up {
     top: -100%;
 }
 
 .down {
     top: 100%;
-
-    // &.horizontal {
-    //     top: -150%;
-    //     right: 0;
-    // }
 }
 
 .right {
     right: -100%;
-
-    // &.vertical {
-    //     left: 75%;
-    // }
-
-    // &.horizontal {
-    //     top: -150%;
-    //     right: 0;
-    // }
 }
 
 .left {
     right: 100%;
-
-    // &.vertical {
-    //     left: -75%;
-    // }
-
-    // &.horizontal {
-    //     top: 150%;
-    //     left: 0;
-    // }
 }
 
 .vertical {
+    &.root {
+       bottom: 50%;
+       left: -5%;
+    }
+
     &.rotate {
         transform: rotate(90deg);
 
@@ -124,9 +96,27 @@
         right: -100%;
         top: 0;
     }
+
+    &.left {
+        top: 100%;
+        right: 0;
+    }
+
+    &.right {
+        top: -100%;
+        right: 0;
+    }
 }
 
 .horizontal {
+    &.root {
+        margin: auto;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
     &.counter {
         transform: rotate(-90deg);
 
@@ -184,22 +174,28 @@
     }
 }
 
-// &.switch {
-//     transform: rotate(90deg);
+.player-piece {
+    width: 75px;
+    height: 140px;
+    float: left;
+    position: relative;
+    bottom: 80px;
+}
 
-//     &.counter {
-//         transform: rotate(-90deg);
-
-//         &.up {
-//             left: -75%;
-//         }
-
-//         &.down {
-//             top: 0;
-//             left: 75%;
-//         }
-//     }
-// }
+.player-hand {
+    position: absolute;
+    padding: 15px;
+    height: 100px;
+    width: 30%;
+    min-width: 400px;
+    border-radius: 8px 8px 0px 0px;
+    background-color: rgb(99, 114, 133);
+    z-index: 50;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
 
 .piece-content {
     position: absolute;
@@ -212,6 +208,48 @@
     height: 90%;
     background-color: #ccc;
 }
+
+.left-up {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.right-down {
+    width: 50%;
+    height: 100%;
+    float: right;
+}
+
+.placeholder {
+    &.placeholder-full {
+        border-style: dashed;
+        border-color: tomato;
+        border-width: 3px;
+        border-radius: 15px;
+    }
+
+    &.placeholder-down {
+        .right-down {
+            border-style: dashed;
+            border-color: tomato;
+            border-width: 3px 0 3px 3px;
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+    }
+
+    &.placeholder-up {
+        .left-up {
+            border-style: dashed;
+            border-color: tomato;
+            border-width: 3px 3px 3px 0;
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+    }
+}
+
 
 @media screen and (max-width: 768px) {
     .piece {
