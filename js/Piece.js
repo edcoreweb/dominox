@@ -9,14 +9,20 @@ class Piece {
         this.vertical = vertical;
         this.direction = direction;
         this.children = [];
+
+        return this;
     }
 
     addChild(child) {
         this.children.push(child);
+
+        return this;
     }
 
     addChildren(children) {
         this.children = this.children.concat(children);
+
+        return this;
     }
 
     setCorner(corner) {
