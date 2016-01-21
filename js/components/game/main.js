@@ -6,12 +6,14 @@ import 'jquery.panzoom';
 let rootNode = new Piece('1', false, 'root', null);
 
 rootNode.addChildren([
-    new Piece('2', false, 'left', null),
-    new Piece('3', true, 'left', 'up'),
-    new Piece('4', true, 'left', 'down'),
-    new Piece('5', true, 'right', 'up'),
-    new Piece('6', true, 'right', 'down'),
-    new Piece('7', false, 'right', null)
+    new Piece('2', false, 'left', null).addChildren([
+        new Piece('3', true, 'up', 'up'),
+        new Piece('4', true, 'down', 'down')
+    ]),
+    new Piece('7', false, 'right', null).addChildren([
+        new Piece('5', true, 'up', 'up'),
+        new Piece('6', true, 'down', 'down')
+    ])
 ]);
 
 var playerCards = [

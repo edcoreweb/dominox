@@ -54,11 +54,11 @@
             left: 0;
 
             &.corner-up {
-                right: 25%;
+                left: -25%;
             }
 
             &.corner-down {
-                right: -25%;
+                left: 25%;
             }
         }
 
@@ -197,6 +197,15 @@
     bottom: 0;
 }
 
+.player-piece {
+    .piece-content {
+
+        background-image: url("../img/player-bones.png");
+        background-size: 630px;
+        background-position: 4px 3px;
+    }
+}
+
 .piece-content {
     position: absolute;
     margin: auto;
@@ -204,9 +213,14 @@
     right: 0;
     bottom: 0;
     left: 0;
-    width: 95%;
-    height: 90%;
-    background-color: #ccc;
+    // width: 95%;
+    // height: 90%;
+    // background-color: #ccc;
+
+    background-image: url("../img/bones.png");
+    background-size: 875px;
+    background-position: 5px -23px;
+    background-repeat: no-repeat;
 }
 
 .left-up {
@@ -255,5 +269,10 @@
     .piece {
         width: 100px;
         height: 50px;
+    }
+
+    .piece-content {
+        background-size: 545px;
+        background-position: 4px -14px;
     }
 }
