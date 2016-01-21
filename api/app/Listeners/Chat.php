@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-class SendMessages
+class Chat extends WSListener
 {
     /**
      * Create the event listener.
@@ -28,7 +28,7 @@ class SendMessages
 
         foreach ($clients as $client) {
             if ($from !== $client) {
-                $client->send($message->data());
+                $this->send($client, $message->event(), $message->data());
             }
         }
     }

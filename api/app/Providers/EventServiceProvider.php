@@ -12,8 +12,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'send.messages' => [
-            'App\Listeners\SendMessages',
-        ],
+        'chat' => ['App\Listeners\Chat'],
+        'oauth.url' => ['App\Listeners\OAuthGetUrl'],
+        'oauth.user' => ['App\Listeners\OAuthGetUser'],
+        'api_token' => ['App\Listeners\TokenGetUser'],
     ];
 }
