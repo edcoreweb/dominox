@@ -21,7 +21,7 @@ module.exports = {
         login(provider) {
             this.busy = true;
 
-            http.post('oauth/url', {provider: provider})
+            socket.send('oauth.url', {provider: provider})
                 .then((response) => {
                     this.openPopup(response.data, provider);
                 })
@@ -63,7 +63,7 @@ module.exports = {
                 return;
             }
 
-            http.post('oauth/user', {code: code, provider: provider})
+            socket.send('oauth.user', {code: code, provider: provider})
                 .then((response) => {
                     Auth.setUser(new User(response.data));
                     Auth.saveToken();

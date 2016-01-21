@@ -82,7 +82,7 @@ class Auth {
      */
     attempt(credentials, remember = false) {
         return new Promise((resolve, reject) => {
-            http.post('api_token', credentials)
+            socket.send('api_token', credentials)
                 .then((response) => {
                     this.setUser(new User(response.data));
 
@@ -111,7 +111,8 @@ class Auth {
             if (token) {
                 this.attempt({api_token: token}, true, true)
                     .then((user) => resolve(user))
-                    .catch(() => {
+                    .catch((err) => {
+                        console.log(err);
                         this.forgetToken();
                         reject();
                     });
