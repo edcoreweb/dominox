@@ -219,16 +219,25 @@ module.exports = {
     },
 
     ready() {
+        let $panzoom = $('.outer-div').panzoom();
 
-        var $panzoom = $('.outer-div').panzoom();
         $panzoom.parent().on('mousewheel.focal', function( e ) {
-            var delta = e.delta || e.originalEvent.wheelDelta;
-            var zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
+            let delta = e.delta || e.originalEvent.wheelDelta;
+            let zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
+
             $panzoom.panzoom('zoom', zoomOut, {
                 increment: 0.1,
                 animate: false,
                 focal: e
             });
+        });
+
+        $panzoom.on('panzoomend', function(e, panzoom, matrix, changed) {
+            if (!changed) {
+                let target = $(e.target);
+                console.log('click' + target.data('name'));
+                target.trigger('click' + target.data('name'));
+            }
         });
     },
 

@@ -1,7 +1,7 @@
 <div
     class="piece"
     v-bind:class="classes">
-    <div class="piece-content" @click="select">{{ model.name }}</div>
+    <div class="piece-content" @click="select" data-name="{{ model.name }}">{{ model.name }}</div>
 
     <bone
         v-if="hasChildren"

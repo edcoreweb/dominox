@@ -18,6 +18,10 @@ Vue.component('bone', {
         this.classes = this.getClassObject();
     },
 
+    ready() {
+        $(this.$el).on('click'+this.model.name, () => this.select());
+    },
+
     computed: {
         hasChildren: function () {
             return this.model.children &&
