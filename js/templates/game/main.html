@@ -1,8 +1,16 @@
 <div>
-    <div>
+    <div class="game-screen">
+        <div class="player-hand">
+            <div
+                v-for="bone in bones"
+                class="player-piece">
+                <div class="piece-content">2</div>
+            </div>
+        </div>
+
         <div class="outer-div">
             <bone
-                :model="boardData">
+                :piece="root">
             </bone>
         </div>
     </div>

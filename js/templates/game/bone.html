@@ -1,11 +1,20 @@
+<div>
+
 <div
     class="piece"
-    v-bind:class="classes">
-    <div class="piece-content" @click="select">{{ model.name }}</div>
+    v-bind:class="positionClasses">
+    <div
+        class="piece-content"
+        v-bind:class="placeholderClasses"
+        @click="select">
+        <div class="left-up"></div>
+        <div class="right-down"></div>
+    </div>
 
     <bone
-        v-if="hasChildren"
-        v-for="child in model.children"
-        :model="child">
+        v-if="piece.hasChildren()"
+        v-for="child in piece.getChildren()"
+        :piece="child">
     </bone>
+</div>
 </div>
