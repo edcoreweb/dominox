@@ -3,28 +3,53 @@ class Piece {
     /**
      * Create a new piece instance.
      */
-    // constructor(parent, attributes) {
-    //     this._parent = parent;
+    constructor(name, vertical = false, direction = 'left', corner = null) {
+        this.name = name;
+        this.corner = corner;
+        this.vertical = vertical;
+        this.direction = direction;
+        this.children = [];
+    }
 
-    //     this.corner = attributes.corner;
-    //     this.vertical = attributes.vertical;
-    //     this.direction = attributes.direction;
-    //     this.first_half = attributes.first_half;
-    //     this.second_half = attributes.second_half;
+    addChild(child) {
+        this.children.push(child);
+    }
 
-    //     return this;
-    // }
+    addChildren(children) {
+        this.children = this.children.concat(children);
+    }
 
-    generateHTML() {
-        let content = $('<div/>');
-        content.addClass('piece-content');
-        content.prop('@click','select');
+    setCorner(corner) {
+        this.corner = corner;
+    }
 
-        let bone = $('<div/>').addClass('piece left');
+    setVertical(vertical) {
+        this.vertical = vertical;
+    }
 
-        bone.append(content);
+    setDirection(direction) {
+        this.direction = direction;
+    }
 
-        return bone;
+    getCorner() {
+        return this.corner;
+    }
+
+    getVertical() {
+        return this.vertical;
+    }
+
+    getDirection() {
+        return this.direction;
+    }
+
+    hasChildren() {
+        return this.children &&
+            this.children.length;
+    }
+
+    getChildren() {
+        return this.children;
     }
 }
 
