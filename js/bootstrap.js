@@ -6,6 +6,7 @@ import Resource from 'vue-resource';
 import './components';
 import './util/helpers';
 import Auth from './Auth';
+import Socket from './Socket';
 import Form from './forms/Form';
 
 Vue.use(Resource);
@@ -20,6 +21,7 @@ window.Vue = Vue;
 window.Form = Form;
 window.http = Vue.http;
 window.jQuery = window.$ = $;
+window.socket = new Socket(Config.ws.address, Config.ws.port);
 
 require('bootstrap');
 

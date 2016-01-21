@@ -20,7 +20,11 @@
     <script>
         window.Config = {
             api: 'http://localhost' + (window.location.port ? ':8081' : '') + '/dominox/api/public',
-            serviceWorker: false
+            serviceWorker: false,
+            ws: {
+                address: '127.0.0.1',
+                port: 9090
+            }
         };
     </script>
     <script src="dist/js/app.js"></script>
