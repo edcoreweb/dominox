@@ -3,6 +3,7 @@
         "_": true,
         "$": true,
         "Form": true,
+        "socket": true,
         "jQuery": true,
         "Vue": true,
         "Config": true,
