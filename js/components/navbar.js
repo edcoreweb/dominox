@@ -7,10 +7,8 @@ Vue.component('navbar', {
 
     data() {
         return {
-
         };
     },
-
     components: {
         'user-profile': require('./user/profile'),
         'user-settings': require('./user/settings'),
@@ -18,6 +16,8 @@ Vue.component('navbar', {
     },
 
     methods: {
-
+        is(path) {
+            return this.$route.path == path;
+        }
     }
 });

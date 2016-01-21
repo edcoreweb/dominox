@@ -13,7 +13,7 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="#">Browse</a></li>
+                        <li :class="{active: is('/browse')}"><a href="#" v-link="{path: '/browse'}">Browse</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#create-game-modal">Create</a></li>
                         <li><a href="#">My Games</a></li>
                     </ul>
@@ -24,7 +24,7 @@
                                 <li><a href="#" data-toggle="modal" data-target="#user-profile-modal"><i class="fa fa-user"></i> My Profile</a></li>
                                 <li><a href="#" data-toggle="modal" data-target="#user-settings-modal"><i class="fa fa-cog"></i> Settings</a></li>
                                 <li class="divider"></li>
-                                <li><a v-link="{path: 'logout'}" href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+                                <li><a v-link="{path: '/logout'}" href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
                             </ul>
                         </li>
                     </ul>

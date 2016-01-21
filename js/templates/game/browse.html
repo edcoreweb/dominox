@@ -1,0 +1,32 @@
+<div v-if="user">
+    <navbar :user="user"></navbar>
+
+    <div class="container">
+        <div class="col-md-10 col-md-offset-1 page-content">
+            <h3 class="page-header">Browse Games</h3>
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Players</th>
+                        <th>Matches</th>
+                        <th>Points</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="game in games">
+                        <td>{{ game.name }}</td>
+                        <td>{{ game.players }}</td>
+                        <td>{{ game.matches }}</td>
+                        <td>{{ game.points }}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm">Join</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
