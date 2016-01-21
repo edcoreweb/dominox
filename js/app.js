@@ -12,6 +12,8 @@ let App = Vue.extend({
     ready() {
         this.$on('user.login', this.userHasLoggedIn);
         this.$on('user.logged', this.userHasLoggedOut);
+
+        window.addEventListener('online', () => this.online());
     },
 
     methods: {
@@ -25,6 +27,12 @@ let App = Vue.extend({
 
         userHasLoggedOut() {
             this.user = null;
+        },
+
+        online() {
+            if (!socket.isOpen()) {
+                socket.connect();
+            }
         }
     }
 });
