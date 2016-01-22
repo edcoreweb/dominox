@@ -54,6 +54,10 @@ class Piece {
             this.children.length;
     }
 
+    isDouble() {
+        return false;
+    }
+
     getChildren() {
         return this.children;
     }

@@ -1,3 +1,5 @@
+import Piece from './../../Piece';
+
 Vue.component('bone', {
     template: require('./../../templates/game/bone.html'),
 
@@ -41,8 +43,6 @@ Vue.component('bone', {
         },
 
         generatePlaceholders() {
-
-
 
         },
 
