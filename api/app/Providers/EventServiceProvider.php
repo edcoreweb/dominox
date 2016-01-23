@@ -13,10 +13,17 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'chat' => ['App\Listeners\Chat'],
-        'oauth.url' => ['App\Listeners\Auth\OAuthGetUrl'],
+
+        // Authentication.
+        'oauth.url'  => ['App\Listeners\Auth\OAuthGetUrl'],
         'oauth.user' => ['App\Listeners\Auth\OAuthGetUser'],
-        'api_token' => ['App\Listeners\Auth\TokenGetUser'],
+        'api_token'  => ['App\Listeners\Auth\TokenGetUser'],
+
+        // Game.
         'game.create' => ['App\Listeners\Game\Create'],
         'game.browse' => ['App\Listeners\Game\Browse'],
+        'game.join'   => ['App\Listeners\Game\Join'],
+        'game.leave'  => ['App\Listeners\Game\Leave'],
+        'game.delete' => ['App\Listeners\Game\Delete'],
     ];
 }

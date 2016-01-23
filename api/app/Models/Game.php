@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Game extends Model
 {
@@ -16,20 +17,42 @@ class Game extends Model
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * Find game by hash.
      *
-     * @var array
+     * @param  string $hash
+     * @return \App\Models\Game|null
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    protected $hidden = ['hash'];
+    public static function findByHash($hash)
+    {
+        if ($game = static::where('hash', $hash)->first()) {
+            return $game;
+        }
+
+        throw new ModelNotFoundException;
+    }
 
     /**
-     * Add a user to the game.
+     * Add user to the game.
      *
-     * @param \App\Models\User $user
+     * @param  \App\Models\User $user
+     * @return void
      */
     public function addUser(User $user)
     {
         $this->users()->attach($user);
+    }
+
+    /**
+     * Remove user from the game.
+     *
+     * @param  \App\Models\User $user
+     * @return void
+     */
+    public function removeUser(User $user)
+    {
+        $this->users()->detach($user);
     }
 
     /**

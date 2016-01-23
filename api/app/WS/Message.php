@@ -101,7 +101,7 @@ class Message
         return $this->from;
     }
 
-    public function reply($data, $status = 200)
+    public function reply($data = '', $status = 200)
     {
         return $this->from->send(json_encode([
             'data'   => $data,

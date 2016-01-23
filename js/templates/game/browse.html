@@ -24,7 +24,7 @@
                         <td>{{ game.points }}</td>
                         <td><a>{{ game.user.name }}</a></td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm">Join</button>
+                            <button @click="join(game)" type="button" class="btn btn-primary btn-sm">Join</button>
                         </td>
                     </tr>
                 </tbody>
