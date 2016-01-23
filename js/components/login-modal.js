@@ -72,7 +72,7 @@ module.exports = {
 
                     this.$dispatch('user.login', Auth.user());
 
-                    this.$router.go('/home');
+                    this.$router.go({name: 'home'});
                 })
                 .catch((response) => {
                     swal('Opps!', response.status == 422 ? response.data : 'Something went wrong. Please try again.', 'warning');

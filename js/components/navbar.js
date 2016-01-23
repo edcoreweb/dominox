@@ -16,8 +16,8 @@ Vue.component('navbar', {
     },
 
     methods: {
-        is(path) {
-            return this.$route.path == path;
+        is(name) {
+            return this.$route.name == name;
         }
     }
 });

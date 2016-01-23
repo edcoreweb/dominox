@@ -12,16 +12,19 @@ if (!router) {
 router.map({
     '/home': {
         component: require('./components/home'),
+        name: 'home',
         auth: true
     },
 
     // Authenitication.
     '/login': {
         component: require('./components/splash-screen'),
+        name: 'auth.login',
         guest: true
     },
     '/logout': {
         component: require('./components/logout'),
+        name: 'auth.logout',
         auth: true
     },
 
@@ -43,7 +46,8 @@ router.map({
 
     // Singleplayer game.
     '/singleplayer': {
-        component: require('./components/game/single-player')
+        component: require('./components/game/single-player'),
+        name: 'singleplayer'
     }
 });
 

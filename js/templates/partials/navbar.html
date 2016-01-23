@@ -9,13 +9,14 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a v-link="{path: 'home'}" href="#" class="navbar-brand">Domino<span>X</span></a>
+                    <a v-link="{name: 'home'}" href="#" class="navbar-brand">Domino<span>X</span></a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li :class="{active: is('/browse')}"><a href="#" v-link="{path: '/browse'}">Browse</a></li>
+                        <li :class="{active: is('game.browse')}"><a href="#" v-link="{name: 'game.browse'}">Browse</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#create-game-modal">Create</a></li>
                         <li><a href="#">My Games</a></li>
+                        <li><a v-link="{name: 'singleplayer'}">Singleplayer</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -24,7 +25,7 @@
                                 <li><a href="#" data-toggle="modal" data-target="#user-profile-modal"><i class="fa fa-user"></i> My Profile</a></li>
                                 <li><a href="#" data-toggle="modal" data-target="#user-settings-modal"><i class="fa fa-cog"></i> Settings</a></li>
                                 <li class="divider"></li>
-                                <li><a v-link="{path: '/logout'}" href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+                                <li><a v-link="{name: 'auth.logout'}" href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
                             </ul>
                         </li>
                     </ul>

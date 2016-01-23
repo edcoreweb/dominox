@@ -6,6 +6,6 @@ module.exports = {
 
         this.$dispatch('user.logout');
 
-        this.$router.go('/login');
+        this.$router.go({name: 'auth.login'});
     }
 };
