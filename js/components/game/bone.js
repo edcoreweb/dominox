@@ -29,9 +29,11 @@ Vue.component('bone', {
             console.log(this.hasPlaceholders, this.piece.name);
 
             if (!this.hasPlaceholders) {
+                this.clearBackgroundClassObject();
                 this.setPlaceholderClassObject();
             } else {
                 this.clearPlaceholderClassObject();
+                this.setBackgroundClassObject();
             }
         },
 
@@ -116,17 +118,17 @@ Vue.component('bone', {
 
             style.placeholder = true;
 
-            if (this.positionClasses['corner-down']) {
-                style['placeholder-down'] = true;
-            } else if (this.positionClasses['corner-up']) {
-                style['placeholder-up'] = true;
-            } else if (this.positionClasses['right']) {
-                style['placeholder-down'] = true;
-            } else if (this.positionClasses['left']) {
-                style['placeholder-up'] = true;
-            } else {
+            // if (this.positionClasses['corner-down']) {
+            //     style['placeholder-down'] = true;
+            // } else if (this.positionClasses['corner-up']) {
+            //     style['placeholder-up'] = true;
+            // } else if (this.positionClasses['right']) {
+            //     style['placeholder-down'] = true;
+            // } else if (this.positionClasses['left']) {
+            //     style['placeholder-up'] = true;
+            // } else {
                 style['placeholder-full'] = true;
-            }
+            // }
 
             return style;
         },
