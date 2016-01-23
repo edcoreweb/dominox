@@ -2,7 +2,6 @@
 
 namespace App\Listeners\Game;
 
-use App\Models\Game;
 use App\Listeners\WSListener;
 
 class Delete extends WSListener
