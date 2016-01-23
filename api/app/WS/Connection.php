@@ -2,11 +2,14 @@
 
 namespace App\WS;
 
+use Exception;
 use SplObjectStorage;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Connection implements MessageComponentInterface
 {
@@ -24,6 +27,11 @@ class Connection implements MessageComponentInterface
      */
     protected $clients;
 
+    /**
+     * User tokens.
+     *
+     * @var array
+     */
     protected $tokens = [];
 
     /**
@@ -39,6 +47,12 @@ class Connection implements MessageComponentInterface
         $this->clients = new SplObjectStorage;
     }
 
+    /**
+     * Handle new connection.
+     *
+     * @param  \Ratchet\ConnectionInterface $conn
+     * @return void
+     */
     public function onOpen(ConnectionInterface $conn)
     {
         $this->clients->attach($conn);
@@ -46,11 +60,73 @@ class Connection implements MessageComponentInterface
         echo "New connection! ({$conn->resourceId})\n";
     }
 
-    public function onMessage(ConnectionInterface $from, $message)
+    /**
+     * Handle incoming message.
+     *
+     * @param  \Ratchet\ConnectionInterface $conn
+     * @param  string $rawMessage
+     * @return void
+     */
+    public function onMessage(ConnectionInterface $from, $rawMessage)
     {
-        $message = new Message($message, $from);
+        $message = new Message($rawMessage, $from);
 
-        $hash = $this->clients->getHash($from);
+        // Resolve user token.
+        $this->resolveToken($message);
+
+        // Check if the user is authenticated.
+        if (! $this->authenticated($message)) {
+            return $message->reply('Unauthorized', 401);
+        }
+
+        // Fire event.
+        try {
+            $this->events->fire($message->event(), [$message, $this]);
+        } catch (ValidationException $e) {
+            $message->reply($e->getResponse(), 422);
+        } catch (ModelNotFoundException $e) {
+            $message->reply('Not found.', 404);
+        }
+    }
+
+    /**
+     * Handle connection closed.
+     *
+     * @param  \Ratchet\ConnectionInterface $conn
+     * @return void
+     */
+    public function onClose(ConnectionInterface $conn)
+    {
+        $this->forgetToken($conn);
+
+        $this->clients->detach($conn);
+
+        echo "Connection {$conn->resourceId} has disconnected\n";
+    }
+
+    /**
+     * Handle connection error.
+     * @param  \Ratchet\ConnectionInterface $conn
+     * @param  \Exception $e
+     * @return void
+     */
+    public function onError(ConnectionInterface $conn, Exception $e)
+    {
+        $conn->close();
+
+        $this->renderException($e);
+    }
+
+    /**
+     * Resolve user token.
+     *
+     * @param  \App\WS\Message $message
+     * @return void
+     */
+    protected function resolveToken(Message $message)
+    {
+        $conn = $message->from();
+        $hash = $this->clients->getHash($conn);
 
         if (! isset($this->tokens[$hash])) {
             if ($token = $message->get('api_token')) {
@@ -61,33 +137,45 @@ class Connection implements MessageComponentInterface
         }
 
         $message->setApiToken($this->tokens[$hash]);
-
-        if (! $message->user() && ! in_array($message->event(), ['oauth.url', 'oauth.user', 'api_token'])) {
-            return $message->reply('Unauthorized', 401);
-        }
-
-        try {
-            $this->events->fire($message->event(), [$message, $this]);
-        } catch (ValidationException $e) {
-            $message->reply($e->getResponse(), 422);
-        }
     }
 
-    public function onClose(ConnectionInterface $conn)
+    /**
+     * Forget client token.
+     *
+     * @param  \Ratchet\ConnectionInterface $conn
+     * @return void
+     */
+    protected function forgetToken(ConnectionInterface $conn)
     {
-        $hash = $this->clients->getHash($from);
+        $hash = $this->clients->getHash($conn);
+
         unset($this->tokens[$hash]);
-
-        $this->clients->detach($conn);
-
-        echo "Connection {$conn->resourceId} has disconnected\n";
     }
 
-    public function onError(ConnectionInterface $conn, \Exception $e)
+    /**
+     * Determine if the user is authenticated.
+     *
+     * @param  \App\WS\Message $message
+     * @return bool
+     */
+    protected function authenticated(Message $message)
     {
-        echo "An error has occurred: {$e->getMessage()}\n";
+        if (in_array($message->event(), ['oauth.url', 'oauth.user', 'api_token'])) {
+            return true;
+        }
 
-        $conn->close();
+        return $message->user();
+    }
+
+    /**
+     * Render exception.
+     *
+     * @param  \Exception $e
+     * @return void
+     */
+    protected function renderException(Exception $e)
+    {
+        app('Illuminate\Contracts\Debug\ExceptionHandler')->renderForConsole(new ConsoleOutput, $e);
     }
 
     /**
