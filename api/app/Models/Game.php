@@ -113,7 +113,11 @@ class Game extends Model
         $attributes = parent::toArray();
 
         if (isset($attributes['count_users'])) {
-            $attributes['joined'] = (int) $attributes['count_users'][0]['aggregate'];
+            if (count($attributes['count_users'])) {
+                $attributes['joined'] = (int) $attributes['count_users'][0]['aggregate'];
+            } else {
+                $attributes['joined'] = 0;
+            }
         }
 
         // Keep only the user id and name.

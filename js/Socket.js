@@ -87,7 +87,7 @@ class Socket {
 
             this.on(event, callback);
 
-            this.sendData({e: event, d: data});
+            this.sendData({event: event, data: data});
         });
     }
 

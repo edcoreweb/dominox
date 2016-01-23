@@ -19,6 +19,7 @@ class Leave extends WSListener
 
         if ($game = $message->user()->games()->first()) {
             $game->removeUser($message->user());
+            event('game.left', [$game, $conn]);
         }
 
         // If the game has no users left, fire event to delete it.

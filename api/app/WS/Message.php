@@ -41,8 +41,8 @@ class Message
     {
         $message = json_decode($this->message, true);
 
-        $this->data  = isset($message['d']) ? $message['d'] : null;
-        $this->event = isset($message['e']) ? $message['e'] : null;
+        $this->data = isset($message['data']) ? $message['data'] : null;
+        $this->event = isset($message['event']) ? $message['event'] : null;
     }
 
     /**

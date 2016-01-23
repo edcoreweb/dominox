@@ -47,7 +47,7 @@ class Create extends WSListener
 
         // Notify all users of a new game.
         foreach ($conn->clients() as $client) {
-            $this->send($client, 'game.browse.new', $game, 201);
+            $this->send($client, 'game.new', $game, 201);
         }
     }
 }

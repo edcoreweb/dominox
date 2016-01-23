@@ -11,9 +11,10 @@ class Join extends WSListener
      * Handle the event.
      *
      * @param  \App\WS\Message $message
+     * @param  \App\WS\Connection $conn
      * @return void
      */
-    public function handle($message)
+    public function handle($message, $conn)
     {
         if ($message->user()->hasGameStarted()) {
             return $message->reply('You\'ve already started a game.', 422);
@@ -22,6 +23,8 @@ class Join extends WSListener
         $game = Game::findByHash($message->get('hash'));
 
         $game->addUser($message->user());
+
+        event('game.joined', [$game, $conn]);
 
         $message->reply(true);
     }

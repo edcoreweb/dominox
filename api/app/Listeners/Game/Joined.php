@@ -4,7 +4,7 @@ namespace App\Listeners\Game;
 
 use App\Listeners\WSListener;
 
-class Delete extends WSListener
+class Joined extends WSListener
 {
     /**
      * Handle the event.
@@ -15,10 +15,10 @@ class Delete extends WSListener
      */
     public function handle($game, $conn)
     {
-        $game->delete();
+        $game->load('countUsers');
 
         foreach ($conn->clients() as $client) {
-            $this->send($client, 'game.delete', $game);
+            $this->send($client, 'game.update', $game);
         }
     }
 }

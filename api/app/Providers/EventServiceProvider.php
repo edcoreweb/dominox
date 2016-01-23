@@ -20,11 +20,14 @@ class EventServiceProvider extends ServiceProvider
         'api_token'  => ['App\Listeners\Auth\TokenGetUser'],
 
         // Game.
-        'game.create' => ['App\Listeners\Game\Create'],
-        'game.browse' => ['App\Listeners\Game\Browse'],
-        'game.join'   => ['App\Listeners\Game\Join'],
-        'game.leave'  => ['App\Listeners\Game\Leave'],
-        'game.delete' => ['App\Listeners\Game\Delete'],
+        'game.create'  => ['App\Listeners\Game\Create'],
+        'game.browse'  => ['App\Listeners\Game\Browse'],
+        'game.join'    => ['App\Listeners\Game\Join'],
+        'game.joined'  => ['App\Listeners\Game\Joined'],
+        'game.leave'   => ['App\Listeners\Game\Leave'],
+        'game.left'    => ['App\Listeners\Game\Left'],
+        'game.delete'  => ['App\Listeners\Game\Delete'],
+        'game.started' => ['App\Listeners\Game\GetStarted'],
 
         // User.
         'user.settings' => ['App\Listeners\User\UpdateSettings'],
