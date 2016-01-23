@@ -25,5 +25,8 @@ class EventServiceProvider extends ServiceProvider
         'game.join'   => ['App\Listeners\Game\Join'],
         'game.leave'  => ['App\Listeners\Game\Leave'],
         'game.delete' => ['App\Listeners\Game\Delete'],
+
+        // User.
+        'user.settings' => ['App\Listeners\User\UpdateSettings'],
     ];
 }

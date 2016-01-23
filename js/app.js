@@ -1,4 +1,5 @@
 import './bootstrap';
+import Auth from './Auth';
 import router from './router';
 
 let App = Vue.extend({
@@ -12,6 +13,7 @@ let App = Vue.extend({
     ready() {
         this.$on('user.login', this.userHasLoggedIn);
         this.$on('user.logged', this.userHasLoggedOut);
+        this.$on('user.update', this.userHasBeenUpdated);
 
         window.addEventListener('online', () => this.online());
     },
@@ -27,6 +29,11 @@ let App = Vue.extend({
 
         userHasLoggedOut() {
             this.user = null;
+        },
+
+        userHasBeenUpdated(user) {
+            this.user = user;
+            Auth.setUser(user);
         },
 
         online() {

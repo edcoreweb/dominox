@@ -22,7 +22,8 @@ module.exports = {
 
     methods: {
         save() {
-            this.form.patch('me');
+            this.form.send('user.settings')
+                .then((response) => this.$dispatch('user.update', response.data));
         }
     }
 };
