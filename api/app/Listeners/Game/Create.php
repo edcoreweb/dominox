@@ -3,6 +3,7 @@
 namespace App\Listeners\Game;
 
 use App\Models\Game;
+use Illuminate\Support\Str;
 use App\Listeners\WSListener;
 use Illuminate\Validation\ValidationException;
 
@@ -29,6 +30,7 @@ class Create extends WSListener
         ]);
 
         $game = Game::create([
+            'hash'    => Str::random(32),
             'name'    => $message->get('name'),
             'players' => $message->get('players'),
             'matches' => $message->get('matches'),
