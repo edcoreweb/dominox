@@ -23,8 +23,8 @@ module.exports = {
         create() {
             this.form.send('game.create')
                 .then((response) => {
-                    console.log('Game created!', response);
                     this._$modal.modal('hide');
+                    this.$router.go({'name': 'game.join', params: {hash: response.data.hash}});
                 });
         },
 
