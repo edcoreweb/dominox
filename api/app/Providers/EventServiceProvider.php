@@ -13,8 +13,9 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'chat' => ['App\Listeners\Chat'],
-        'oauth.url' => ['App\Listeners\OAuthGetUrl'],
-        'oauth.user' => ['App\Listeners\OAuthGetUser'],
-        'api_token' => ['App\Listeners\TokenGetUser'],
+        'oauth.url' => ['App\Listeners\Auth\OAuthGetUrl'],
+        'oauth.user' => ['App\Listeners\Auth\OAuthGetUser'],
+        'api_token' => ['App\Listeners\Auth\TokenGetUser'],
+        'game.create' => ['App\Listeners\Game\Create'],
     ];
 }

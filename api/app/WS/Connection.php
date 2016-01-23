@@ -6,6 +6,7 @@ use SplObjectStorage;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Validation\ValidationException;
 
 class Connection implements MessageComponentInterface
 {
@@ -45,9 +46,13 @@ class Connection implements MessageComponentInterface
 
     public function onMessage(ConnectionInterface $from, $message)
     {
-        $message = new Message($message);
+        $message = new Message($message, $from);
 
-        $this->events->fire($message->event(), [$message, $from, $this]);
+        try {
+            $this->events->fire($message->event(), [$message, $this]);
+        } catch (ValidationException $e) {
+            $message->reply($e->getResponse(), 422);
+        }
     }
 
     public function onClose(ConnectionInterface $conn)
@@ -69,7 +74,7 @@ class Connection implements MessageComponentInterface
      *
      * @return \SplObjectStorage
      */
-    public function getClients()
+    public function clients()
     {
         return $this->clients;
     }

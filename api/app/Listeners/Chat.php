@@ -18,16 +18,15 @@ class Chat extends WSListener
      * Handle the event.
      *
      * @param  \App\WS\Message $message
-     * @param  \Ratchet\ConnectionInterface $from
      * @param  \App\WS\Connection $conn
      * @return void
      */
-    public function handle($message, $from, $conn)
+    public function handle($message, $conn)
     {
-        $clients = $conn->getClients();
+        $clients = $conn->clients();
 
         foreach ($clients as $client) {
-            if ($from !== $client) {
+            if ($message->from() !== $client) {
                 $this->send($client, $message->event(), $message->data());
             }
         }

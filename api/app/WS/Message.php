@@ -9,15 +9,17 @@ class Message
     protected $data;
     protected $event;
     protected $message;
+    protected $from;
 
     /**
      * Create a new message instance.
      *
      * @param string $message
      */
-    public function __construct($message)
+    public function __construct($message, $from)
     {
         $this->message = $message;
+        $this->from = $from;
 
         $this->parse();
     }
@@ -61,6 +63,16 @@ class Message
         return $this->data;
     }
 
+    public function get($key = null, $default = null)
+    {
+        return $this->data($key, $default);
+    }
+
+    public function all()
+    {
+        return $this->data;
+    }
+
     /**
      * Get the message.
      *
@@ -69,5 +81,19 @@ class Message
     public function message()
     {
         return $this->message;
+    }
+
+    public function from()
+    {
+        return $this->from;
+    }
+
+    public function reply($data, $status = 200)
+    {
+        return $this->from->send(json_encode([
+            'data'   => $data,
+            'status' => $status,
+            'event'  => $this->event
+        ]));
     }
 }
