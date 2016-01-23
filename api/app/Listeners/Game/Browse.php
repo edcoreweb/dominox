@@ -15,6 +15,8 @@ class Browse extends WSListener
      */
     public function handle($message)
     {
-        $message->reply(Game::open()->get());
+        $games = Game::open()->with('user', 'countUsers')->get();
+
+        $message->reply($games);
     }
 }

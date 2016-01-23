@@ -38,8 +38,15 @@ class Create extends WSListener
             'user_id' => $message->user()->id,
         ]);
 
+        // Add the current user to the game.
+        $game->addUser($message->user());
+
+        $game->load('user', 'countUsers');
+
+        // Send response the the user that created the game.
         $message->reply($game, 201);
 
+        // Notify all users of a new game.
         foreach ($conn->clients() as $client) {
             $this->send($client, 'game.browse.new', $game, 201);
         }

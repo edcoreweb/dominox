@@ -12,15 +12,17 @@
                         <th>Players</th>
                         <th>Matches</th>
                         <th>Points</th>
+                        <th>Created by</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="game in games">
                         <td>{{ game.name }}</td>
-                        <td>{{ game.players }}</td>
+                        <td>{{ game.joined }} / {{ game.players }}</td>
                         <td>{{ game.matches }}</td>
                         <td>{{ game.points }}</td>
+                        <td><a>{{ game.user.name }}</a></td>
                         <td>
                             <button type="button" class="btn btn-primary btn-sm">Join</button>
                         </td>
