@@ -18,8 +18,8 @@ class Create extends WSListener
      */
     public function handle($message, $conn)
     {
-        if ($message->user()->hasOpenGames()) {
-            // return $message->reply(['You already gave a game open.'], 400);
+        if ($message->user()->hasGameStarted()) {
+            // return $message->reply(['You\'ve already started a game.'], 422);
         }
 
         $this->validate($message, [

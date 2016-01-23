@@ -56,13 +56,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     /**
-     * Determinte if the user has open games.
+     * Determinte if the user has a started game.
      *
      * @return bool
      */
-    public function hasOpenGames()
+    public function hasGameStarted()
     {
-        return $this->games()->open()->exists();
+        return $this->games()->exists();
     }
 
     /**
@@ -70,6 +70,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     public function games()
     {
-        return $this->hasMany(Game::class);
+        return $this->belongsToMany(Game::class, 'game_players', 'user_id', 'game_id');
     }
 }
