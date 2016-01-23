@@ -219,10 +219,6 @@
     bottom: 0;
     left: 0;
 
-    background-image: url("../img/bones.png");
-    background-position: 2px 2px;
-    background-repeat: no-repeat;
-
     &.inverted {
         transform: rotate(180deg);
     }
@@ -279,4 +275,30 @@
     .piece-content {
         background-size: 547px;
     }
+}
+
+@piece-width: 104;
+@x-offset: 2;
+@start-y-offset: -2806;
+@number-of-pieces: 6;
+
+.innerLoop (@y-offset, @row, @count) when not (@count = -1){
+    &.piece-@{row}-@{count} {
+        background-position: ~"@{x-offset}px @{y-offset}px";
+    }
+    .innerLoop(@y-offset + @piece-width, @row, @count - 1);
+}
+
+.outerLoop (@y-offset, @count) when not (@count = -1) {
+    .innerLoop(@y-offset, @count, @count);
+    .outerLoop(@y-offset + (@piece-width * (@count + 1)), @count - 1);
+}
+
+.background {
+
+    background-image: url("../img/bones.png");
+    background-position: 2px 2px;
+    background-repeat: no-repeat;
+
+    .outerLoop(@start-y-offset, @number-of-pieces);
 }
