@@ -24,6 +24,8 @@ class Connection implements MessageComponentInterface
      */
     protected $clients;
 
+    protected $tokens = [];
+
     /**
      * Create a new connection instance.
      *
@@ -48,6 +50,22 @@ class Connection implements MessageComponentInterface
     {
         $message = new Message($message, $from);
 
+        $hash = $this->clients->getHash($from);
+
+        if (! isset($this->tokens[$hash])) {
+            if ($token = $message->get('api_token')) {
+                $this->tokens[$hash] = $token;
+            } else {
+                $this->tokens[$hash] = null;
+            }
+        }
+
+        $message->setApiToken($this->tokens[$hash]);
+
+        if (! $message->user() && ! in_array($message->event(), ['oauth.url', 'oauth.user', 'api_token'])) {
+            return $message->reply('Unauthorized', 401);
+        }
+
         try {
             $this->events->fire($message->event(), [$message, $this]);
         } catch (ValidationException $e) {
@@ -57,6 +75,9 @@ class Connection implements MessageComponentInterface
 
     public function onClose(ConnectionInterface $conn)
     {
+        $hash = $this->clients->getHash($from);
+        unset($this->tokens[$hash]);
+
         $this->clients->detach($conn);
 
         echo "Connection {$conn->resourceId} has disconnected\n";

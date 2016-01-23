@@ -2,6 +2,7 @@
 
 namespace App\WS;
 
+use App\Models\User;
 use Illuminate\Support\Arr;
 
 class Message
@@ -10,6 +11,8 @@ class Message
     protected $event;
     protected $message;
     protected $from;
+    protected $user = null;
+    protected $apiToken;
 
     /**
      * Create a new message instance.
@@ -22,6 +25,11 @@ class Message
         $this->from = $from;
 
         $this->parse();
+    }
+
+    public function setApiToken($token)
+    {
+        $this->apiToken = $token;
     }
 
     /**
@@ -95,5 +103,14 @@ class Message
             'status' => $status,
             'event'  => $this->event
         ]));
+    }
+
+    public function user()
+    {
+        if (! isset($this->user)) {
+            return $this->user = User::where('api_token', $this->apiToken)->first();
+        }
+
+        return $this->user;
     }
 }
