@@ -16,6 +16,13 @@ class Game extends Model
     ];
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['hash'];
+
+    /**
      * Add a user to the game.
      *
      * @param \App\Models\User $user
@@ -61,6 +68,16 @@ class Game extends Model
     public function scopeOpen($query)
     {
         return $query->where('status', 'open');
+    }
+
+    /**
+     * Scope a query to order by created at.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeNewest($query)
+    {
+        return $query->orderBy('created_at', 'desc');
     }
 
     /**
