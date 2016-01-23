@@ -81,6 +81,11 @@ class Message
         return $this->data;
     }
 
+    public function only($keys)
+    {
+        return Arr::only($this->data, $keys);
+    }
+
     /**
      * Get the message.
      *

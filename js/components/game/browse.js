@@ -5,30 +5,21 @@ module.exports = {
 
     data() {
         return {
-            games: [
-                {
-                    id: 1,
-                    name: 'Room 1',
-                    players: 2,
-                    matches: 1,
-                    points: 100
-                },
-                {
-                    id: 2,
-                    name: 'Room 2',
-                    players: 4,
-                    matches: 2,
-                    points: 400
-                },
-                {
-                    id: 3,
-                    name: 'Room 3',
-                    players: 3,
-                    matches: 3,
-                    points: 120
-                }
-            ]
+            games: []
         };
+    },
+
+    ready() {
+        // Fetch the open games.
+        socket.send('game.browse')
+            .then((response) => {
+                this.games = response.data;
+            });
+
+        // Listen for new games.
+        socket.on('game.browse.new', (response) => {
+            this.games.unshift(response.data);
+        });
     },
 
     methods: {

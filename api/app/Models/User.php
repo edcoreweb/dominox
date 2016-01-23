@@ -54,4 +54,22 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
                      ->where('provider_id', $id)
                      ->first();
     }
+
+    /**
+     * Determinte if the user has open games.
+     *
+     * @return bool
+     */
+    public function hasOpenGames()
+    {
+        return $this->games()->open()->exists();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function games()
+    {
+        return $this->hasMany(Game::class);
+    }
 }

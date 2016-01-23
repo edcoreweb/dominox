@@ -17,5 +17,6 @@ class EventServiceProvider extends ServiceProvider
         'oauth.user' => ['App\Listeners\Auth\OAuthGetUser'],
         'api_token' => ['App\Listeners\Auth\TokenGetUser'],
         'game.create' => ['App\Listeners\Game\Create'],
+        'game.browse' => ['App\Listeners\Game\Browse'],
     ];
 }
