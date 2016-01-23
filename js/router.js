@@ -60,6 +60,10 @@ router.beforeEach(function(transition) {
         transition.next();
     };
 
+    if (Auth.check()) {
+        return before();
+    }
+
     // Attempt to authenticate the user
     // by the saved api token from local storage.
     Auth.retriveUserByToken()
