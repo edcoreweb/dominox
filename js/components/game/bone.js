@@ -11,7 +11,7 @@ Vue.component('bone', {
         return {
             parent: null,
             positionClasses: {},
-            placeholderClasses: {},
+            contentClasses: {},
             placeholders: [],
             hasPlaceholders: false
         };
@@ -20,12 +20,13 @@ Vue.component('bone', {
     created() {
         this.parent = this.getParent();
         this.positionClasses = this.getPositionClassObject();
+        this.setBackgroundClassObject();
     },
 
     methods: {
         select() {
 
-            console.log(this.hasPlaceholders);
+            console.log(this.hasPlaceholders, this.piece.name);
 
             if (!this.hasPlaceholders) {
                 this.setPlaceholderClassObject();
@@ -73,7 +74,41 @@ Vue.component('bone', {
         },
 
         /**
-         * Get the position of node relative to parent.
+         * Get the content background image.
+         * @return {Object} style object
+         */
+        getBackgroundClassObject() {
+            let style = {};
+
+            let first = Math.max(this.piece.getFirst(), this.piece.getSecond());
+            let second = Math.min(this.piece.getFirst(), this.piece.getSecond());
+
+            style.background = true;
+            style['piece-' + first + '-' + second] = true;
+
+            if (first > this.piece.getFirst()) {
+                style.inverted = true;
+            }
+
+            return style;
+        },
+
+        /**
+         * Sets background content styling.
+         */
+        setBackgroundClassObject() {
+            this.setClassObject(this.getBackgroundClassObject());
+        },
+
+        /**
+         * Clears the background content styling.
+         */
+        clearBackgroundClassObject() {
+            this.clearClassObject(this.getBackgroundClassObject());
+        },
+
+        /**
+         * Get the placeholder styling.
          * @return {Object} style object
          */
         getPlaceholderClassObject() {
@@ -97,19 +132,46 @@ Vue.component('bone', {
         },
 
         /**
-         * Sets the placeholder styling.
+         * Sets placeholder content styling.
          */
         setPlaceholderClassObject() {
-            this.placeholderClasses = this.getPlaceholderClassObject();
+            this.setClassObject(this.getPlaceholderClassObject());
             this.hasPlaceholders = true;
         },
 
         /**
-         * Clears the placeholder styling.
+         * Clears the placeholder content styling.
          */
         clearPlaceholderClassObject() {
-            this.placeholderClasses = {};
+            this.clearClassObject(this.getPlaceholderClassObject());
             this.hasPlaceholders = false;
+        },
+
+        /**
+         * Adds properties to the content styling.
+         */
+        setClassObject(classObject) {
+            for (let attrname in this.contentClasses) {
+                classObject[attrname] = this.contentClasses[attrname];
+            }
+
+            this.contentClasses = classObject;
+        },
+
+        /**
+         * Removes properties from the content styling.
+         */
+        clearClassObject(classObject) {
+            let newClassObject = this.contentClasses;
+
+            for (let attrname in classObject) {
+                if (newClassObject.hasOwnProperty(attrname)) {
+                    delete newClassObject[attrname];
+                }
+            }
+
+            this.contentClasses = {};
+            this.contentClasses = newClassObject;
         },
 
         /**

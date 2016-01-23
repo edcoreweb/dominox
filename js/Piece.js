@@ -10,6 +10,9 @@ class Piece {
         this.direction = direction;
         this.children = [];
 
+        this.first = parseInt(this.name.charAt(0));
+        this.second = parseInt(this.name.charAt(1));
+
         return this;
     }
 
@@ -23,6 +26,19 @@ class Piece {
         this.children = this.children.concat(children);
 
         return this;
+    }
+
+    setValue(first, second) {
+        this.first = first;
+        this.second = second;
+    }
+
+    getFirst() {
+        return this.first;
+    }
+
+    getSecond() {
+        return this.second;
     }
 
     setCorner(corner) {

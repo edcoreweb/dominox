@@ -3,16 +3,16 @@ import Piece from './../../Piece';
 import './bone';
 import 'jquery.panzoom';
 
-let rootNode = new Piece('1', false, 'root', null);
+let rootNode = new Piece('66', false, 'root', null);
 
 rootNode.addChildren([
-    new Piece('2', false, 'left', null).addChildren([
-        new Piece('3', true, 'up', 'up'),
-        new Piece('4', true, 'down', 'down')
+    new Piece('56', false, 'left', null).addChildren([
+        new Piece('23', true, 'up', 'up'),
+        new Piece('04', true, 'down', 'down')
     ]),
-    new Piece('7', false, 'right', null).addChildren([
-        new Piece('5', true, 'up', 'up'),
-        new Piece('6', true, 'down', 'down')
+    new Piece('13', false, 'right', null).addChildren([
+        new Piece('42', true, 'up', 'up'),
+        new Piece('22', true, 'down', 'down')
     ])
 ]);
 
