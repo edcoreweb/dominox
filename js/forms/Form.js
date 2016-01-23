@@ -35,11 +35,37 @@ class Form {
     /**
      * Send the form to the server.
      *
+     * @param  {String} event
+     * @return {Promise}
+     */
+    send(event) {
+        return new Promise((resolve, reject) => {
+            this.startProcessing();
+
+            socket.send(event, this.getData())
+                .then((response) => {
+                    this.finishProcessing();
+
+                    resolve(response);
+                })
+                .catch((response) => {
+                    console.log(response);
+                    this.busy = false;
+                    this.errors.set(response.data);
+
+                    reject(response);
+                });
+        });
+    }
+
+    /**
+     * Send the form to the server.
+     *
      * @param  {String} method
      * @param  {String} uri
      * @return {Promise}
      */
-    send(method, uri) {
+    sendHttp(method, uri) {
         return new Promise((resolve, reject) => {
             this.startProcessing();
 
@@ -59,11 +85,11 @@ class Form {
     }
 
     post(uri) {
-        return this.send('post', uri);
+        return this.sendHttp('post', uri);
     }
 
     patch(uri) {
-        return this.send('patch', uri);
+        return this.sendHttp('patch', uri);
     }
 
     /**

@@ -78,7 +78,7 @@ class Socket {
             let callback = (response) => {
                 this.events.off(event, callback);
 
-                if (response.status === 200) {
+                if (response.status < 400) {
                     resolve(response);
                 } else {
                     reject(response);
