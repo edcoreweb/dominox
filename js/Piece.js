@@ -78,6 +78,15 @@ class Piece {
     }
 
     isDouble() {
+        return this.first == this.second;
+    }
+
+    isRoot() {
+        if (this.coords) {
+            return this.coords.x == 0 &&
+                this.coords.y ==0;
+        }
+
         return false;
     }
 
@@ -101,13 +110,23 @@ class Piece {
         return this.coords;
     }
 
+    canAdd() {
+        if (this.isRoot()) {
+            return this.children.length < 2;
+        } else if (this.isDouble()) {
+            return this.children.length < 3;
+        }
+
+        return !this.hasChildren();
+    }
+
     /**
      * Calculate grid position relative to parent
-     * @param  {Piece} piece
      * @param  {Piece} parent
      */
-    calculateCoords(piece, parent) {
+    calculateCoords(parent) {
         let coords = {};
+        let piece = this;
 
         if (piece.direction == 'root' || !parent) {
             coords.x = 0;

@@ -27,7 +27,10 @@ Vue.component('bone', {
     methods: {
         select() {
 
-            console.log(this.piece.getCoords());
+            // console.log(this.piece.getCoords());
+            // console.log(this.piece.canAdd());
+
+            console.log(this.generatePlaceholders(this.piece));
 
             //console.log(this.hasPlaceholders, this.piece.name);
 
@@ -48,8 +51,62 @@ Vue.component('bone', {
             return this.piece.getChildren();
         },
 
-        generatePlaceholders() {
+        /**
+         * Calculate grid position relative to parent
+         * @param  {Piece} parent
+         */
+        generatePlaceholders(piece) {
 
+            let pos = [];
+
+            if (piece.vertical) {
+                if (piece.direction == 'up') {
+                    pos.push(
+                        new Piece('00', true, 'up', null),
+                        new Piece('00', false, 'left', 'up'),
+                        new Piece('00', false, 'right', 'up'),
+                    );
+                } else if (piece.direction == 'corner-down') {
+                    pos.push(
+                        new Piece('00', true, 'down', null),
+                        new Piece('00', false, 'left', 'down'),
+                        new Piece('00', false, 'right', 'down'),
+                    );
+                } else {
+                    pos.push(
+                        new Piece('00', true, 'up', null),
+                        new Piece('00', true, 'down', null),
+                        new Piece('00', false, piece.direction, null),
+                    );
+                }
+            } else {
+                if (piece.direction == 'left') {
+                    pos.push(
+                        new Piece('00', false, 'left', null),
+                        new Piece('00', true, 'up', 'up'),
+                        new Piece('00', true, 'down', 'up'),
+                    );
+                } else if (piece.direction == 'right') {
+                    pos.push(
+                        new Piece('00', false, 'right', null),
+                        new Piece('00', true, 'up', 'down'),
+                        new Piece('00', true, 'down', 'down'),
+                    );
+                } else if (piece.direction == 'root'){
+                    pos.push(
+                        new Piece('00', false, 'right', null),
+                        new Piece('00', false, 'left', null),
+                    );
+                } else {
+                    pos.push(
+                        new Piece('00', false, 'left', null),
+                        new Piece('00', false, 'right', null),
+                        new Piece('00', true, piece.direction, null),
+                    );
+                }
+            }
+
+            return pos;
         },
 
         /**
