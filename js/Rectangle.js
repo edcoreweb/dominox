@@ -1,6 +1,3 @@
-import Const from './Const';
-import Point from './Point';
-
 class Rectangle {
     /**
      * Create a new piece instance.
@@ -8,17 +5,16 @@ class Rectangle {
     constructor(startX, startY, width, height) {
         this.startX = startX;
         this.startY = startY;
-        this.vertical = vertical;
 
         this.width = width;
         this.height = height;
 
-        this.coords = this.generateCoords();
+        this.coords = this.generateCartesianCoords();
 
         return this;
     }
 
-    generateCoords() {
+    generateCartesianCoords() {
         return {
             'X1': this.startX,
             'X2': this.startX + this.width,
@@ -27,12 +23,12 @@ class Rectangle {
         };
     }
 
-    getCoords() {
+    getCartesianCoords() {
         return this.coords;
     }
 
     isOverlapping(rectangle) {
-        let otherCoords = rectangle.getCoords();
+        let otherCoords = rectangle.getCartesianCoords();
         let myCoords = this.coords;
 
         if (myCoords.X1 < otherCoords.X2 && myCoords.X2 > otherCoords.X1 &&

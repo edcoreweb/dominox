@@ -4,15 +4,20 @@ class Piece {
     /**
      * Create a new piece instance.
      */
-    constructor(name, vertical = false, direction = 'left', corner = null) {
+    constructor(name = null, vertical = false, direction = 'left', corner = null) {
         this.name = name;
         this.corner = corner;
         this.vertical = vertical;
         this.direction = direction;
         this.children = [];
 
-        this.first = parseInt(this.name.charAt(0));
-        this.second = parseInt(this.name.charAt(1));
+        if (name) {
+            this.first = parseInt(this.name.charAt(0));
+            this.second = parseInt(this.name.charAt(1));
+            this.isPlaceholder = false;
+        } else {
+            this.isPlaceholder = true;
+        }
 
         if (this.vertical) {
             this.width = Const.PIECE_HEIGHT;
@@ -78,7 +83,11 @@ class Piece {
     }
 
     isDouble() {
-        return this.first == this.second;
+        if (!this.isPlaceholder) {
+            return this.first == this.second;
+        }
+
+        return false;
     }
 
     isRoot() {
@@ -119,14 +128,31 @@ class Piece {
             parent.getVertical() != this.vertical;
     }
 
-    canAdd() {
-        if (this.isRoot()) {
-            return this.children.length < 2;
-        } else if (this.isDouble()) {
-            return this.children.length < 3;
+    hasOpenEndValue(value) {
+        switch(this.direction) {
+            case 'up':
+            case 'left':
+                return this.first == value;
+            case 'down':
+            case 'right':
+                return this.second == value;
         }
 
-        return !this.hasChildren();
+        return false;
+    }
+
+    hasOpenEndSpots(value) {
+        let flag = true;
+
+        if (this.isRoot()) {
+            flag = flag && this.children.length < 2;
+        } else if (this.isDouble()) {
+            flag = flag && this.children.length < 3;
+        } else {
+            flag = flag && !this.hasChildren();
+        }
+
+        return flag && this.hasOpenEndValue(value);
     }
 
     /**
@@ -156,7 +182,13 @@ class Piece {
                     coords.x = pCoords.x + parent.getHeight();
                     coords.y = pCoords.y + parent.getHeight();
                 } else {
-                    coords.x = piece.isInDoublePos(parent) ? (pCoords.x - (piece.height / 2)) : pCoords.x;
+                    if (piece.isInDoublePos(parent)) {
+                        coords.x = pCoords.x - (piece.height / 2);
+                    } else if (this.vertical != parent.vertical) {
+                        coords.x = pCoords.x + (piece.width / 2);
+                    } else {
+                        coords.x = pCoords.x;
+                    }
                     coords.y = pCoords.y + parent.getHeight();
                 }
                 break;
@@ -169,7 +201,13 @@ class Piece {
                     coords.x = pCoords.x + parent.getHeight();
                     coords.y = pCoords.y - piece.height;
                 } else {
-                    coords.x = piece.isInDoublePos(parent) ? (pCoords.x - (piece.height / 2)) : pCoords.x;
+                    if (piece.isInDoublePos(parent)) {
+                        coords.x = pCoords.x - (piece.height / 2);
+                    } else if (this.vertical != parent.vertical) {
+                        coords.x = pCoords.x + (piece.width / 2);
+                    } else {
+                        coords.x = pCoords.x;
+                    }
                     coords.y = pCoords.y - piece.height;
                 }
                 break;
@@ -183,7 +221,13 @@ class Piece {
                     coords.y = pCoords.y;
                 } else {
                     coords.x = pCoords.x - piece.width;
-                    coords.y = piece.isInDoublePos(parent) ? (pCoords.y - (piece.width / 2)) : pCoords.y;
+                    if (piece.isInDoublePos(parent)) {
+                        coords.y = pCoords.y - (piece.width / 2);
+                    } else if (this.vertical != parent.vertical) {
+                        coords.y = pCoords.y + (piece.height / 2);
+                    } else {
+                        coords.y = pCoords.y;
+                    }
                 }
                 break;
 
@@ -196,7 +240,13 @@ class Piece {
                     coords.y = pCoords.y;
                 } else {
                     coords.x = pCoords.x + parent.getWidth();
-                    coords.y = piece.isInDoublePos(parent) ? (pCoords.y - (piece.width / 2)) : pCoords.y;
+                    if (piece.isInDoublePos(parent)) {
+                        coords.y = pCoords.y - (piece.width / 2);
+                    } else if (this.vertical != parent.vertical) {
+                        coords.y = pCoords.y + (piece.height / 2);
+                    } else {
+                        coords.y = pCoords.y;
+                    }
                 }
                 break;
 

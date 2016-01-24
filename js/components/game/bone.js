@@ -1,4 +1,5 @@
 import Piece from './../../Piece';
+import Rectangle from './../../Rectangle';
 
 Vue.component('bone', {
     template: require('./../../templates/game/bone.html'),
@@ -27,10 +28,16 @@ Vue.component('bone', {
     methods: {
         select() {
 
-            // console.log(this.piece.getCoords());
-            // console.log(this.piece.canAdd());
+            // if (this.piece.hasOpenEndSpots(3)) {
+            //     let placeholders = this.generatePlaceholders(this.piece);
+            //     placeholders = this.getNonOvelappingPlaceholders(placeholders);
+            // } else {
+            //     console.log('can\'t add there');
+            // }
 
-            console.log(this.generatePlaceholders(this.piece));
+            console.log(this.piece.getCoords());
+            // console.log(this.piece.hasOpenEndSpots(3));
+            // console.log(this.generatePlaceholders(this.piece));
 
             //console.log(this.hasPlaceholders, this.piece.name);
 
@@ -51,6 +58,10 @@ Vue.component('bone', {
             return this.piece.getChildren();
         },
 
+        calculateOpenEnds(value) {
+
+        },
+
         /**
          * Calculate grid position relative to parent
          * @param  {Piece} parent
@@ -62,52 +73,89 @@ Vue.component('bone', {
             if (piece.vertical) {
                 if (piece.direction == 'up') {
                     pos.push(
-                        new Piece('00', true, 'up', null),
-                        new Piece('00', false, 'left', 'up'),
-                        new Piece('00', false, 'right', 'up'),
+                        new Piece(null, true, 'up', null),
+                        new Piece(null, false, 'left', 'up'),
+                        new Piece(null, false, 'right', 'up'),
                     );
-                } else if (piece.direction == 'corner-down') {
+                } else if (piece.direction == 'down') {
                     pos.push(
-                        new Piece('00', true, 'down', null),
-                        new Piece('00', false, 'left', 'down'),
-                        new Piece('00', false, 'right', 'down'),
+                        new Piece(null, true, 'down', null),
+                        new Piece(null, false, 'left', 'down'),
+                        new Piece(null, false, 'right', 'down'),
                     );
                 } else {
                     pos.push(
-                        new Piece('00', true, 'up', null),
-                        new Piece('00', true, 'down', null),
-                        new Piece('00', false, piece.direction, null),
+                        new Piece(null, true, 'up', null),
+                        new Piece(null, true, 'down', null),
+                        new Piece(null, false, piece.direction, null)
                     );
                 }
             } else {
                 if (piece.direction == 'left') {
                     pos.push(
-                        new Piece('00', false, 'left', null),
-                        new Piece('00', true, 'up', 'up'),
-                        new Piece('00', true, 'down', 'up'),
+                        new Piece(null, false, 'left', null),
+                        new Piece(null, true, 'up', 'up'),
+                        new Piece(null, true, 'down', 'up'),
                     );
                 } else if (piece.direction == 'right') {
                     pos.push(
-                        new Piece('00', false, 'right', null),
-                        new Piece('00', true, 'up', 'down'),
-                        new Piece('00', true, 'down', 'down'),
+                        new Piece(null, false, 'right', null),
+                        new Piece(null, true, 'up', 'down'),
+                        new Piece(null, true, 'down', 'down'),
                     );
-                } else if (piece.direction == 'root'){
+                } else if (piece.direction == 'root') {
                     pos.push(
-                        new Piece('00', false, 'right', null),
-                        new Piece('00', false, 'left', null),
+                        new Piece(null, false, 'right', null),
+                        new Piece(null, false, 'left', null),
                     );
                 } else {
                     pos.push(
-                        new Piece('00', false, 'left', null),
-                        new Piece('00', false, 'right', null),
-                        new Piece('00', true, piece.direction, null),
+                        new Piece(null, false, 'left', null),
+                        new Piece(null, false, 'right', null),
+                        new Piece(null, true, piece.direction, null),
                     );
                 }
             }
 
+            for (let i = 0; i <pos.length; i++) {
+                pos[i].calculateCoords(this.piece);
+            };
+
             return pos;
         },
+
+        getNonOvelappingPlaceholders(placeholders) {
+            this.deleteOvelapps(placeholders, this.getRoot().piece);
+
+            return placeholders;
+        },
+
+        deleteOvelapps(placeholders, piece) {
+            if (!piece.hasChildren()) {
+                return;
+            }
+
+            let pieceRect = new Rectangle(
+                piece.getCoords().x, piece.getCoords().y,
+                piece.getWidth(), piece.getHeight()
+            );
+
+            for (var i = 0; i < placeholders.length; i++) {
+                let rectPlaceholder = new Rectangle(
+                    placeholders[i].getCoords().x, placeholders[i].getCoords().y,
+                    placeholders[i].getWidth(), placeholders[i].getHeight()
+                );
+
+                console.log(pieceRect.isOverlapping(rectPlaceholder));
+            }
+
+            let children = piece.getChildren();
+
+            for (let i = 0; i < children.length; i++) {
+                this.deleteOvelapps(placeholders, children[i]);
+            }
+        },
+
 
         /**
          * Get the position of node relative to parent.

@@ -8,7 +8,9 @@ let rootNode = new Piece('66', false, 'root', null);
 rootNode.addChildren([
     new Piece('56', false, 'left', null).addChildren([
         new Piece('23', true, 'up', 'up').addChildren([
-            new Piece('00', false, 'left', 'up'),
+            new Piece('00', false, 'left', 'up').addChildren([
+                new Piece('42', false, 'left', null)
+            ]),
             new Piece('00', false, 'right', 'up'),
             new Piece('00', true, 'up', null).addChildren([
                 new Piece('33', false, 'up', null)
