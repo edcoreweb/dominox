@@ -1,5 +1,3 @@
-import swal from 'sweetalert';
-
 module.exports = {
     props: ['user'],
 
@@ -48,13 +46,7 @@ module.exports = {
          * Join a game.
          */
         join(game) {
-            socket.send('game.join', {hash: game.hash})
-                .then(() => {
-                    this.$router.go({'name': 'game.join', params: {hash: game.hash}});
-                })
-                .catch((response) => {
-                    swal('Opps!', response.status == 422 ? response.data : 'Something went wrong. Please try again.', 'error');
-                });
+            this.$router.go({'name': 'game.join', params: {hash: game.hash}});
         },
 
         /**

@@ -16,16 +16,20 @@ class Join extends WSListener
      */
     public function handle($message, $conn)
     {
-        if ($message->user()->hasGameStarted()) {
-            return $message->reply('You\'ve already started a game.', 422);
-        }
-
         $game = Game::findByHash($message->get('hash'));
 
-        $game->addUser($message->user());
+        if ($message->user()->hasGameStarted()) {
+            $started = $message->user()->games()->first();
 
-        event('game.joined', [$game, $conn]);
+            if ($game->id != $started->id) {
+                return $message->reply('You\'ve already started a game.', 422);
+            }
+        } else {
+            $game->addUser($message->user());
 
-        $message->reply(true);
+            event('game.joined', [$game, $message->user(), $conn]);
+        }
+
+        $message->reply($game);
     }
 }

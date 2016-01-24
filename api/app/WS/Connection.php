@@ -28,7 +28,7 @@ class Connection implements MessageComponentInterface
     protected $clients;
 
     /**
-     * User tokens.
+     * User tokens. hash => token
      *
      * @var array
      */
@@ -186,5 +186,29 @@ class Connection implements MessageComponentInterface
     public function clients()
     {
         return $this->clients;
+    }
+
+    /**
+     * Get game clients.
+     *
+     * @param  \App\Models\Game $game
+     * @return array
+     */
+    public function gameClients($game)
+    {
+        $clients = [];
+
+        foreach ($game->users as $user) {
+            $hash = array_search($user->api_token, $this->tokens);
+
+            foreach ($this->clients as $client) {
+                if ($this->clients->getHash($client) == $hash) {
+                    $clients[] = $client;
+                    continue;
+                }
+            }
+        }
+
+        return $clients;
     }
 }

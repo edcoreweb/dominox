@@ -13,12 +13,16 @@ class Left extends WSListener
      * @param  \App\WS\Connection $conn
      * @return void
      */
-    public function handle($game, $conn)
+    public function handle($game, $user, $conn)
     {
         $game->load('countUsers');
 
         foreach ($conn->clients() as $client) {
             $this->send($client, 'game.update', $game);
+        }
+
+         foreach ($conn->gameClients($game) as $client) {
+             $this->send($client, 'game.left', $user);
         }
     }
 }
