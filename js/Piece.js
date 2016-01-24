@@ -147,7 +147,7 @@ class Piece {
                     coords.x = pCoords.x + parent.getHeight();
                     coords.y = pCoords.y + parent.getHeight();
                 } else {
-                    coords.x = pCoords.x;
+                    coords.x = piece.isDouble ? (pCoords.x - (piece.height / 2)) : pCoords.x;
                     coords.y = pCoords.y + parent.getHeight();
                 }
                 break;
@@ -160,7 +160,7 @@ class Piece {
                     coords.x = pCoords.x + parent.getHeight();
                     coords.y = pCoords.y - piece.height;
                 } else {
-                    coords.x = pCoords.x;
+                    coords.x = piece.isDouble ? (pCoords.x - (piece.height / 2)) : pCoords.x;
                     coords.y = pCoords.y - piece.height;
                 }
                 break;
@@ -174,7 +174,7 @@ class Piece {
                     coords.y = pCoords.y;
                 } else {
                     coords.x = pCoords.x - piece.width;
-                    coords.y = pCoords.y;
+                    coords.y = piece.isDouble ? (pCoords.y - (piece.width / 2)) : pCoords.y;
                 }
                 break;
 
@@ -187,7 +187,7 @@ class Piece {
                     coords.y = pCoords.y;
                 } else {
                     coords.x = pCoords.x + parent.getWidth();
-                    coords.y = pCoords.y;
+                    coords.y = piece.isDouble ? (pCoords.y - (piece.width / 2)) : pCoords.y;
                 }
                 break;
 
