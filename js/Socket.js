@@ -61,7 +61,11 @@ class Socket {
      * @param  {String}   event
      * @param  {Function} callback
      */
-    on(event, callback) {
+    on(event, callback, clear = true) {
+        if (clear) {
+            this.events.off(event);
+        }
+
         this.events.on(event, callback);
     }
 
