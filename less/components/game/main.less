@@ -267,13 +267,16 @@
 
 
 @media screen and (max-width: 768px) {
-    .piece {
-        width: 100px;
-        height: 52px;
+    .root {
+        transform: scale(0.7);
     }
 
     .piece-content {
-        background-size: 547px;
+        filter: none;
+        -webkit-filter: blur(0px);
+        -moz-filter: blur(0px);
+        -ms-filter: blur(0px);
+         filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='0');
     }
 }
 
