@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\WS\Message;
 use App\WS\ValidationTrait;
 
 abstract class WSListener
@@ -10,10 +11,6 @@ abstract class WSListener
 
     public function send($client, $event, $data = '', $status = 200)
     {
-        return $client->send(json_encode([
-            'data'   => $data,
-            'status' => $status,
-            'event'  => $event,
-        ]));
+        return Message::sendTo($client, $event, $data, $status);
     }
 }

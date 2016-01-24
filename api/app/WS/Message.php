@@ -101,15 +101,6 @@ class Message
         return $this->from;
     }
 
-    public function reply($data = '', $status = 200)
-    {
-        return $this->from->send(json_encode([
-            'data'   => $data,
-            'status' => $status,
-            'event'  => $this->event
-        ]));
-    }
-
     public function user()
     {
         if (! isset($this->user)) {
@@ -117,5 +108,15 @@ class Message
         }
 
         return $this->user;
+    }
+
+    public function reply($data = '', $status = 200)
+    {
+        return static::sendTo($this->from, $this->event, $data, $status);
+    }
+
+    public static function sendTo($client, $event, $data = '', $status = 200)
+    {
+        return $client->send(json_encode(compact('data', 'event', 'status')));
     }
 }
