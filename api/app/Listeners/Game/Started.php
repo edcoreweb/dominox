@@ -5,7 +5,7 @@ namespace App\Listeners\Game;
 use App\Models\Game;
 use App\Listeners\WSListener;
 
-class GetStarted extends WSListener
+class Started extends WSListener
 {
     /**
      * Handle the event.

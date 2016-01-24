@@ -10,13 +10,17 @@ module.exports = {
     },
 
     ready() {
-        // Listen for user joining the game.
+        // Listen for users joining the game.
         socket.on('game.joined', (response) => {
             this.game.users.push(response.data);
             this.game.joined += 1;
+
+            if (this.isFull()) {
+                this.redirect();
+            }
         });
 
-        // Listen for user leaving the game.
+        // Listen for users leaving the game.
         socket.on('game.left', (response) => {
             let user = _.findWhere(this.game.users, {id: response.data.id});
             this.game.users.$remove(user);
@@ -34,25 +38,50 @@ module.exports = {
             socket.send('game.join', {hash: this.$route.params.hash})
                 .then((response) => {
                     this.game = response.data;
-                })
-                .catch((response) => {
-                    let title = 'Opps!';
-                    let text = response.status == 422 ? response.data : 'Something went wrong. Please try again.';
 
-                    if (response.status == 404) {
-                        title = 'Error 404';
-                        text = 'The game could not be found!';
+                    if (this.isFull()) {
+                        this.redirect();
                     }
+                })
+                .catch(this.onError);
+        },
 
-                    swal({
-                        type: 'error',
-                        title: title,
-                        text: text,
-                        confirmButtonText: 'Ok'
-                    }, () => {
-                        this.$router.go({name: 'game.browse'});
-                    });
-                });
+        /**
+         * Handle join game error.
+         */
+        onError(response) {
+            let title = 'Opps!';
+            let text = response.status == 422 ? response.data : 'Something went wrong. Please try again.';
+
+            if (response.status == 404) {
+                title = 'Error 404';
+                text = 'The game could not be found!';
+            }
+
+            swal({
+                type: 'error',
+                title: title,
+                text: text,
+                confirmButtonText: 'Ok'
+            }, () => {
+                this.$router.go({name: 'game.browse'});
+            });
+        },
+
+        /**
+         * Determinte if the game is full.
+         *
+         * @return {Boolean}
+         */
+        isFull() {
+            return this.game.joined == this.game.players;
+        },
+
+        /**
+         * Redirect to play.
+         */
+        redirect() {
+            this.$router.go({name: 'game.play', params: {hash: this.$route.params.hash}});
         },
 
         /**

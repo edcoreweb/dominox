@@ -40,10 +40,8 @@ class Join extends WSListener
             event('game.joined', [$game, $message->user(), $conn]);
 
             if ($game->users->count() == $game->players) {
-                // $game->status = 'started';
-                // $game->save();
-
-                // event('game.start', [$game, $conn]);
+                $game->status = 'started';
+                $game->save();
             }
         }
     }

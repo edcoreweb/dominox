@@ -38,6 +38,11 @@ router.map({
         name: 'game.join',
         auth: true
     },
+    '/play/:hash': {
+        component: require('./components/game/play'),
+        name: 'game.play',
+        auth: true
+    },
     '/browse': {
         component: require('./components/game/browse'),
         name: 'game.browse',

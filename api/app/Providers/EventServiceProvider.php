@@ -27,8 +27,8 @@ class EventServiceProvider extends ServiceProvider
         'game.leave'   => ['App\Listeners\Game\Leave'],
         'game.left'    => ['App\Listeners\Game\Left'],
         'game.delete'  => ['App\Listeners\Game\Delete'],
-        'game.started' => ['App\Listeners\Game\GetStarted'],
-        'game.start'   => ['App\Listeners\Game\Start'],
+        'game.started' => ['App\Listeners\Game\Started'],
+        'game.load'   => ['App\Listeners\Game\Load'],
 
         // User.
         'user.settings' => ['App\Listeners\User\UpdateSettings'],

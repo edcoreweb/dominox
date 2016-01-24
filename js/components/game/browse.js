@@ -57,10 +57,10 @@ module.exports = {
          * Resume the started game.
          */
         resumeStarted() {
-            if (this.started.status === 'open') {
+            if (this.started.status == 'open') {
                 this.$router.go({name: 'game.join', params: {hash: this.started.hash}});
             } else {
-                this.$router.go({name: 'game', params: {hash: this.started.hash}});
+                this.$router.go({name: 'game.play', params: {hash: this.started.hash}});
             }
         },
 
