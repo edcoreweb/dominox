@@ -18,7 +18,7 @@ class Join extends WSListener
     {
         $game = Game::findByHash($message->get('hash'));
 
-        $game->load('users');
+        $game->load('users', 'countUsers');
 
         if ($message->user()->hasGameStarted()) {
             $started = $message->user()->games()->first();
@@ -29,11 +29,22 @@ class Join extends WSListener
 
             $message->reply($game);
         } else {
+            if ($game->users->count() == $game->players) {
+                return $message->reply('Game already full.', 422);
+            }
+
             $message->reply($game);
 
             $game->addUser($message->user());
 
             event('game.joined', [$game, $message->user(), $conn]);
+
+            if ($game->users->count() == $game->players) {
+                // $game->status = 'started';
+                // $game->save();
+
+                // event('game.start', [$game, $conn]);
+            }
         }
     }
 }

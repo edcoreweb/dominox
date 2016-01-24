@@ -17,6 +17,13 @@ class Game extends Model
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = ['players' => 'integer'];
+
+    /**
      * Find game by hash.
      *
      * @param  string $hash

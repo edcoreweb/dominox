@@ -38,6 +38,10 @@ module.exports = {
         socket.on('game.update', (response) => {
             let game = _.findWhere(this.games, {id: response.data.id});
             game.joined = response.data.joined;
+
+            if (game.joined == game.players) {
+                // this.games.$remove(game);
+            }
         });
     },
 
