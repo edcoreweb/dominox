@@ -23,11 +23,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     ];
 
     /**
-     * The attributes that should be visible in arrays.
+     * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $visible = ['id', 'name'];
+    protected $hidden = ['email', 'created_at', 'updated_at', 'api_token', 'provider', 'provider_id'];
 
     /**
      * Find user by api token.

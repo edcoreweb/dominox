@@ -26,7 +26,7 @@ class OAuthGetUser extends WSListener
         $user = Socialite::driver($provider)->stateless()->setRequest($request)->user();
 
         if ($u = User::findByProvider($provider, $user->getId())) {
-            return $this->send($message->from(), $message->event(), $u->setVisible([]));
+            return $this->send($message->from(), $message->event(), $u->setHidden([]));
         }
 
         if (User::where('email', $user->getEmail())->exists()) {
@@ -41,6 +41,6 @@ class OAuthGetUser extends WSListener
             'api_token' => str_random(32),
         ]);
 
-        return $this->send($message->from(), $message->event(), $user->setVisible([]), 201);
+        return $this->send($message->from(), $message->event(), $user->setHidden([]), 201);
     }
 }

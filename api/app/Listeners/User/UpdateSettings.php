@@ -26,6 +26,6 @@ class UpdateSettings extends WSListener
         $user->email = e($message->get('email'));
         $user->save();
 
-        $message->reply($user->setVisible([]));
+        $message->reply($user->setHidden([]));
     }
 }
