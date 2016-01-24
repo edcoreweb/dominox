@@ -12,12 +12,14 @@ module.exports = {
     ready() {
         // Listen for user joining the game.
         socket.on('game.joined', (response) => {
-            console.log('user hash joined', response.data);
+            console.log('joined', this.game);
+            this.game.users.push(response.data);
         });
 
         // Listen for user leaving the game.
         socket.on('game.left', (response) => {
-            console.log('user has left', response.data);
+            let user = _.findWhere(this.game.users, {id: response.data.id});
+            this.game.users.$remove(user);
         });
 
         this.join();
@@ -30,6 +32,7 @@ module.exports = {
         join() {
             socket.send('game.join', {hash: this.$route.params.hash})
                 .then((response) => {
+                    console.log('join');
                     this.game = response.data;
                 })
                 .catch((response) => {

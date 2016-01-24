@@ -21,6 +21,8 @@ class Joined extends WSListener
             $this->send($client, 'game.update', $game);
         }
 
+        $game->load('users');
+
         foreach ($conn->gameClients($game) as $client) {
             $this->send($client, 'game.joined', $user);
        }

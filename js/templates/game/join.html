@@ -1,11 +1,15 @@
 <div class="game-join">
-    <div class="container">
+    <div class="container" v-if="game">
         <div class="col-md-10 col-md-offset-1">
             <button @click="leave" type="button" class="close game-join-close" title="Leave game">&times;</button>
 
             <h2>Waiting for players...</h2>
 
-            <div v-if="game">{{ game.name }}</div>
+            <h4>{{ game.name }}</h4>
+
+            <ul>
+                <li v-for="user in game.users">{{ user.name }}</li>
+            </ul>
         </div>
     </div>
 </div>
