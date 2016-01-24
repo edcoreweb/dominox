@@ -18,6 +18,6 @@ class TokenGetUser extends WSListener
     {
         $user = User::findByToken($message->data('api_token'));
 
-        return $this->send($message->from(), $message->event(), $user);
+        return $this->send($message->from(), $message->event(), $user->setVisible([]));
     }
 }
