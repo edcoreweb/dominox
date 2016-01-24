@@ -130,12 +130,12 @@ class Piece {
 
     hasOpenEndValue(value) {
         switch(this.direction) {
-            case 'up':
-            case 'left':
-                return this.first == value;
-            case 'down':
-            case 'right':
-                return this.second == value;
+        case 'up':
+        case 'left':
+            return this.first == value;
+        case 'down':
+        case 'right':
+            return this.second == value;
         }
 
         return false;
@@ -155,6 +155,98 @@ class Piece {
         return flag && this.hasOpenEndValue(value);
     }
 
+    getUpCoords(parent, piece) {
+        let coords = {};
+        let pCoords = parent.getCoords();
+
+        if (piece.corner == 'up') {
+            coords.x = pCoords.x;
+            coords.y = pCoords.y + parent.getHeight();
+        } else if (piece.corner == 'down') {
+            coords.x = pCoords.x + parent.getHeight();
+            coords.y = pCoords.y + parent.getHeight();
+        } else {
+            coords.x = this.getHorizontalDoubleCoord(parent, piece, pCoords);
+            coords.y = pCoords.y + parent.getHeight();
+        }
+
+        return coords;
+    }
+
+    getDownCoords(parent, piece) {
+        let coords = {};
+        let pCoords = parent.getCoords();
+
+        if (piece.corner == 'up') {
+            coords.x = pCoords.x;
+            coords.y = pCoords.y - piece.height;
+        } else if (piece.corner == 'down') {
+            coords.x = pCoords.x + parent.getHeight();
+            coords.y = pCoords.y - piece.height;
+        } else {
+            coords.x = this.getHorizontalDoubleCoord(parent, piece, pCoords);
+            coords.y = pCoords.y - piece.height;
+        }
+
+        return coords;
+    }
+
+    getLeftCoords(parent, piece) {
+        let coords = {};
+        let pCoords = parent.getCoords();
+
+        if (piece.corner == 'up') {
+            coords.x = pCoords.x - piece.width;
+            coords.y = pCoords.y + parent.getWidth();
+        } else if (piece.corner == 'down') {
+            coords.x = pCoords.x - piece.width;
+            coords.y = pCoords.y;
+        } else {
+            coords.x = pCoords.x - piece.width;
+            coords.y = this.getVerticalDoubleCoord(parent, piece, pCoords);
+        }
+
+        return coords;
+    }
+
+    getRightCoords(parent, piece) {
+        let coords = {};
+        let pCoords = parent.getCoords();
+
+        if (piece.corner == 'up') {
+            coords.x = pCoords.x + parent.getWidth();
+            coords.y = pCoords.y + parent.getWidth();
+        } else if (piece.corner == 'down') {
+            coords.x = pCoords.x + parent.getWidth();
+            coords.y = pCoords.y;
+        } else {
+            coords.x = pCoords.x + parent.getWidth();
+            coords.y = this.getVerticalDoubleCoord(parent, piece, pCoords);
+        }
+
+        return coords;
+    }
+
+    getVerticalDoubleCoord(parent, piece, pCoords) {
+        if (piece.isInDoublePos(parent)) {
+            return pCoords.y - (piece.width / 2);
+        } else if (this.vertical != parent.vertical) {
+            return pCoords.y + (piece.height / 2);
+        } else {
+            return pCoords.y;
+        }
+    }
+
+    getHorizontalDoubleCoord(parent, piece, pCoords) {
+        if (piece.isInDoublePos(parent)) {
+            return pCoords.x - (piece.height / 2);
+        } else if (piece.vertical != parent.vertical) {
+            return pCoords.x + (piece.width / 2);
+        } else {
+            return pCoords.x;
+        }
+    }
+
     /**
      * Calculate grid position relative to parent
      * @param  {Piece} parent
@@ -171,87 +263,19 @@ class Piece {
             return;
         }
 
-        let pCoords = parent.getCoords();
-
         switch(piece.direction) {
-            case 'up':
-                if (piece.corner == 'up') {
-                    coords.x = pCoords.x;
-                    coords.y = pCoords.y + parent.getHeight();
-                } else if (piece.corner == 'down') {
-                    coords.x = pCoords.x + parent.getHeight();
-                    coords.y = pCoords.y + parent.getHeight();
-                } else {
-                    if (piece.isInDoublePos(parent)) {
-                        coords.x = pCoords.x - (piece.height / 2);
-                    } else if (this.vertical != parent.vertical) {
-                        coords.x = pCoords.x + (piece.width / 2);
-                    } else {
-                        coords.x = pCoords.x;
-                    }
-                    coords.y = pCoords.y + parent.getHeight();
-                }
-                break;
-
-            case 'down':
-                if (piece.corner == 'up') {
-                    coords.x = pCoords.x;
-                    coords.y = pCoords.y - piece.height;
-                } else if (piece.corner == 'down') {
-                    coords.x = pCoords.x + parent.getHeight();
-                    coords.y = pCoords.y - piece.height;
-                } else {
-                    if (piece.isInDoublePos(parent)) {
-                        coords.x = pCoords.x - (piece.height / 2);
-                    } else if (this.vertical != parent.vertical) {
-                        coords.x = pCoords.x + (piece.width / 2);
-                    } else {
-                        coords.x = pCoords.x;
-                    }
-                    coords.y = pCoords.y - piece.height;
-                }
-                break;
-
-            case 'left':
-                if (piece.corner == 'up') {
-                    coords.x = pCoords.x - piece.width;
-                    coords.y = pCoords.y + parent.getWidth();
-                } else if (piece.corner == 'down') {
-                    coords.x = pCoords.x - piece.width;
-                    coords.y = pCoords.y;
-                } else {
-                    coords.x = pCoords.x - piece.width;
-                    if (piece.isInDoublePos(parent)) {
-                        coords.y = pCoords.y - (piece.width / 2);
-                    } else if (this.vertical != parent.vertical) {
-                        coords.y = pCoords.y + (piece.height / 2);
-                    } else {
-                        coords.y = pCoords.y;
-                    }
-                }
-                break;
-
-            case 'right':
-                if (piece.corner == 'up') {
-                    coords.x = pCoords.x + parent.getWidth();
-                    coords.y = pCoords.y + parent.getWidth();
-                } else if (piece.corner == 'down') {
-                    coords.x = pCoords.x + parent.getWidth();
-                    coords.y = pCoords.y;
-                } else {
-                    coords.x = pCoords.x + parent.getWidth();
-                    if (piece.isInDoublePos(parent)) {
-                        coords.y = pCoords.y - (piece.width / 2);
-                    } else if (this.vertical != parent.vertical) {
-                        coords.y = pCoords.y + (piece.height / 2);
-                    } else {
-                        coords.y = pCoords.y;
-                    }
-                }
-                break;
-
-            default:
-                break;
+        case 'up':
+            coords = this.getUpCoords(parent, piece);
+            break;
+        case 'down':
+            coords = this.getDownCoords(parent, piece);
+            break;
+        case 'left':
+            coords = this.getLeftCoords(parent, piece);
+            break;
+        case 'right':
+            coords = this.getRightCoords(parent, piece);
+            break;
         }
 
         piece.setCoords(coords);

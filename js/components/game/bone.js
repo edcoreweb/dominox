@@ -40,20 +40,6 @@ Vue.component('bone', {
             } else {
                 console.log('can\'t add there');
             }
-
-            // console.log(this.piece.getCoords());
-            // console.log(this.piece.hasOpenEndSpots(3));
-            // console.log(this.generatePlaceholders(this.piece));
-
-            //console.log(this.hasPlaceholders, this.piece.name);
-
-            // if (!this.hasPlaceholders) {
-            //     this.clearBackgroundClassObject();
-            //     this.setPlaceholderClassObject();
-            // } else {
-            //     this.clearPlaceholderClassObject();
-            //     this.setBackgroundClassObject();
-            // }
         },
 
         hasChildren() {
@@ -62,10 +48,6 @@ Vue.component('bone', {
 
         getChildren() {
             return this.piece.getChildren();
-        },
-
-        calculateOpenEnds(value) {
-
         },
 
         /**
@@ -164,7 +146,6 @@ Vue.component('bone', {
             }
         },
 
-
         /**
          * Get the position of node relative to parent.
          * @return {Object} style object
@@ -230,23 +211,10 @@ Vue.component('bone', {
          * @return {Object} style object
          */
         getPlaceholderClassObject() {
-            let style = {};
 
-            style.placeholder = true;
-
-            // if (this.positionClasses['corner-down']) {
-            //     style['placeholder-down'] = true;
-            // } else if (this.positionClasses['corner-up']) {
-            //     style['placeholder-up'] = true;
-            // } else if (this.positionClasses['right']) {
-            //     style['placeholder-down'] = true;
-            // } else if (this.positionClasses['left']) {
-            //     style['placeholder-up'] = true;
-            // } else {
-                style['placeholder-full'] = true;
-            // }
-
-            return style;
+            return {
+                'placeholder': true
+            };
         },
 
         /**
@@ -329,7 +297,7 @@ Vue.component('bone', {
             }
 
             return rootNode ? rootNode : this;
-        },
+        }
     }
 });
 

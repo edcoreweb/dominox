@@ -239,46 +239,16 @@
 }
 
 .placeholder {
-    &.placeholder-full {
-        border-style: dashed;
-        border-color: tomato;
-        border-width: 3px;
-        border-radius: 15px;
-    }
-
-    &.placeholder-down {
-        .right-down {
-            border-style: dashed;
-            border-color: tomato;
-            border-width: 3px 0 3px 3px;
-            border-top-left-radius: 15px;
-            border-bottom-left-radius: 15px;
-        }
-    }
-
-    &.placeholder-up {
-        .left-up {
-            border-style: dashed;
-            border-color: tomato;
-            border-width: 3px 3px 3px 0;
-            border-top-right-radius: 15px;
-            border-bottom-right-radius: 15px;
-        }
-    }
+    border-style: dashed;
+    border-color: tomato;
+    border-width: 3px;
+    border-radius: 15px;
 }
 
 
 @media screen and (max-width: 768px) {
     .root {
         transform: scale(0.7);
-    }
-
-    .piece-content {
-        filter: none;
-        -webkit-filter: blur(0px);
-        -moz-filter: blur(0px);
-        -ms-filter: blur(0px);
-         filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='0');
     }
 }
 
