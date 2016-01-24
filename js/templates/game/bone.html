@@ -1,14 +1,10 @@
-<div>
-
 <div
     class="piece"
-    v-bind:class="positionClasses">
+    :class="positionClasses">
     <div
         class="piece-content"
-        v-bind:class="contentClasses"
+        :class="contentClasses"
         @click="select">
-        <div class="left-up"></div>
-        <div class="right-down"></div>
     </div>
 
     <bone
@@ -16,5 +12,4 @@
         v-for="child in piece.getChildren()"
         :piece="child">
     </bone>
-</div>
 </div>

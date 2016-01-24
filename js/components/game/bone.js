@@ -21,21 +21,27 @@ Vue.component('bone', {
     created() {
         this.parent = this.getParent();
         this.positionClasses = this.getPositionClassObject();
-        this.setBackgroundClassObject();
 
+        if (this.piece.isPlaceholder) {
+            this.setPlaceholderClassObject();
+        } else {
+            this.setBackgroundClassObject();
+        }
     },
 
     methods: {
         select() {
 
-            // if (this.piece.hasOpenEndSpots(3)) {
-            //     let placeholders = this.generatePlaceholders(this.piece);
-            //     placeholders = this.getNonOvelappingPlaceholders(placeholders);
-            // } else {
-            //     console.log('can\'t add there');
-            // }
+            if (this.piece.hasOpenEndSpots(3)) {
+                this.placeholders = this.generatePlaceholders(this.piece);
+                this.placeholders = this.getNonOvelappingPlaceholders(this.placeholders);
 
-            console.log(this.piece.getCoords());
+                this.piece.addChildren(this.placeholders);
+            } else {
+                console.log('can\'t add there');
+            }
+
+            // console.log(this.piece.getCoords());
             // console.log(this.piece.hasOpenEndSpots(3));
             // console.log(this.generatePlaceholders(this.piece));
 
@@ -95,31 +101,31 @@ Vue.component('bone', {
                     pos.push(
                         new Piece(null, false, 'left', null),
                         new Piece(null, true, 'up', 'up'),
-                        new Piece(null, true, 'down', 'up'),
+                        new Piece(null, true, 'down', 'up')
                     );
                 } else if (piece.direction == 'right') {
                     pos.push(
                         new Piece(null, false, 'right', null),
                         new Piece(null, true, 'up', 'down'),
-                        new Piece(null, true, 'down', 'down'),
+                        new Piece(null, true, 'down', 'down')
                     );
                 } else if (piece.direction == 'root') {
                     pos.push(
                         new Piece(null, false, 'right', null),
-                        new Piece(null, false, 'left', null),
+                        new Piece(null, false, 'left', null)
                     );
                 } else {
                     pos.push(
                         new Piece(null, false, 'left', null),
                         new Piece(null, false, 'right', null),
-                        new Piece(null, true, piece.direction, null),
+                        new Piece(null, true, piece.direction, null)
                     );
                 }
             }
 
             for (let i = 0; i <pos.length; i++) {
                 pos[i].calculateCoords(this.piece);
-            };
+            }
 
             return pos;
         },
@@ -131,10 +137,6 @@ Vue.component('bone', {
         },
 
         deleteOvelapps(placeholders, piece) {
-            if (!piece.hasChildren()) {
-                return;
-            }
-
             let pieceRect = new Rectangle(
                 piece.getCoords().x, piece.getCoords().y,
                 piece.getWidth(), piece.getHeight()
@@ -146,7 +148,13 @@ Vue.component('bone', {
                     placeholders[i].getWidth(), placeholders[i].getHeight()
                 );
 
-                console.log(pieceRect.isOverlapping(rectPlaceholder));
+                if (pieceRect.isOverlapping(rectPlaceholder)) {
+                    placeholders.splice(i, 1);
+                }
+            }
+
+            if (!piece.hasChildren()) {
+                return;
             }
 
             let children = piece.getChildren();
