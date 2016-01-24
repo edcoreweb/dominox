@@ -110,6 +110,15 @@ class Piece {
         return this.coords;
     }
 
+    isInDoublePos(parent) {
+        if (!parent) {
+            return false;
+        }
+
+        return this.isDouble() &&
+            parent.getVertical() != this.vertical;
+    }
+
     canAdd() {
         if (this.isRoot()) {
             return this.children.length < 2;
@@ -147,7 +156,7 @@ class Piece {
                     coords.x = pCoords.x + parent.getHeight();
                     coords.y = pCoords.y + parent.getHeight();
                 } else {
-                    coords.x = piece.isDouble ? (pCoords.x - (piece.height / 2)) : pCoords.x;
+                    coords.x = piece.isInDoublePos(parent) ? (pCoords.x - (piece.height / 2)) : pCoords.x;
                     coords.y = pCoords.y + parent.getHeight();
                 }
                 break;
@@ -160,7 +169,7 @@ class Piece {
                     coords.x = pCoords.x + parent.getHeight();
                     coords.y = pCoords.y - piece.height;
                 } else {
-                    coords.x = piece.isDouble ? (pCoords.x - (piece.height / 2)) : pCoords.x;
+                    coords.x = piece.isInDoublePos(parent) ? (pCoords.x - (piece.height / 2)) : pCoords.x;
                     coords.y = pCoords.y - piece.height;
                 }
                 break;
@@ -174,7 +183,7 @@ class Piece {
                     coords.y = pCoords.y;
                 } else {
                     coords.x = pCoords.x - piece.width;
-                    coords.y = piece.isDouble ? (pCoords.y - (piece.width / 2)) : pCoords.y;
+                    coords.y = piece.isInDoublePos(parent) ? (pCoords.y - (piece.width / 2)) : pCoords.y;
                 }
                 break;
 
@@ -187,7 +196,7 @@ class Piece {
                     coords.y = pCoords.y;
                 } else {
                     coords.x = pCoords.x + parent.getWidth();
-                    coords.y = piece.isDouble ? (pCoords.y - (piece.width / 2)) : pCoords.y;
+                    coords.y = piece.isInDoublePos(parent) ? (pCoords.y - (piece.width / 2)) : pCoords.y;
                 }
                 break;
 
