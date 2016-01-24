@@ -81,13 +81,13 @@ Vue.component('bone', {
                     pos.push(
                         new Piece(null, true, 'up', null),
                         new Piece(null, false, 'left', 'up'),
-                        new Piece(null, false, 'right', 'up'),
+                        new Piece(null, false, 'right', 'up')
                     );
                 } else if (piece.direction == 'down') {
                     pos.push(
                         new Piece(null, true, 'down', null),
                         new Piece(null, false, 'left', 'down'),
-                        new Piece(null, false, 'right', 'down'),
+                        new Piece(null, false, 'right', 'down')
                     );
                 } else {
                     pos.push(
