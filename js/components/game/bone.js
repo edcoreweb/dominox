@@ -21,20 +21,23 @@ Vue.component('bone', {
         this.parent = this.getParent();
         this.positionClasses = this.getPositionClassObject();
         this.setBackgroundClassObject();
+
     },
 
     methods: {
         select() {
 
-            console.log(this.hasPlaceholders, this.piece.name);
+            console.log(this.piece.getCoords());
 
-            if (!this.hasPlaceholders) {
-                this.clearBackgroundClassObject();
-                this.setPlaceholderClassObject();
-            } else {
-                this.clearPlaceholderClassObject();
-                this.setBackgroundClassObject();
-            }
+            //console.log(this.hasPlaceholders, this.piece.name);
+
+            // if (!this.hasPlaceholders) {
+            //     this.clearBackgroundClassObject();
+            //     this.setPlaceholderClassObject();
+            // } else {
+            //     this.clearPlaceholderClassObject();
+            //     this.setBackgroundClassObject();
+            // }
         },
 
         hasChildren() {
@@ -193,6 +196,15 @@ Vue.component('bone', {
         },
 
         /**
+         * Get the parent node piece model.
+         * @return {Piece | null}
+         */
+        getParentPiece() {
+            let parent = this.getParent();
+            return parent ? parent.piece : null;
+        },
+
+        /**
          * Get the root of the table tree.
          * @return {Bone}
          */
@@ -204,7 +216,7 @@ Vue.component('bone', {
             }
 
             return rootNode ? rootNode : this;
-        }
+        },
     }
 });
 
