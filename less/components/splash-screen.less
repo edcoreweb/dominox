@@ -1,7 +1,19 @@
 .splash-screen {
+    height: 100%;
+    background-image: url('../img/bg.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+
     .col-md-4:not(:last-child) {
         margin-bottom: 10px;
     }
+}
+
+.splash-screen-overlay {
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
 }
 
 .splash-screen-content {
@@ -10,11 +22,13 @@
     margin: 80px auto 20px;
 
     header {
-        font-size: 50px;
+        color: #fff;
+        font-size: 60px;
         margin-bottom: 30px;
+        font-weight: 400;
 
         span {
-            font-weight: 300;
+            font-weight: 200;
         }
     }
 
