@@ -36,6 +36,7 @@ class OAuthGetUser extends WSListener
         $user = User::create([
             'name' => $user->getName(),
             'email' => $user->getEmail(),
+            'avatar' => $user->getAvatar(),
             'provider' => $provider,
             'provider_id' => $user->getId(),
             'api_token' => str_random(32),
