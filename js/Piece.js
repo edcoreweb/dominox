@@ -137,13 +137,15 @@ class Piece {
     }
 
     hasOpenEndValue(value) {
-        switch(this.direction) {
+        switch (this.direction) {
         case 'up':
         case 'left':
             return this.first == value;
         case 'down':
         case 'right':
             return this.second == value;
+        case 'root':
+            return true;
         }
 
         return false;

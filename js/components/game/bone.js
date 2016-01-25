@@ -47,7 +47,6 @@ Vue.component('bone', {
         });
 
         this.$on('placeholders.remove', () => {
-            console.log('remove');
             this.$broadcast('placeholders.remove');
             this.piece.removePlaceholders();
         });
@@ -65,18 +64,39 @@ Vue.component('bone', {
                 accept: '.player-hand > .player-piece',
                 activeClass: 'ui-state-highlight',
                 drop: (e, ui) => {
-                    //if (this.piece.isParentFirstEndOpen()) {
+                    console.log(ui.helper.selectedPiece.first, ui.helper.selectedPiece.second);
+
                     this.piece.first = ui.helper.selectedPiece.first;
                     this.piece.second = ui.helper.selectedPiece.second;
-                    // } else {
-                    //     this.piece.second = ui.helper.selectedPiece.first;
-                    //     this.piece.first = ui.helper.selectedPiece.second;
-                    // }
+                    this.flip();
 
                     this.piece.isPlaceholder = false;
                     this.generatePieceClasses();
                 }
             });
+        },
+
+        flip() {
+            let firstOpen = this.piece.isParentFirstEndOpen();
+            let value = this.getParentPiece()[firstOpen ? 'first' : 'second'];
+
+            switch (this.piece.direction) {
+            case 'up':
+            case 'left':
+                if (this.piece.second != value) {
+                    let aux = this.piece.first;
+                    this.piece.first = this.piece.second;
+                    this.piece.second = aux;
+                }
+                break;
+            case 'down':
+            case 'right':
+                if (this.piece.first != value) {
+                    let aux = this.piece.first;
+                    this.piece.first = this.piece.second;
+                    this.piece.second = aux;
+                }
+            }
         },
 
         generatePieceClasses() {
@@ -90,13 +110,13 @@ Vue.component('bone', {
         },
 
         select() {
-            // if (this.piece.hasOpenEndSpots(6)) {
-            //     this.placeholders = this.generatePlaceholders(this.piece);
-            //     this.placeholders = this.getNonOvelappingPlaceholders(this.placeholders);
-            //     this.piece.addChildren(this.placeholders);
-            // } else {
-            //     console.log('can\'t add there');
-            // }
+            if (this.piece.hasOpenEndSpots(6)) {
+                this.placeholders = this.generatePlaceholders(this.piece);
+                this.placeholders = this.getNonOvelappingPlaceholders(this.placeholders);
+                this.piece.addChildren(this.placeholders);
+            } else {
+                console.log('can\'t add there');
+            }
         },
 
         hasChildren() {

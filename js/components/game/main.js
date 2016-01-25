@@ -8,38 +8,38 @@ import 'jquery-ui/droppable';
 
 let rootNode = new Piece('66', false, 'root', null);
 
-rootNode.addChildren([
-    new Piece('56', false, 'left', null).addChildren([
-        new Piece('23', true, 'up', 'up').addChildren([
-            new Piece('00', false, 'left', 'up').addChildren([
-                new Piece('42', false, 'left', null)
-            ]),
-            new Piece('00', false, 'right', 'up'),
-            new Piece('00', true, 'up', null).addChildren([
-                new Piece('33', false, 'up', null)
-            ])
-        ]),
-        new Piece('04', true, 'down', 'up').addChildren([
-            new Piece('00', false, 'left', 'down'),
-            new Piece('00', false, 'right', 'down'),
-            new Piece('00', true, 'down', null).addChildren([
-                new Piece('33', false, 'down', null)
-            ])
-        ]),
-        new Piece('11', false, 'left', null).addChildren([
-            new Piece('33', true, 'left', null)
-        ])
-    ]),
-    new Piece('13', false, 'right', null).addChildren([
-        new Piece('42', true, 'up', 'up'),
-        new Piece('46', true, 'up', 'down'),
-        new Piece('22', true, 'down', 'up'),
-        new Piece('52', true, 'down', 'down'),
-        new Piece('33', false, 'right', null).addChildren([
-            new Piece('33', true, 'right', null)
-        ])
-    ])
-]);
+// rootNode.addChildren([
+//     new Piece('56', false, 'left', null).addChildren([
+//         new Piece('23', true, 'up', 'up').addChildren([
+//             new Piece('00', false, 'left', 'up').addChildren([
+//                 new Piece('42', false, 'left', null)
+//             ]),
+//             new Piece('00', false, 'right', 'up'),
+//             new Piece('00', true, 'up', null).addChildren([
+//                 new Piece('33', false, 'up', null)
+//             ])
+//         ]),
+//         new Piece('04', true, 'down', 'up').addChildren([
+//             new Piece('00', false, 'left', 'down'),
+//             new Piece('00', false, 'right', 'down'),
+//             new Piece('00', true, 'down', null).addChildren([
+//                 new Piece('33', false, 'down', null)
+//             ])
+//         ]),
+//         new Piece('11', false, 'left', null).addChildren([
+//             new Piece('33', true, 'left', null)
+//         ])
+//     ]),
+//     new Piece('13', false, 'right', null).addChildren([
+//         new Piece('42', true, 'up', 'up'),
+//         new Piece('46', true, 'up', 'down'),
+//         new Piece('22', true, 'down', 'up'),
+//         new Piece('52', true, 'down', 'down'),
+//         new Piece('33', false, 'right', null).addChildren([
+//             new Piece('33', true, 'right', null)
+//         ])
+//     ])
+// ]);
 
 var playerPieces = [
     new Piece('22'), new Piece('66'), new Piece('36'), new Piece('45')
@@ -70,6 +70,7 @@ module.exports = {
             helper: 'clone',
             cursor: 'move',
             start: (e, ui) => {
+                console.log(this.selectedPiece);
                 $(e.target).addClass('player-piece-drag');
                 ui.helper.selectedPiece = this.selectedPiece;
                 this.$broadcast('placeholders.add', this.selectedPiece);
