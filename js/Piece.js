@@ -92,8 +92,7 @@ class Piece {
 
     isRoot() {
         if (this.coords) {
-            return this.coords.x == 0 &&
-                this.coords.y ==0;
+            return this.coords.x == 0 && this.coords.y == 0;
         }
 
         return false;
@@ -249,6 +248,7 @@ class Piece {
 
     /**
      * Calculate grid position relative to parent
+     *
      * @param  {Piece} parent
      */
     calculateCoords(parent) {

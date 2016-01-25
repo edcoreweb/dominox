@@ -1,0 +1,235 @@
+.piece {
+    width: 160px;
+    height: 80px;
+    border-radius: 3px;
+    position: absolute;
+}
+
+.up {
+    top: -100%;
+}
+
+.down {
+    top: 100%;
+}
+
+.right {
+    right: -100%;
+}
+
+.left {
+    right: 100%;
+}
+
+.vertical {
+    &.root {
+       bottom: 50%;
+       left: -5%;
+    }
+
+    &.rotate {
+        transform: rotate(90deg);
+
+        &.up {
+            top: -150%;
+            right: 0;
+
+            &.corner-up {
+                right: 25%;
+            }
+
+            &.corner-down {
+                right: -25%;
+            }
+        }
+
+        &.down {
+            top: 150%;
+            left: 0;
+
+            &.corner-up {
+                left: -25%;
+            }
+
+            &.corner-down {
+                left: 25%;
+            }
+        }
+
+        &.right {
+            right: -75%;
+            top: 0;
+
+            &.corner-up {
+                top: -50%;
+            }
+
+            &.corner-down {
+                top: 50%;
+            }
+        }
+
+        &.left {
+            right: 75%;
+            top: 0;
+
+            &.corner-up {
+                top: -50%;
+            }
+
+            &.corner-down {
+                top: 50%;
+            }
+        }
+    }
+
+    &.up {
+        right: 100%;
+        top: 0;
+    }
+
+    &.down {
+        right: -100%;
+        top: 0;
+    }
+
+    &.left {
+        top: 100%;
+        right: 0;
+    }
+
+    &.right {
+        top: -100%;
+        right: 0;
+    }
+}
+
+.horizontal {
+    &.root {
+        margin: auto;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
+    &.counter {
+        transform: rotate(-90deg);
+
+        &.right {
+            top: -150%;
+            right: 0;
+
+            &.corner-up {
+                right: 25%;
+            }
+
+            &.corner-down {
+                right: -25%;
+            }
+        }
+
+        &.left {
+            top: 150%;
+            right: 0;
+
+            &.corner-up {
+                right: 25%;
+            }
+
+            &.corner-down {
+                right: -25%;
+            }
+        }
+
+        &.up {
+            left: -75%;
+            top: 0;
+
+            &.corner-up {
+                top: 50%;
+            }
+
+            &.corner-down {
+                top: -50%;
+            }
+        }
+
+        &.down {
+            left: 75%;
+            top: 0;
+
+            &.corner-up {
+                top: 50%;
+            }
+
+            &.corner-down {
+                top: -50%;
+            }
+        }
+    }
+}
+
+.piece-content {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    &.inverted {
+        transform: rotate(180deg);
+    }
+}
+
+.left-up {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.right-down {
+    width: 50%;
+    height: 100%;
+    float: right;
+}
+
+.piece-placeholder {
+    border-style: dashed;
+    border-color: tomato;
+    border-width: 3px;
+    border-radius: 15px;
+}
+
+@media screen and (max-width: 768px) {
+    .root {
+        transform: scale(0.7);
+    }
+}
+
+@piece-width: 104;
+@x-offset: 2;
+@start-y-offset: -2807;
+@number-of-pieces: 6;
+
+.inner-loop (@y-offset, @row, @count) when not (@count = -1){
+    &.piece-@{row}-@{count} {
+        background-position: ~"@{x-offset}px @{y-offset}px";
+    }
+
+    .inner-loop(@y-offset + @piece-width, @row, @count - 1);
+}
+
+.outer-loop (@y-offset, @count) when not (@count = -1) {
+    .inner-loop(@y-offset, @count, @count);
+    .outer-loop(@y-offset + (@piece-width * (@count + 1)), @count - 1);
+}
+
+.piece-background {
+    background-image: url('../img/bones.png');
+    background-position: 2px 2px;
+    background-repeat: no-repeat;
+
+    .outer-loop(@start-y-offset, @number-of-pieces);
+}

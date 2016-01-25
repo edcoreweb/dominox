@@ -31,11 +31,9 @@ Vue.component('bone', {
 
     methods: {
         select() {
-
             if (this.piece.hasOpenEndSpots(3)) {
                 this.placeholders = this.generatePlaceholders(this.piece);
                 this.placeholders = this.getNonOvelappingPlaceholders(this.placeholders);
-
                 this.piece.addChildren(this.placeholders);
             } else {
                 console.log('can\'t add there');
@@ -52,10 +50,10 @@ Vue.component('bone', {
 
         /**
          * Calculate grid position relative to parent
+         *
          * @param  {Piece} parent
          */
         generatePlaceholders(piece) {
-
             let pos = [];
 
             if (piece.vertical) {
@@ -124,7 +122,7 @@ Vue.component('bone', {
                 piece.getWidth(), piece.getHeight()
             );
 
-            for (var i = 0; i < placeholders.length; i++) {
+            for (let i = 0; i < placeholders.length; i++) {
                 let rectPlaceholder = new Rectangle(
                     placeholders[i].getCoords().x, placeholders[i].getCoords().y,
                     placeholders[i].getWidth(), placeholders[i].getHeight()
@@ -182,7 +180,7 @@ Vue.component('bone', {
             let first = Math.max(this.piece.getFirst(), this.piece.getSecond());
             let second = Math.min(this.piece.getFirst(), this.piece.getSecond());
 
-            style.background = true;
+            style['piece-background'] = true;
             style['piece-' + first + '-' + second] = true;
 
             if (first > this.piece.getFirst()) {

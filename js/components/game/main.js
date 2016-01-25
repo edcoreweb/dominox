@@ -78,18 +78,19 @@ module.exports = {
     methods: {
         /**
          * Add grin positions for every board piece.
+         *
          * @param {Piece} nodePiece
          */
         setBoardPiecesGridPositions(nodePiece) {
             let children = nodePiece.getChildren();
 
-            for(let i = 0; i < children.length; i++) {
+            for (let i = 0; i < children.length; i++) {
                 children[i].calculateCoords(nodePiece);
 
                 if (children[i].hasChildren()) {
                     this.setBoardPiecesGridPositions(children[i]);
                 }
             }
-        },
+        }
     }
 };
