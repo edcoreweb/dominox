@@ -211,9 +211,8 @@ Vue.component('bone', {
          * @return {Object} style object
          */
         getPlaceholderClassObject() {
-
             return {
-                'placeholder': true
+                'piece-placeholder': true
             };
         },
 
