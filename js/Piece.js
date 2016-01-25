@@ -145,7 +145,8 @@ class Piece {
         case 'right':
             return this.second == value;
         case 'root':
-            return true;
+            return this.first == value ||
+                this.second == value;
         }
 
         return false;
