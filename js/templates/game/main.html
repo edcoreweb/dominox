@@ -1,13 +1,15 @@
 <div>
     <div class="game-screen">
         <div class="player-hand">
-            <div v-for="bone in bones" class="player-piece">
+            <div v-for="piece in playerPieces" class="player-piece" @mousedown="selectPlayerPiece(piece)">
                 <div class="piece-content"></div>
             </div>
         </div>
 
         <div class="game-board">
-            <bone :piece="root"></bone>
+            <div class="game-board-inner">
+                <bone :piece="root"></bone>
+            </div>
         </div>
     </div>
 </div>

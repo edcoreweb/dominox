@@ -202,16 +202,22 @@
     border-radius: 15px;
 }
 
-@media screen and (max-width: 768px) {
-    .root {
+.root {
+    transform: scale(0.8);
+
+    @media (max-width: 1200px) {
         transform: scale(0.7);
+    }
+
+    @media (max-width: 500px) {
+        transform: scale(0.5);
     }
 }
 
-@piece-width: 104;
-@x-offset: 2;
-@start-y-offset: -2807;
-@number-of-pieces: 6;
+@x-offset         : 2;
+@y-offset         : -2807;
+@piece-width      : 104;
+@number-of-pieces : 6;
 
 .inner-loop (@y-offset, @row, @count) when not (@count = -1){
     &.piece-@{row}-@{count} {
@@ -231,5 +237,5 @@
     background-position: 2px 2px;
     background-repeat: no-repeat;
 
-    .outer-loop(@start-y-offset, @number-of-pieces);
+    .outer-loop(@y-offset, @number-of-pieces);
 }

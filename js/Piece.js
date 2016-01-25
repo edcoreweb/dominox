@@ -40,6 +40,15 @@ class Piece {
         return this;
     }
 
+    removePlaceholders() {
+        for (let i = 0; i < this.children.length; i++) {
+            if (this.children[i].isPlaceholder) {
+                this.children.splice(i, 1);
+                i--;
+            }
+        }
+    }
+
     setValue(first, second) {
         this.first = first;
         this.second = second;
@@ -138,6 +147,10 @@ class Piece {
         }
 
         return false;
+    }
+
+    isParentFirstEndOpen() {
+        return !this.corner && (this.direction == 'up' || this.direction == 'left');
     }
 
     hasOpenEndSpots(value) {

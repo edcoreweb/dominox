@@ -1,37 +1,56 @@
 @import 'piece';
 
 .game-board {
-    padding: 30px;
-    height: 100vh;
     background-color: #f3f3f3;
 }
 
+.game-board-inner {
+    padding: 30px;
+    height: 100vh;
+}
+
 .player-hand {
-    position: absolute;
-    padding: 15px;
-    height: 70px;
-    width: 30%;
-    min-width: 400px;
-    z-index: 50;
-    margin: auto;
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 50;
+    margin: auto;
+    padding: 15px;
+    position: absolute;
     border-radius: 8px 8px 0px 0px;
     background-color: rgb(99, 114, 133);
+
+    height: 70px;
+    max-width: 600px;
+
+    @media (max-width: 768px) {
+        max-width: 80%;
+    }
+
+    @media (max-width: 360px) {
+        height: 50px;
+    }
 }
 
 .player-piece {
-    width: 50px;
-    height: 100px;
-    bottom: 50px;
     float: left;
     cursor: pointer;
     position: relative;
-    transition: all 300ms ease-in-out;
+    width: 50px;
+    height: 100px;
+    bottom: 50px;
+
+    @media (max-width: 360px) {
+        bottom: 60px;
+        transform: scale(0.8);
+    }
 
     &:hover {
         bottom: 70px;
+    }
+
+    &:not(.ui-draggable-dragging) {
+        transition: all 300ms ease-in-out;
     }
 
     .piece-content {
@@ -39,4 +58,8 @@
         background-size: 420px;
         background-position: 2px 5px;
     }
+}
+
+.player-piece-drag {
+    opacity: 0.5;
 }

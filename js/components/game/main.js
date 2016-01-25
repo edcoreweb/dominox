@@ -3,6 +3,9 @@ import Piece from './../../Piece';
 import './bone';
 import 'jquery.panzoom';
 
+import 'jquery-ui/draggable';
+import 'jquery-ui/droppable';
+
 let rootNode = new Piece('66', false, 'root', null);
 
 rootNode.addChildren([
@@ -38,25 +41,8 @@ rootNode.addChildren([
     ])
 ]);
 
-var playerCards = [
-    {
-        name: '1',
-        corner: null,
-        vertical: true,
-        direction: 'root'
-    },
-    {
-        name: '1',
-        corner: null,
-        vertical: true,
-        direction: 'right'
-    },
-    {
-        name: '1',
-        corner: null,
-        vertical: true,
-        direction: 'right'
-    }
+var playerPieces = [
+    new Piece('22'), new Piece('66'), new Piece('36'), new Piece('45')
 ];
 
 module.exports = {
@@ -66,16 +52,43 @@ module.exports = {
         return {
             selected: null,
             root: rootNode,
-            bones: playerCards
+            playerPieces: playerPieces,
+            selectedPiece: null
         };
     },
 
     ready() {
         this.root.calculateCoords(null);
         this.setBoardPiecesGridPositions(this.root);
+
+        this.boardZoom();
+
+        $('.player-piece').draggable({
+            revert: 'invalid',
+            revertDuration: 300,
+            containment: 'document',
+            helper: 'clone',
+            cursor: 'move',
+            start: (e, ui) => {
+                $(e.target).addClass('player-piece-drag');
+                ui.helper.selectedPiece = this.selectedPiece;
+                this.$broadcast('placeholders.add', this.selectedPiece);
+            },
+            stop: (e) => {
+                $(e.target).removeClass('player-piece-drag');
+                this.$broadcast('placeholders.remove');
+                this.selectedPiece = null;
+            }
+        });
+
+        // $('.player-hand').owlCarousel();
     },
 
     methods: {
+        selectPlayerPiece(piece) {
+            this.selectedPiece = piece;
+        },
+
         /**
          * Add grin positions for every board piece.
          *
@@ -91,6 +104,31 @@ module.exports = {
                     this.setBoardPiecesGridPositions(children[i]);
                 }
             }
+        },
+
+        boardZoom() {
+            let panzoom = $('.game-board-inner').panzoom();
+
+            panzoom.parent().on('mousewheel.focal', (e) => {
+                let delta = e.delta || e.originalEvent.wheelDelta;
+                let zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
+
+                panzoom.panzoom('zoom', zoomOut, {
+                    focal: e,
+                    animate: false,
+                    increment: 0.1,
+                    maxScale: 1
+                    // disableZoom: true
+                });
+            });
+
+            // panzoom.on('panzoomend', (e, panzoom, matrix, changed) => {
+            //     if (!changed) {
+            //         let target = $(e.target);
+            //         console.log('click' + target.data('name'));
+            //         target.trigger('click' + target.data('name'));
+            //     }
+            // });
         }
     }
 };

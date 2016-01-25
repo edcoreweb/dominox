@@ -21,23 +21,82 @@ Vue.component('bone', {
     created() {
         this.parent = this.getParent();
         this.positionClasses = this.getPositionClassObject();
+        this.generatePieceClasses();
 
+        this.$on('placeholders.add', (piece) => {
+            if (this.piece.hasOpenEndSpots(piece.first)) {
+                this.placeholders = this.generatePlaceholders(this.piece);
+                this.placeholders = this.getNonOvelappingPlaceholders(this.placeholders);
+                this.piece.addChildren(this.placeholders);
+            }
+
+            if (this.piece.hasOpenEndSpots(piece.second)) {
+                this.placeholders = this.generatePlaceholders(this.piece);
+                this.placeholders = this.getNonOvelappingPlaceholders(this.placeholders);
+                this.piece.addChildren(this.placeholders);
+            }
+
+            // setTimeout(() => {
+            //     $(this.$el).children('.piece').each((i, el) => {
+            //         let placeholders = $(el).children('.piece-placeholder');
+            //         this.droppable(placeholders, piece);
+            //     });
+            // }, 100);
+
+            this.$broadcast('placeholders.add', piece);
+        });
+
+        this.$on('placeholders.remove', () => {
+            console.log('remove');
+            this.$broadcast('placeholders.remove');
+            this.piece.removePlaceholders();
+        });
+    },
+
+    ready() {
         if (this.piece.isPlaceholder) {
-            this.setPlaceholderClassObject();
-        } else {
-            this.setBackgroundClassObject();
+            this.droppable();
         }
     },
 
     methods: {
-        select() {
-            if (this.piece.hasOpenEndSpots(3)) {
-                this.placeholders = this.generatePlaceholders(this.piece);
-                this.placeholders = this.getNonOvelappingPlaceholders(this.placeholders);
-                this.piece.addChildren(this.placeholders);
+        droppable() {
+            $(this.$el).droppable({
+                accept: '.player-hand > .player-piece',
+                activeClass: 'ui-state-highlight',
+                drop: (e, ui) => {
+                    //if (this.piece.isParentFirstEndOpen()) {
+                    this.piece.first = ui.helper.selectedPiece.first;
+                    this.piece.second = ui.helper.selectedPiece.second;
+                    // } else {
+                    //     this.piece.second = ui.helper.selectedPiece.first;
+                    //     this.piece.first = ui.helper.selectedPiece.second;
+                    // }
+
+                    this.piece.isPlaceholder = false;
+                    this.generatePieceClasses();
+                }
+            });
+        },
+
+        generatePieceClasses() {
+            if (this.piece.isPlaceholder) {
+                this.clearBackgroundClassObject();
+                this.setPlaceholderClassObject();
             } else {
-                console.log('can\'t add there');
+                this.clearPlaceholderClassObject();
+                this.setBackgroundClassObject();
             }
+        },
+
+        select() {
+            // if (this.piece.hasOpenEndSpots(6)) {
+            //     this.placeholders = this.generatePlaceholders(this.piece);
+            //     this.placeholders = this.getNonOvelappingPlaceholders(this.placeholders);
+            //     this.piece.addChildren(this.placeholders);
+            // } else {
+            //     console.log('can\'t add there');
+            // }
         },
 
         hasChildren() {
