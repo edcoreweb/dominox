@@ -63,6 +63,8 @@ class WSServerCommand extends Command
             $port, $address
         );
 
+        $this->connection->setServer($server);
+
         $server->run();
     }
 }

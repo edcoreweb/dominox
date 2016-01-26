@@ -4,6 +4,7 @@ namespace App\WS;
 
 use Exception;
 use SplObjectStorage;
+use Ratchet\Server\IoServer;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -13,6 +14,11 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Connection implements MessageComponentInterface
 {
+    /**
+     * @var \Ratchet\Server\IoServer
+     */
+    protected $server;
+
     /**
      * The event dispatcher.
      *
@@ -168,17 +174,6 @@ class Connection implements MessageComponentInterface
     }
 
     /**
-     * Render exception.
-     *
-     * @param  \Exception $e
-     * @return void
-     */
-    protected function renderException(Exception $e)
-    {
-        app('Illuminate\Contracts\Debug\ExceptionHandler')->renderForConsole(new ConsoleOutput, $e);
-    }
-
-    /**
      * Get the connected clients.
      *
      * @return \SplObjectStorage
@@ -186,6 +181,32 @@ class Connection implements MessageComponentInterface
     public function clients()
     {
         return $this->clients;
+    }
+
+    /**
+     * Set the IO server.
+     *
+     * @param  \Ratchet\Server\IoServer $server
+     * @return void
+     */
+    public function setServer($server)
+    {
+        $this->server = $server;
+    }
+
+    /**
+     * Get the server IO instance.
+     *
+     * @return \Ratchet\Server\IoServer
+     */
+    public function server()
+    {
+        return $this->server;
+    }
+
+    public function loop()
+    {
+        return $this->server->loop;
     }
 
     /**
@@ -210,5 +231,16 @@ class Connection implements MessageComponentInterface
         }
 
         return $clients;
+    }
+
+    /**
+     * Render exception.
+     *
+     * @param  \Exception $e
+     * @return void
+     */
+    protected function renderException(Exception $e)
+    {
+        app('Illuminate\Contracts\Debug\ExceptionHandler')->renderForConsole(new ConsoleOutput, $e);
     }
 }
