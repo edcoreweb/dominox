@@ -13,6 +13,7 @@
 
 .splash-screen-overlay {
     height: 100%;
+    overflow-x: hidden;
     background: rgba(0, 0, 0, 0.8);
 }
 
@@ -55,6 +56,17 @@
     img {
         width: 350px;
         height: 350px;
+    }
+}
+
+@media (max-width: 420px) {
+    .splash-screen-logo img {
+        width: 200px;
+        height: 200px;
+    }
+
+    .splash-screen-content {
+        margin-top: 20px;
     }
 }
 

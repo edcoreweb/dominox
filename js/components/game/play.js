@@ -19,8 +19,12 @@ module.exports = {
         socket.on('game.left', (response) => {
             let user = _.findWhere(this.game.users, {id: response.data.id});
             this.game.users.$remove(user);
-            this.game.joined -= 1;
+            // this.game.joined -= 1;
         });
+
+        // socket.on('game.join', (response) => {
+        //     this.game.users.push(response.data);
+        // });
 
         this.loadGame();
     },

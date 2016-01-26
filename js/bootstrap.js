@@ -28,6 +28,7 @@ window.jQuery = window.$ = $;
 window.socket = new Socket(Config.ws.address, Config.ws.port);
 
 require('bootstrap');
+require('./util/jquery.ui.touch-punch');
 
 /**
  * Add HTTP request/response interceptors.

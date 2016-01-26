@@ -40,8 +40,8 @@ Vue.component('bone', {
         });
 
         this.$on('placeholders.remove', () => {
-            this.$broadcast('placeholders.remove');
             this.piece.removePlaceholders();
+            this.$broadcast('placeholders.remove');
         });
     },
 
@@ -56,7 +56,7 @@ Vue.component('bone', {
          * Make placeholder droppable.
          */
         droppable() {
-            $(this.$el).droppable({
+            $(this.$el).find('.piece-content').droppable({
                 activeClass: 'ui-state-highlight',
                 accept: '.player-hand > .player-piece',
                 drop: (e, ui) => {
@@ -68,11 +68,17 @@ Vue.component('bone', {
                         return;
                     }
 
+                    console.log(this.$el);
+
                     this.piece.setValue(selected.first, selected.second);
 
                     this.flip();
 
-                    $(this.$el).droppable('disable');
+                    try {
+                        $('.piece .piece-content').droppable('disable');
+                    } catch (e) {
+                        //
+                    }
 
                     this.piece.isPlaceholder = false;
                     this.generatePieceClasses();
