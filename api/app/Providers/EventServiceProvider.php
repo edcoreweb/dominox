@@ -29,6 +29,7 @@ class EventServiceProvider extends ServiceProvider
         'game.delete'  => ['App\Listeners\Game\Delete'],
         'game.started' => ['App\Listeners\Game\Started'],
         'game.load'   => ['App\Listeners\Game\Load'],
+        'game.piece.add' => ['App\Listeners\Game\AddPiece'],
 
         // User.
         'user.settings' => ['App\Listeners\User\UpdateSettings'],

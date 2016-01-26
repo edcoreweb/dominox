@@ -60,8 +60,15 @@ Vue.component('bone', {
                 activeClass: 'ui-state-highlight',
                 accept: '.player-hand > .player-piece',
                 drop: (e, ui) => {
-                    this.piece.first = ui.helper.selectedPiece.first;
-                    this.piece.second = ui.helper.selectedPiece.second;
+                    let selected = ui.helper.selectedPiece;
+
+                    let parent = this.getParentPiece();
+
+                    if (!parent && selected.first != selected.second) {
+                        return;
+                    }
+
+                    this.piece.setValue(selected.first, selected.second);
 
                     this.flip();
 
@@ -71,6 +78,11 @@ Vue.component('bone', {
                     this.generatePieceClasses();
 
                     this.$dispatch('piece.dropped');
+
+                    socket.send('game.piece.add', {
+                        piece: this.piece.serialize(),
+                        parent: parent ? parent.serialize() : null
+                    });
                 }
             });
         },
@@ -81,16 +93,14 @@ Vue.component('bone', {
         flip() {
             let parentPiece = this.getParentPiece();
 
+            if (!parentPiece) return;
+
             if (parentPiece.vertical) {
                 if (this.piece.shouldFlipValuesVertical(parentPiece)) {
-                    let aux = this.piece.first;
-                    this.piece.first = this.piece.second;
-                    this.piece.second = aux;
+                    this.piece.setValue(this.piece.second, this.piece.first);
                 }
             } else if (this.piece.shouldFlipValuesHorizontal(parentPiece)) {
-                let aux = this.piece.first;
-                this.piece.first = this.piece.second;
-                this.piece.second = aux;
+                this.piece.setValue(this.piece.second, this.piece.first);
             }
         },
 

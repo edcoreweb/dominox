@@ -1,9 +1,5 @@
 import './bone';
-import 'jquery.panzoom';
 import Piece from './../../Piece';
-
-import 'jquery-ui/draggable';
-import 'jquery-ui/droppable';
 
 let rootNode = new Piece('66', false, 'root', null);
 
@@ -62,16 +58,9 @@ module.exports = {
         this.zoomable();
         this.draggable();
 
-        /**
-         * Listen for dropped piece.
-         */
         this.$on('piece.dropped', () => {
             this.playerPieces.$remove(this.selectedPiece);
-
             this.selectedPiece = null;
-
-            // Broadcast event to remove all placeholders.
-            this.$broadcast('placeholders.remove');
         });
     },
 
@@ -122,6 +111,9 @@ module.exports = {
 
                 stop: (e) => {
                     $(e.target).removeClass('player-piece-drag');
+
+                    // Broadcast event to remove all placeholders.
+                    this.$broadcast('placeholders.remove');
                 }
             });
         },

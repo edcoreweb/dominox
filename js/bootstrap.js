@@ -3,6 +3,10 @@ import $ from 'jquery';
 import _ from 'underscore';
 import Resource from 'vue-resource';
 
+import 'jquery.panzoom';
+import 'jquery-ui/draggable';
+import 'jquery-ui/droppable';
+
 import './components';
 import './util/helpers';
 import Auth from './Auth';

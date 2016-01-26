@@ -1,5 +1,34 @@
 <div>
     <div class="game-screen">
+        <div class="game-opponents">
+            <div class="game-opponent">
+                <div class="game-opponent-cards">
+                    <div class="game-opponent-cards-icon"></div>
+                    <div class="game-opponent-cards-remaining">6</div>
+                </div>
+                <img class="game-opponent-image" src="https://www.gravatar.com/avatar/0?d=mm&s=150">
+                <div>Cretu Eusebiu</div>
+            </div>
+
+            <div class="game-opponent">
+                <div class="game-opponent-cards">
+                    <div class="game-opponent-cards-icon"></div>
+                    <div class="game-opponent-cards-remaining">6</div>
+                </div>
+                <img class="game-opponent-image" src="https://www.gravatar.com/avatar/0?d=mm&s=150">
+                <div>Cretu Eusebiu</div>
+            </div>
+
+            <div class="game-opponent">
+                <div class="game-opponent-cards">
+                    <div class="game-opponent-cards-icon"></div>
+                    <div class="game-opponent-cards-remaining">6</div>
+                </div>
+                <img class="game-opponent-image" src="https://www.gravatar.com/avatar/0?d=mm&s=150">
+                <div>Cretu Eusebiu</div>
+            </div>
+        </div>
+
         <div class="player-hand">
             <div v-for="piece in playerPieces" transition="fade" class="player-piece" @mousedown="selectPlayerPiece(piece)">
                 <div class="piece-content piece-{{piece.first}}-{{piece.second}}"></div>

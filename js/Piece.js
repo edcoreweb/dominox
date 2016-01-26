@@ -28,6 +28,15 @@ class Piece {
         }
     }
 
+    serialize() {
+        return {
+            name: this.name,
+            vertical: this.vertical,
+            direction: this.direction,
+            corner: this.corner
+        };
+    }
+
     addChild(child) {
         this.children.push(child);
 
@@ -52,6 +61,7 @@ class Piece {
     setValue(first, second) {
         this.first = first;
         this.second = second;
+        this.name = first + '' + second;
     }
 
     getFirst() {
