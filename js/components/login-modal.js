@@ -26,7 +26,6 @@ module.exports = {
                     this.openPopup(response.data, provider);
                 })
                 .catch((er) => {
-                    console.log(er);
                     this.busy = false;
                     swal('Opps!', 'Something went wrong. Please try again.', 'warning');
                 });
@@ -75,7 +74,8 @@ module.exports = {
                     this.$router.go({name: 'home'});
                 })
                 .catch((response) => {
-                    swal('Opps!', response.status == 422 ? response.data : 'Something went wrong. Please try again.', 'warning');
+                    swal('Opps!', response.status == 422 ? response.data :
+                        'Something went wrong. Please try again.', 'warning');
                 })
                 .then(() => {
                     localStorage.removeItem('_code');

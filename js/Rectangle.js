@@ -19,7 +19,7 @@ class Rectangle {
             'X1': this.startX,
             'X2': this.startX + this.width,
             'Y1': this.startY,
-            'Y2': this.startY + this.height,
+            'Y2': this.startY + this.height
         };
     }
 

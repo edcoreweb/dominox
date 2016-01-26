@@ -13,9 +13,9 @@ class Socket {
         if (!instance) {
             instance = this;
 
-            this.events = new Events();
-            this.address = address;
             this.port = port;
+            this.address = address;
+            this.events = new Events();
 
             this.connect();
         }
@@ -23,19 +23,32 @@ class Socket {
         return instance;
     }
 
+    /**
+     * Connect to socket.
+     */
     connect() {
         this.ws = new WebSocket('ws://' + this.address + ':' + this.port);
 
-        this.ws.onerror = (e) => this.onerror(e);
-        this.ws.onmessage = (e) => this.onmessage(e);
+        this.ws.onerror = (e) => this._onerror(e);
+        this.ws.onmessage = (e) => this._onmessage(e);
     }
 
-    onerror(e) {
+    /**
+     * Handle socket error.
+     *
+     * @param  {Event} e
+     */
+    _onerror(e) {
         console.log(e);
         this.events.emit('error', e);
     }
 
-    onmessage(e) {
+    /**
+     * Handle socket message.
+     *
+     * @param  {Event} e
+     */
+    _onmessage(e) {
         let dataJSON;
 
         try {
@@ -60,6 +73,7 @@ class Socket {
      *
      * @param  {String}   event
      * @param  {Function} callback
+     * @param  {Boolean}  clear
      */
     on(event, callback, clear = true) {
         if (clear) {
@@ -73,8 +87,7 @@ class Socket {
      * Send event with data to server.
      *
      * @param  {String} event
-     * @param  {mixed} data
-     * @param  {Function} callback
+     * @param  {mixed}  data
      * @retun  {Promise}
      */
     send(event, data) {
@@ -103,21 +116,32 @@ class Socket {
     sendData(data) {
         data = JSON.stringify(data);
 
-        this.waitForConnection(() => {
+        this._waitForConnection(() => {
             this.ws.send(data);
         }, 100);
     }
 
-    waitForConnection(callback, interval) {
+    /**
+     * Wait for connection to be open.
+     *
+     * @param  {Function} callback
+     * @param  {Number}   interval
+     */
+    _waitForConnection(callback, interval) {
         if (this.isOpen()) {
             callback();
         } else {
             setTimeout(() => {
-                this.waitForConnection(callback, interval);
+                this._waitForConnection(callback, interval);
             }, interval);
         }
     }
 
+    /**
+     * Determine if the socket is open.
+     *
+     * @return {Boolean}
+     */
     isOpen() {
         return this.ws.readyState == WebSocket.OPEN;
     }
