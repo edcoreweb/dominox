@@ -16,7 +16,7 @@ class CreateGamePlayersTable extends Migration
             $table->increments('id');
             $table->integer('game_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->text('cards')->nullable();
+            $table->text('pieces')->nullable();
             $table->integer('points')->default(0);
             $table->timestamps();
 

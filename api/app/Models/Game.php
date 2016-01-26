@@ -17,6 +17,15 @@ class Game extends Model
     ];
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'yard',
+    ];
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -75,7 +84,7 @@ class Game extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(User::class, 'game_players', 'game_id', 'user_id');
+        return $this->belongsToMany(User::class, 'game_players', 'game_id', 'user_id')->withPivot('pieces', 'points');
     }
 
     /**
@@ -88,6 +97,16 @@ class Game extends Model
         return $this->users()
                     ->selectRaw('game_id, count(user_id) as aggregate')
                     ->groupBy('game_id');
+    }
+
+    public function setYardAttribute($value)
+    {
+        $this->attributes['yard'] = json_encode(array_values($value));
+    }
+
+    public function getYardAttribute($value)
+    {
+        return json_decode($value, true);
     }
 
     /**
@@ -134,6 +153,8 @@ class Game extends Model
                 'name' => $attributes['user']['name']
             ];
         }
+
+        $attributes['yard_count'] = count($this->yard);
 
         return $attributes;
     }
