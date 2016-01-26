@@ -64,34 +64,33 @@ Vue.component('bone', {
                 accept: '.player-hand > .player-piece',
                 activeClass: 'ui-state-highlight',
                 drop: (e, ui) => {
-                    console.log(ui.helper.selectedPiece.first, ui.helper.selectedPiece.second);
+                    // console.log(ui.helper.selectedPiece.first, ui.helper.selectedPiece.second);
 
                     this.piece.first = ui.helper.selectedPiece.first;
                     this.piece.second = ui.helper.selectedPiece.second;
                     this.flip();
 
+                    $(this.$el).droppable('disable');
+
                     this.piece.isPlaceholder = false;
                     this.generatePieceClasses();
+
+                    console.log(this.getParentPiece());
                 }
             });
         },
 
         flip() {
-            let firstOpen = this.piece.isParentFirstEndOpen();
-            let value = this.getParentPiece()[firstOpen ? 'first' : 'second'];
+            let parentPiece = this.getParentPiece();
 
-            switch (this.piece.direction) {
-            case 'up':
-            case 'left':
-                if (this.piece.second != value) {
+            if (parentPiece.vertical) {
+                if (this.piece.shouldFlipValuesVertical(parentPiece)) {
                     let aux = this.piece.first;
                     this.piece.first = this.piece.second;
                     this.piece.second = aux;
                 }
-                break;
-            case 'down':
-            case 'right':
-                if (this.piece.first != value) {
+            } else {
+                if (this.piece.shouldFlipValuesHorizontal(parentPiece)) {
                     let aux = this.piece.first;
                     this.piece.first = this.piece.second;
                     this.piece.second = aux;
@@ -110,13 +109,6 @@ Vue.component('bone', {
         },
 
         select() {
-            if (this.piece.hasOpenEndSpots(6)) {
-                this.placeholders = this.generatePlaceholders(this.piece);
-                this.placeholders = this.getNonOvelappingPlaceholders(this.placeholders);
-                this.piece.addChildren(this.placeholders);
-            } else {
-                console.log('can\'t add there');
-            }
         },
 
         hasChildren() {
@@ -135,52 +127,64 @@ Vue.component('bone', {
         generatePlaceholders(piece) {
             let pos = [];
 
-            if (piece.vertical) {
-                if (piece.direction == 'up') {
-                    pos.push(
-                        new Piece(null, true, 'up', null),
-                        new Piece(null, false, 'left', 'up'),
-                        new Piece(null, false, 'right', 'up')
-                    );
-                } else if (piece.direction == 'down') {
-                    pos.push(
-                        new Piece(null, true, 'down', null),
-                        new Piece(null, false, 'left', 'down'),
-                        new Piece(null, false, 'right', 'down')
-                    );
-                } else {
-                    pos.push(
-                        new Piece(null, true, 'up', null),
-                        new Piece(null, true, 'down', null),
-                        new Piece(null, false, piece.direction, null)
-                    );
-                }
+            if (piece.isDouble()) {
+
+                pos.push(
+                    new Piece(null, true, 'up', null),
+                    new Piece(null, true, 'down', null),
+                    new Piece(null, false, 'left', null),
+                    new Piece(null, false, 'right', null)
+                );
             } else {
-                if (piece.direction == 'left') {
-                    pos.push(
-                        new Piece(null, false, 'left', null),
-                        new Piece(null, true, 'up', 'up'),
-                        new Piece(null, true, 'down', 'up')
-                    );
-                } else if (piece.direction == 'right') {
-                    pos.push(
-                        new Piece(null, false, 'right', null),
-                        new Piece(null, true, 'up', 'down'),
-                        new Piece(null, true, 'down', 'down')
-                    );
-                } else if (piece.direction == 'root') {
-                    pos.push(
-                        new Piece(null, false, 'right', null),
-                        new Piece(null, false, 'left', null)
-                    );
+
+                if (piece.vertical) {
+                    if (piece.direction == 'up') {
+                        pos.push(
+                            new Piece(null, true, 'up', null),
+                            new Piece(null, false, 'left', 'up'),
+                            new Piece(null, false, 'right', 'up')
+                        );
+                    } else if (piece.direction == 'down') {
+                        pos.push(
+                            new Piece(null, true, 'down', null),
+                            new Piece(null, false, 'left', 'down'),
+                            new Piece(null, false, 'right', 'down')
+                        );
+                    } else {
+                        pos.push(
+                            new Piece(null, true, 'up', null),
+                            new Piece(null, true, 'down', null),
+                            new Piece(null, false, piece.direction, null)
+                        );
+                    }
                 } else {
-                    pos.push(
-                        new Piece(null, false, 'left', null),
-                        new Piece(null, false, 'right', null),
-                        new Piece(null, true, piece.direction, null)
-                    );
+                    if (piece.direction == 'left') {
+                        pos.push(
+                            new Piece(null, false, 'left', null),
+                            new Piece(null, true, 'up', 'up'),
+                            new Piece(null, true, 'down', 'up')
+                        );
+                    } else if (piece.direction == 'right') {
+                        pos.push(
+                            new Piece(null, false, 'right', null),
+                            new Piece(null, true, 'up', 'down'),
+                            new Piece(null, true, 'down', 'down')
+                        );
+                    } else if (piece.direction == 'root') {
+                        pos.push(
+                            new Piece(null, false, 'right', null),
+                            new Piece(null, false, 'left', null)
+                        );
+                    } else {
+                        pos.push(
+                            new Piece(null, false, 'left', null),
+                            new Piece(null, false, 'right', null),
+                            new Piece(null, true, piece.direction, null)
+                        );
+                    }
                 }
             }
+
 
             for (let i = 0; i <pos.length; i++) {
                 pos[i].calculateCoords(this.piece);

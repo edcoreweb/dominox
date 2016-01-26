@@ -152,15 +152,93 @@ class Piece {
         return false;
     }
 
-    isParentFirstEndOpen() {
-        return !this.corner && (this.direction == 'up' || this.direction == 'left');
+    shouldFlipValuesVertical(parent) {
+        if (this.direction == 'up' && !this.corner) {
+            return parent.first != this.second;
+        }
+
+        if (!this.corner) {
+            if (this.direction == 'left') {
+                return parent.first != this.second;
+            }
+
+            if (this.direction == 'right') {
+                return parent.first != this.first;
+            }
+        }
+
+        if (this.corner == 'up') {
+            if (this.direction == 'left') {
+                return parent.first != this.second;
+            }
+
+            if (this.direction == 'right') {
+                return parent.first != this.first;
+            }
+        }
+
+        if (this.direction == 'down' && !this.corner) {
+            return parent.second != this.first;
+        }
+
+        if (this.corner == 'down') {
+            if (this.direction == 'left') {
+                return parent.second != this.second;
+            }
+
+            if (this.direction == 'right') {
+                return parent.second != this.first;
+            }
+        }
+
+        return false;
+    }
+
+    shouldFlipValuesHorizontal(parent) {
+        if (this.direction == 'left' && !this.corner) {
+            return parent.first != this.second;
+        }
+
+        if (this.direction == 'up') {
+            if (this.corner == 'up') {
+                return parent.first != this.second;
+            }
+
+            if (!this.corner) {
+                return parent.first != this.second;
+            }
+
+            if (this.corner == 'down') {
+                return parent.second != this.second;
+            }
+        }
+
+        if (this.direction == 'right' && !this.corner) {
+            return parent.second != this.first;
+        }
+
+        if (this.direction == 'down') {
+            if (this.corner == 'up') {
+                return parent.first != this.first;
+            }
+
+            if (!this.corner) {
+                return parent.first != this.first;
+            }
+
+            if (this.corner == 'down') {
+                return parent.second != this.first;
+            }
+        }
+
+        return false;
     }
 
     hasOpenEndSpots(value) {
         let flag = true;
 
         if (this.isRoot()) {
-            flag = flag && this.children.length < 2;
+            flag = flag && this.children.length < 4;
         } else if (this.isDouble()) {
             flag = flag && this.children.length < 3;
         } else {
