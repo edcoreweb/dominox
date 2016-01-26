@@ -25,16 +25,26 @@
         color: #fff;
         font-size: 60px;
         margin-bottom: 30px;
-        font-weight: 400;
+        font-weight: 600;
 
         span {
-            font-weight: 200;
+            font-weight: 300;
         }
     }
 
     button {
         margin: 0 auto;
         font-size: 20px;
+        border-width: 2px;
+        border-color: #FFFFFF;
+        background-color: transparent;
+        transition: color 0.15s linear, background-color 0.15s linear;
+
+        &:hover {
+            color: #000;
+            border-color: #fff;
+            background-color: #fff;
+        }
     }
 }
 
