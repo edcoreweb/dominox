@@ -33,14 +33,15 @@
     }
 
     button {
-        margin: 0 auto;
         font-size: 20px;
+        margin-bottom: 20px;
         border-width: 2px;
         border-color: #FFFFFF;
         background-color: transparent;
         transition: color 0.15s linear, background-color 0.15s linear;
 
-        &:hover {
+        &:hover, &:focus, &:active, &:active:focus {
+            outline: none;
             color: #000;
             border-color: #fff;
             background-color: #fff;
