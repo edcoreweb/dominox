@@ -1,11 +1,5 @@
-<div
-    class="piece"
-    :class="positionClasses">
-    <div
-        class="piece-content"
-        :class="contentClasses"
-        @click="select">
-    </div>
+<div class="piece" :class="positionClasses">
+    <div class="piece-content" :class="contentClasses"></div>
 
     <bone
         v-if="piece.hasChildren()"

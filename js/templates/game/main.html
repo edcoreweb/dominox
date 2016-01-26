@@ -1,8 +1,8 @@
 <div>
     <div class="game-screen">
         <div class="player-hand">
-            <div v-for="piece in playerPieces" class="player-piece" @mousedown="selectPlayerPiece(piece)">
-                <div class="piece-content"></div>
+            <div v-for="piece in playerPieces" transition="fade" class="player-piece" @mousedown="selectPlayerPiece(piece)">
+                <div class="piece-content piece-{{piece.first}}-{{piece.second}}"></div>
             </div>
         </div>
 

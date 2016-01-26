@@ -36,13 +36,6 @@ Vue.component('bone', {
                 this.piece.addChildren(this.placeholders);
             }
 
-            // setTimeout(() => {
-            //     $(this.$el).children('.piece').each((i, el) => {
-            //         let placeholders = $(el).children('.piece-placeholder');
-            //         this.droppable(placeholders, piece);
-            //     });
-            // }, 100);
-
             this.$broadcast('placeholders.add', piece);
         });
 
@@ -59,15 +52,17 @@ Vue.component('bone', {
     },
 
     methods: {
+        /**
+         * Make placeholder droppable.
+         */
         droppable() {
             $(this.$el).droppable({
-                accept: '.player-hand > .player-piece',
                 activeClass: 'ui-state-highlight',
+                accept: '.player-hand > .player-piece',
                 drop: (e, ui) => {
-                    // console.log(ui.helper.selectedPiece.first, ui.helper.selectedPiece.second);
-
                     this.piece.first = ui.helper.selectedPiece.first;
                     this.piece.second = ui.helper.selectedPiece.second;
+
                     this.flip();
 
                     $(this.$el).droppable('disable');
@@ -75,11 +70,14 @@ Vue.component('bone', {
                     this.piece.isPlaceholder = false;
                     this.generatePieceClasses();
 
-                    console.log(this.getParentPiece());
+                    this.$dispatch('piece.dropped');
                 }
             });
         },
 
+        /**
+         * Flip dropped card if necessary.
+         */
         flip() {
             let parentPiece = this.getParentPiece();
 
@@ -89,12 +87,10 @@ Vue.component('bone', {
                     this.piece.first = this.piece.second;
                     this.piece.second = aux;
                 }
-            } else {
-                if (this.piece.shouldFlipValuesHorizontal(parentPiece)) {
-                    let aux = this.piece.first;
-                    this.piece.first = this.piece.second;
-                    this.piece.second = aux;
-                }
+            } else if (this.piece.shouldFlipValuesHorizontal(parentPiece)) {
+                let aux = this.piece.first;
+                this.piece.first = this.piece.second;
+                this.piece.second = aux;
             }
         },
 
@@ -106,9 +102,6 @@ Vue.component('bone', {
                 this.clearPlaceholderClassObject();
                 this.setBackgroundClassObject();
             }
-        },
-
-        select() {
         },
 
         hasChildren() {
@@ -128,7 +121,6 @@ Vue.component('bone', {
             let pos = [];
 
             if (piece.isDouble()) {
-
                 pos.push(
                     new Piece(null, true, 'up', null),
                     new Piece(null, true, 'down', null),
@@ -136,7 +128,6 @@ Vue.component('bone', {
                     new Piece(null, false, 'right', null)
                 );
             } else {
-
                 if (piece.vertical) {
                     if (piece.direction == 'up') {
                         pos.push(
@@ -184,7 +175,6 @@ Vue.component('bone', {
                     }
                 }
             }
-
 
             for (let i = 0; i <pos.length; i++) {
                 pos[i].calculateCoords(this.piece);
@@ -380,5 +370,3 @@ Vue.component('bone', {
         }
     }
 });
-
-

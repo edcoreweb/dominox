@@ -1,0 +1,77 @@
+.player-hand {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    margin: auto;
+    padding: 15px;
+    position: absolute;
+    border-radius: 8px 8px 0px 0px;
+    background-color: rgb(99, 114, 133);
+
+    height: 70px;
+    max-width: 600px;
+
+    @media (max-width: 768px) {
+        max-width: 80%;
+    }
+
+    @media (max-width: 360px) {
+        height: 50px;
+    }
+}
+
+.player-piece {
+    float: left;
+    cursor: pointer;
+    position: relative;
+    width: 50px;
+    height: 100px;
+    bottom: 50px;
+
+    @media (max-width: 360px) {
+        bottom: 60px;
+        transform: scale(0.8);
+    }
+
+    &:hover {
+        bottom: 70px;
+    }
+
+    &:not(.ui-draggable-dragging) {
+        transition: bottom 300ms ease-in-out;
+    }
+
+    .piece-content {
+        background-image: url('../img/bones2.png');
+        background-size: 1680px;
+        background-repeat: no-repeat;
+        background-position: 2px 5px;
+    }
+}
+
+@x-offset2         : -5;
+@y-offset2         : 5; // start
+@piece-width2      : 60;
+@number-of-pieces2 : 6;
+
+.inner-loop2 (@x-offset2, @row, @count) when not (@count = -1){
+    .piece-@{row}-@{count} {
+        background-position: ~"@{x-offset2}px @{y-offset2}px";
+    }
+
+    .inner-loop2(@x-offset2 - @piece-width2, @row, @count - 1);
+}
+
+.outer-loop2 (@x-offset2, @count) when not (@count = -1) {
+    .inner-loop2(@x-offset2, @count, @count);
+    .outer-loop2(@x-offset2 - (@piece-width2 * (@count + 1)), @count - 1);
+}
+
+.player-piece {
+    .outer-loop2(@x-offset2, @number-of-pieces2);
+}
+
+.player-piece-drag {
+    opacity: 0.5;
+}

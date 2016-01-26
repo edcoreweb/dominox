@@ -1,7 +1,6 @@
-// import Auth from './../../Auth';
-import Piece from './../../Piece';
 import './bone';
 import 'jquery.panzoom';
+import Piece from './../../Piece';
 
 import 'jquery-ui/draggable';
 import 'jquery-ui/droppable';
@@ -41,8 +40,8 @@ let rootNode = new Piece('66', false, 'root', null);
 //     ])
 // ]);
 
-var playerPieces = [
-    new Piece('22'), new Piece('66'), new Piece('36'), new Piece('45')
+let playerPieces = [
+    new Piece('22'), new Piece('66'), new Piece('63'), new Piece('54')
 ];
 
 module.exports = {
@@ -50,7 +49,6 @@ module.exports = {
 
     data() {
         return {
-            selected: null,
             root: rootNode,
             playerPieces: playerPieces,
             selectedPiece: null
@@ -59,33 +57,30 @@ module.exports = {
 
     ready() {
         this.root.calculateCoords(null);
-        this.setBoardPiecesGridPositions(this.root);
+        this.addGridPositions(this.root);
 
-        this.boardZoom();
+        this.zoomable();
+        this.draggable();
 
-        $('.player-piece').draggable({
-            revert: 'invalid',
-            revertDuration: 300,
-            containment: 'document',
-            helper: 'clone',
-            cursor: 'move',
-            start: (e, ui) => {
-                console.log(this.selectedPiece);
-                $(e.target).addClass('player-piece-drag');
-                ui.helper.selectedPiece = this.selectedPiece;
-                this.$broadcast('placeholders.add', this.selectedPiece);
-            },
-            stop: (e) => {
-                $(e.target).removeClass('player-piece-drag');
-                this.$broadcast('placeholders.remove');
-                this.selectedPiece = null;
-            }
+        /**
+         * Listen for dropped piece.
+         */
+        this.$on('piece.dropped', () => {
+            this.playerPieces.$remove(this.selectedPiece);
+
+            this.selectedPiece = null;
+
+            // Broadcast event to remove all placeholders.
+            this.$broadcast('placeholders.remove');
         });
-
-        // $('.player-hand').owlCarousel();
     },
 
     methods: {
+        /**
+         * Set the selected player piece.
+         *
+         * @param  {Piece} piece
+         */
         selectPlayerPiece(piece) {
             this.selectedPiece = piece;
         },
@@ -93,21 +88,48 @@ module.exports = {
         /**
          * Add grin positions for every board piece.
          *
-         * @param {Piece} nodePiece
+         * @param  {Piece} piece
          */
-        setBoardPiecesGridPositions(nodePiece) {
-            let children = nodePiece.getChildren();
+        addGridPositions(piece) {
+            let children = piece.getChildren();
 
             for (let i = 0; i < children.length; i++) {
-                children[i].calculateCoords(nodePiece);
+                children[i].calculateCoords(piece);
 
                 if (children[i].hasChildren()) {
-                    this.setBoardPiecesGridPositions(children[i]);
+                    this.addGridPositions(children[i]);
                 }
             }
         },
 
-        boardZoom() {
+        /**
+         * Make player pieces draggable.
+         */
+        draggable() {
+            $('.player-piece').draggable({
+                cursor: 'move',
+                helper: 'clone',
+                revert: 'invalid',
+                revertDuration: 300,
+                containment: 'document',
+
+                start: (e, ui) => {
+                    $(e.target).addClass('player-piece-drag');
+
+                    ui.helper.selectedPiece = this.selectedPiece;
+                    this.$broadcast('placeholders.add', this.selectedPiece);
+                },
+
+                stop: (e) => {
+                    $(e.target).removeClass('player-piece-drag');
+                }
+            });
+        },
+
+        /**
+         * Make board zoomable.
+         */
+        zoomable() {
             let panzoom = $('.game-board-inner').panzoom();
 
             panzoom.parent().on('mousewheel.focal', (e) => {
@@ -122,14 +144,6 @@ module.exports = {
                     // disableZoom: true
                 });
             });
-
-            // panzoom.on('panzoomend', (e, panzoom, matrix, changed) => {
-            //     if (!changed) {
-            //         let target = $(e.target);
-            //         console.log('click' + target.data('name'));
-            //         target.trigger('click' + target.data('name'));
-            //     }
-            // });
         }
     }
 };
