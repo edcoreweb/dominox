@@ -11,7 +11,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
-    use Authenticatable, Authorizable;
+    use Authenticatable, Authorizable, PiecesTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -27,7 +27,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @var array
      */
-    protected $hidden = ['email', 'created_at', 'updated_at', 'api_token', 'provider', 'provider_id'];
+    protected $hidden = [
+        'email', 'created_at', 'updated_at', 'api_token', 'provider', 'provider_id',
+    ];
 
     /**
      * Find user by api token.
