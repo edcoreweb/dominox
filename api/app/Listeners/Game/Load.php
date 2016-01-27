@@ -27,7 +27,7 @@ class Load extends WSListener
             return $message->reply('Game not started.', 422);
         }
 
-        $game->load('users');
+        $game->load('users', 'pieces');
 
         if (! $game->player_turn) {
             $this->generatePieces($game);

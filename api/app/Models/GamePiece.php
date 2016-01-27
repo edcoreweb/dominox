@@ -15,6 +15,13 @@ class GamePiece extends Model
         'name', 'vertical', 'direction', 'corner', 'parent_id'
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = ['id' => 'integer', 'parent_id' => 'integer', 'vertical' => 'boolean'];
+
     public static function findByName($name)
     {
         return static::where('name', $name)

@@ -11,7 +11,7 @@ module.exports = {
     data() {
         return {
             game: null,
-            root: new Piece(null, false, 'root'),
+            root: null,
             currentPlayer: null,
 
             playerPieces: [],
@@ -84,10 +84,7 @@ module.exports = {
 
             this.setCurrentPlayer(response.data.player_turn);
 
-            this.root.calculateCoords(null);
-            this.addGridPositions(this.root);
-
-            setTimeout(() => this.zoomable(), 10);
+            this.setPieces(this.game.pieces);
 
             // Remove player piece when dropped.
             this.$on('piece.dropped', (playerPiece, droppedPiece, parentPiece) => {
@@ -182,6 +179,45 @@ module.exports = {
 
             for (let i = 0; i < children.length; i++) {
                 this.placeablePieaces(children[i], playerPieces, placeable);
+            }
+        },
+
+        setPieces(pieces) {
+            let piece = pieces.shift();
+
+            if (piece) {
+                this.root = new Piece(piece.name, piece.vertical, piece.direction, piece.corner);
+                this.buildPiecesTree(this.root, pieces, piece.id);
+            } else {
+                this.root = new Piece(null, false, 'root');
+            }
+
+            this.root.calculateCoords(null);
+            this.addGridPositions(this.root);
+
+            setTimeout(() => this.zoomable(), 10);
+        },
+
+        /**
+         * Build pieces tree.
+         *
+         * @param  {Piece}  rootPiece
+         * @param  {Array}  pieces
+         * @param  {Number} parentId
+         */
+        buildPiecesTree(rootPiece, pieces, parentId) {
+            for (let i = 0; i < pieces.length; i++) {
+                let piece = pieces[i];
+
+                if (piece.parent_id == parentId) {
+                    pieces.splice(i--, 1);
+
+                    let p = new Piece(piece.name, piece.vertical, piece.direction, piece.corner);
+
+                    rootPiece.addChild(p);
+
+                    this.buildPiecesTree(p, pieces, piece.id);
+                }
             }
         },
 
