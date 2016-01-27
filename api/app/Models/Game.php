@@ -109,6 +109,11 @@ class Game extends Model
         return json_decode($value, true);
     }
 
+    public function addPiece($piece, $parent)
+    {
+
+    }
+
     /**
      * Scope a query to only include open games.
      *

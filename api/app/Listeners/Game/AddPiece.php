@@ -20,15 +20,22 @@ class AddPiece extends WSListener
 
         $game = $message->user()->games()->first();
 
-        $userId = $message->user()->id;
+        $user = $game->users->find($message->user()->id);
 
-        if ($game->player_turn != $userId) {
+        if (! $user || $game->player_turn != $user->id) {
             return $message->reply('Not your turn.', 422);
         }
 
         $piece = $message->get('piece');
         $parent = $message->get('parent');
 
+        if (! $user->hasPiece($piece['name'])) {
+            return $message->reply('You don\'t have this piece ['.$piece['name'].'].', 422);
+        }
+
+        $user->removePiece($piece['name']);
+
+        $game->addPiece($piece, $parent);
         $game->player_turn = $this->nextPlayerTurn($game);
         $game->save();
 
@@ -36,7 +43,7 @@ class AddPiece extends WSListener
             $this->send($client, 'game.piece.added', [
                 'piece' => $piece,
                 'parent' => $parent,
-                'user_id' => $userId,
+                'user_id' => $user->id,
                 'player_turn' => $game->player_turn,
             ]);
         }
