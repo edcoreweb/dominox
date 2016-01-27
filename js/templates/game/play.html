@@ -3,12 +3,18 @@
         <div class="game-opponents">
             <div v-for="player in opponents" class="game-opponent"
                 :class="{'game-opponent-active': player.id == currentPlayer}">
-                <div class="game-opponent-cards">
-                    <div class="game-opponent-cards-icon"></div>
-                    <div class="game-opponent-cards-remaining">6</div>
+                <div class="game-opponent-container">
+                    <img class="game-opponent-image" :src="player.avatar">
+                    <div class="game-opponent-points">
+                        <i class="fa fa-product-hunt"></i>100
+                    </div>
+                    <br>
+                    <div class="game-opponent-cards">
+                        <i class="fa fa-delicious"></i>10
+                    </div>
+                    <span class="clear"></span>
+                    <!-- <div>{{ player.name }}</div> -->
                 </div>
-                <img class="game-opponent-image" :src="player.avatar">
-                <div>{{ player.name }}</div>
             </div>
         </div>
 
