@@ -11,7 +11,8 @@ Vue.component('player-hand', {
         this.draggable();
 
         this.$watch('pieces', () => {
-            this.draggable();
+            setTimeout(() => this.draggable(), 100);
+
         });
     },
 
