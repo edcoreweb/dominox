@@ -111,7 +111,27 @@ class Game extends Model
 
     public function addPiece($piece, $parent)
     {
+        if ($parent) {
+            $parent = GamePiece::findByName($parent['name']);
+        }
 
+        $this->pieces()->save(
+            new GamePiece([
+                'name' => $piece['name'],
+                'vertical' => $piece['vertical'],
+                'direction' => $piece['direction'],
+                'corner' => $piece['corner'],
+                'parent_id' => $parent ? $parent->id : null,
+            ])
+        );
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function pieces()
+    {
+        return $this->hasMany(GamePiece::class);
     }
 
     /**
