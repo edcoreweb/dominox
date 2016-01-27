@@ -21,8 +21,8 @@ class Left extends WSListener
             $this->send($client, 'game.update', $game);
         }
 
-         foreach ($conn->gameClients($game) as $client) {
-             $this->send($client, 'game.left', $user);
+        foreach ($conn->gameClients($game) as $client) {
+            $this->send($client, 'game.left', $user);
         }
     }
 }

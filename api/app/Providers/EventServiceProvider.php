@@ -30,6 +30,7 @@ class EventServiceProvider extends ServiceProvider
         'game.started' => ['App\Listeners\Game\Started'],
         'game.load'   => ['App\Listeners\Game\Load'],
         'game.piece.add' => ['App\Listeners\Game\AddPiece'],
+        'game.piece.draw' => ['App\Listeners\Game\DrawPiece'],
 
         // User.
         'user.settings' => ['App\Listeners\User\UpdateSettings'],

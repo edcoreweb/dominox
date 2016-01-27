@@ -34,6 +34,15 @@ trait PiecesTrait
         $this->setPieces($pieces);
     }
 
+    public function addPiece($piece)
+    {
+        $pieces = $this->getPieces();
+
+        $pieces[] = $piece;
+
+        $this->setPieces($pieces);
+    }
+
     public function removePiece($piece)
     {
         $pieces = $this->getPieces();

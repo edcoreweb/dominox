@@ -21,9 +21,7 @@ class Game extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        'yard',
-    ];
+    protected $hidden = ['yard'];
 
     /**
      * The attributes that should be cast to native types.
@@ -124,6 +122,25 @@ class Game extends Model
                 'parent_id' => $parent ? $parent->id : null,
             ])
         );
+    }
+
+    public function randomPiece()
+    {
+        $pieces = $this->yard;
+
+        if (!count($pieces)) {
+            return;
+        }
+
+        $piece = $pieces[0];
+
+        unset($pieces[0]);
+
+        $this->yard = $pieces;
+
+        $this->save();
+
+        return $piece;
     }
 
     /**

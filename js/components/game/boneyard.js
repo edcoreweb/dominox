@@ -1,15 +1,18 @@
+import swal from 'sweetalert';
+
 Vue.component('boneyard', {
-    props: ['pieces'],
+    props: ['pieces', 'disable'],
 
     template: require('./../../templates/game/boneyard.html'),
 
-    data() {
-        return {
-            disabled: false
-        };
-    },
-
     methods: {
-
+        /**
+         * Draw a piece.
+         */
+        draw() {
+            socket.send('game.piece.draw')
+                .then((response) => this.$dispatch('game.piece.drawn', response.data))
+                .catch(() => swal('Opps!', 'Something went wrong. Please try again.', 'error'));
+        }
     }
 });

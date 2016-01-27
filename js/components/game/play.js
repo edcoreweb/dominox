@@ -17,14 +17,16 @@ module.exports = {
             playerPieces: [],
             playerDisabled: true,
 
-            boneyardPieces: 10,
-            boneyardDisabled: false
+            boneyardDisabed: true
         };
     },
 
     ready() {
         socket.on('game.left', this.userHasLeft);
         socket.on('game.piece.added', this.pieceWasAdded);
+        socket.on('game.piece.drawn', this.userHasDrawnPiece);
+
+        this.$on('game.piece.drawn', this.pieceWasDrawn);
 
         this.loadGame();
     },
@@ -44,6 +46,20 @@ module.exports = {
     },
 
     methods: {
+        pieceWasDrawn(piece) {
+            if (!piece) {
+                return;
+            }
+
+            this.playerPieces.push(new Piece(piece));
+
+            this.togglePlayerPieces();
+        },
+
+        userHasDrawnPiece(response) {
+            this.game.yard_count -= 1;
+        },
+
         userHasLeft(response) {
             let user = _.findWhere(this.game.users, {id: response.data.id});
 
@@ -96,6 +112,7 @@ module.exports = {
                 });
 
                 this.playerDisabled = true;
+                this.boneyardDisabed = true;
                 this.togglePlayerPieces();
             });
 
@@ -151,6 +168,14 @@ module.exports = {
 
             for (let i = 0; i < this.playerPieces.length; i++) {
                 this.playerPieces[i].disabled = this.playerDisabled || placeable.indexOf(this.playerPieces[i]) == -1;
+            }
+
+            let disabled = this.playerPieces.filter(piece => piece.disabled);
+
+            if (this.playerDisabled || disabled.length != this.playerPieces.length) {
+                this.boneyardDisabed = true;
+            } else {
+                this.boneyardDisabed = false;
             }
         },
 

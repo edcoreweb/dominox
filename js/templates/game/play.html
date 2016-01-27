@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <boneyard :pieces="boneyardPieces"></boneyard>
+        <boneyard :pieces="game.yard_count" :disable="boneyardDisabed"></boneyard>
 
         <player-hand
             :pieces="playerPieces"
