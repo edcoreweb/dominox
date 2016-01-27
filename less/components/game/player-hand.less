@@ -23,7 +23,6 @@
 
 .player-piece {
     float: left;
-    cursor: pointer;
     position: relative;
     width: 50px;
     height: 100px;
@@ -34,12 +33,16 @@
         transform: scale(0.8);
     }
 
-    &:hover {
-        bottom: 70px;
-    }
-
     &:not(.ui-draggable-dragging) {
         transition: bottom 300ms ease-in-out;
+    }
+
+    &:not(.piece-disabled) {
+        cursor: pointer;
+
+        &:hover {
+            bottom: 70px;
+        }
     }
 
     .piece-content {
@@ -50,8 +53,17 @@
     }
 }
 
-.player-piece-disabled {
-
+.piece-disabled .piece-content:after {
+    content: ' ';
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    background-image: url('../img/bones2.png');
+    background-position: -1685px 5px;
+    background-size: 1800px;
+    background-repeat: no-repeat;
 }
 
 @x-offset2         : -5;

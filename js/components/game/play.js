@@ -1,4 +1,5 @@
 import './bone';
+import './player-hand';
 import swal from 'sweetalert';
 import Auth from './../../Auth';
 import Piece from './../../Piece';
@@ -10,8 +11,9 @@ module.exports = {
         return {
             game: null,
             root: new Piece(null, false, 'root'),
+
             playerPieces: [],
-            selectedPiece: null
+            playerDisabled: true
         };
     },
 
@@ -19,12 +21,7 @@ module.exports = {
         socket.on('game.left', (response) => {
             let user = _.findWhere(this.game.users, {id: response.data.id});
             this.game.users.$remove(user);
-            // this.game.joined -= 1;
         });
-
-        // socket.on('game.join', (response) => {
-        //     this.game.users.push(response.data);
-        // });
 
         this.loadGame();
     },
@@ -59,25 +56,41 @@ module.exports = {
          * @param  {Object} response
          */
         onLoadSuccess(response) {
+            // Set the game.
             this.game = response.data.game;
 
-            // Add player pieces.
+            // Set the player pieces.
             for (let i = 0; i < response.data.pieces.length; i++) {
                 this.playerPieces.push(new Piece(response.data.pieces[i]));
             }
 
+            // If is not player turn, disable pieces.
+            this.playerDisabled = response.data.player_turn != Auth.user().id;
+
             this.root.calculateCoords(null);
             this.addGridPositions(this.root);
 
-            setTimeout(() => {
-                this.zoomable();
-                this.draggable();
-            }, 10);
+            setTimeout(() => this.zoomable(), 10);
 
-            this.$on('piece.dropped', () => {
-                this.playerPieces.$remove(this.selectedPiece);
-                this.selectedPiece = null;
+            // Remove player piece when dropped.
+            this.$on('piece.dropped', (piece) => {
+                this.playerPieces.$remove(piece);
+
+                this.check();
+                this.playerDisabled = false;
             });
+
+            this.check();
+        },
+
+        check() {
+            let placeable = [];
+
+            this.getPlaceablePieaces(this.root, this.playerPieces, placeable);
+
+            for (let i = 0; i < this.playerPieces.length; i++) {
+                this.playerPieces[i].disabled = placeable.indexOf(this.playerPieces[i]) == -1;
+            }
         },
 
         /**
@@ -103,13 +116,37 @@ module.exports = {
             });
         },
 
-        /**
-         * Set the selected player piece.
-         *
-         * @param  {Piece} piece
-         */
-        selectPlayerPiece(piece) {
-            this.selectedPiece = piece;
+        onDragStart(piece) {
+            this.$broadcast('placeholders.add', piece);
+        },
+
+        onDragStop() {
+            this.$broadcast('placeholders.remove');
+        },
+
+        getPlaceablePieaces(piece, playerPieces, placeable) {
+            for (let i in playerPieces) {
+                if (piece.isRoot() && playerPieces[i].isDouble()) {
+                    placeable.push(playerPieces[i]);
+                }
+
+                if (piece.first == playerPieces[i].first ||
+                    piece.second == playerPieces[i].second ||
+                    piece.first == playerPieces[i].second ||
+                    piece.second == playerPieces[i].first) {
+                    placeable.push(playerPieces[i]);
+                }
+            }
+
+            if (!piece.hasChildren()) {
+                return;
+            }
+
+            let children = piece.getChildren();
+
+            for (let i = 0; i < children.length; i++) {
+                this.getPlaceablePieaces(children[i], playerPieces, placeable);
+            }
         },
 
         /**
@@ -130,33 +167,6 @@ module.exports = {
         },
 
         /**
-         * Make player pieces draggable.
-         */
-        draggable() {
-            $('.player-piece').draggable({
-                cursor: 'move',
-                helper: 'clone',
-                revert: 'invalid',
-                revertDuration: 300,
-                containment: 'document',
-
-                start: (e, ui) => {
-                    $(e.target).addClass('player-piece-drag');
-
-                    ui.helper.selectedPiece = this.selectedPiece;
-                    this.$broadcast('placeholders.add', this.selectedPiece);
-                },
-
-                stop: (e) => {
-                    $(e.target).removeClass('player-piece-drag');
-
-                    // Broadcast event to remove all placeholders.
-                    this.$broadcast('placeholders.remove');
-                }
-            });
-        },
-
-        /**
          * Make board zoomable.
          */
         zoomable() {
@@ -171,7 +181,6 @@ module.exports = {
                     animate: false,
                     increment: 0.1,
                     maxScale: 1
-                    // disableZoom: true
                 });
             });
         }

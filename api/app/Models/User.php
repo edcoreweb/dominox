@@ -32,6 +32,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = ['id' => 'integer'];
+
+    /**
      * Find user by api token.
      *
      * @param  string $token

@@ -83,7 +83,7 @@ Vue.component('bone', {
                     this.piece.isPlaceholder = false;
                     this.generatePieceClasses();
 
-                    this.$dispatch('piece.dropped');
+                    this.$dispatch('piece.dropped', selected);
 
                     socket.send('game.piece.add', {
                         piece: this.piece.serialize(),

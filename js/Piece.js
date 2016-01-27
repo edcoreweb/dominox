@@ -10,6 +10,7 @@ class Piece {
         this.vertical = vertical;
         this.direction = direction;
         this.children = [];
+        this.disabled = false;
 
         if (name) {
             this.first = parseInt(this.name.charAt(0));

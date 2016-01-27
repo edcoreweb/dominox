@@ -35,7 +35,9 @@ class Load extends WSListener
         // Current player pieces.
         $pieces = json_decode($game->users->find($message->user()->id)->pivot->pieces, true);
 
-        $message->reply(compact('game', 'pieces'));
+        $player_turn = $game->player_turn;
+
+        $message->reply(compact('game', 'pieces', 'player_turn'));
     }
 
     /**
