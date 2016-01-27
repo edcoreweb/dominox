@@ -10,6 +10,10 @@ Vue.component('boneyard', {
          * Draw a piece.
          */
         draw() {
+            if (this.disable) {
+                return;
+            }
+
             socket.send('game.piece.draw')
                 .then((response) => this.$dispatch('game.piece.drawn', response.data))
                 .catch(() => swal('Opps!', 'Something went wrong. Please try again.', 'error'));
