@@ -27,11 +27,10 @@ class DrawPiece extends WSListener
 
         $piece = $game->randomPiece();
 
-        $user->addPiece($piece);
-
-        $message->reply($piece);
-
         if ($piece) {
+            $user->addPiece($piece);
+            $message->reply($piece);
+
             foreach ($conn->gameClients($game) as $client) {
                 $this->send($client, 'game.piece.drawn', $user);
             }
