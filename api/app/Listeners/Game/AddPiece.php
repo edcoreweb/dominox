@@ -20,17 +20,46 @@ class AddPiece extends WSListener
 
         $game = $message->user()->games()->first();
 
-        $user_id = $message->user()->id;
+        $userId = $message->user()->id;
+
+        if ($game->player_turn != $userId) {
+            return $message->reply('Not your turn.', 422);
+        }
+
         $piece = $message->get('piece');
         $parent = $message->get('parent');
-        $player_turn = $user_id == 1 ? 2 : 1;
+
+        $game->player_turn = $this->nextPlayerTurn($game);
+        $game->save();
 
         foreach ($conn->gameClients($game) as $client) {
-            // if ($client != $message->from()) {
-                $this->send($client, 'game.piece.added', compact('piece', 'parent', 'user_id', 'player_turn'));
-            // }
+            $this->send($client, 'game.piece.added', [
+                'piece' => $piece,
+                'parent' => $parent,
+                'user_id' => $userId,
+                'player_turn' => $game->player_turn,
+            ]);
         }
 
         echo "User " . $message->user()->name . " added piece " . $piece['name'] . "\n";
+    }
+
+    /**
+     * Get next player turn.
+     *
+     * @param  \App\Models\Game $game
+     * @return int
+     */
+    protected function nextPlayerTurn($game)
+    {
+        foreach ($game->users as $offset => $user) {
+            if ($user->id == $game->player_turn) {
+                if ($offset == $game->users->count() - 1) {
+                    return $game->users[0]->id;
+                } else {
+                    return $game->users[$offset + 1]->id;
+                }
+            }
+        }
     }
 }
