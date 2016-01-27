@@ -19,8 +19,21 @@
     margin: auto;
     padding: 10px;
     position: absolute;
-    max-width: 500px;
+    max-width: 660px;
     text-align: center;
+
+    .fa {
+        margin-right: 5px;
+
+        &.fa-delicious {
+            margin-left: -10px;
+        }
+    }
+
+    .clear {
+        clear: left;
+        display: block;
+    }
 }
 
 .game-opponent {
@@ -34,13 +47,14 @@
     border-radius: 10px;
     float: left;
 }
+
 .game-opponent-container {
     border-radius: 8px 8px 8px 8px;
     border-width: 2px 2px 2px 2px;
     border-color: #656565;
     border-style: solid;
     background-color: rgba(130, 130, 130, 0.42);
-    width: 200%;
+    width: 180px;
     padding: 6px;
 }
 
@@ -50,19 +64,51 @@
     font-size: 1.5em;
 }
 
-.fa {
-    margin-right: 5px;
-
-    &.fa-delicious {
-        margin-left: -10px;
-    }
-}
-
 .game-opponent-active {
     color: red;
 }
 
-.clear {
-    clear: left;
-    display: block;
+@media (max-width: 580px) {
+    .game-opponent {
+        margin: 0 2px;
+    }
+
+    .game-opponent-image  {
+        width: 40px;
+        height: 40px;
+    }
+
+    .game-opponent-container {
+        width: 100px;
+        padding: 2px;
+    }
+
+    .game-opponent-points,
+    .game-opponent-cards {
+        font-size: 0.7em;
+    }
+
+    .game-opponent-cards {
+        margin-top: -10px;
+    }
+}
+
+@media (max-width: 660px) {
+    .game-opponent {
+        margin: 0 2px;
+    }
+
+    // .game-opponent-image  {
+    //     width: 40px;
+    //     height: 40px;
+    // }
+
+    // .game-opponent-container {
+    //     width: 100px;
+    // }
+
+    // .game-opponent-points,
+    // .game-opponent-cards {
+    //     font-size: 0.7em;
+    // }
 }
