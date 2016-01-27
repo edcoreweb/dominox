@@ -32,8 +32,10 @@ class DrawPiece extends WSListener
             $message->reply($piece);
 
             foreach ($conn->gameClients($game) as $client) {
-                $this->send($client, 'game.piece.drawn', $user);
+                $this->send($client, 'game.piece.drawn', $user->id);
             }
+        } else {
+            // Game has ended!
         }
     }
 }

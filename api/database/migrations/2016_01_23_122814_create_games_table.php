@@ -22,6 +22,7 @@ class CreateGamesTable extends Migration
             $table->text('board')->nullable();
             $table->text('yard')->nullable();
             $table->integer('player_turn');
+            $table->integer('round')->default(1);
             $table->integer('user_id')->unsigned();
             $table->enum('status', ['open', 'started', 'finished'])->default('open');
             $table->timestamps();

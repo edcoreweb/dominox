@@ -25,6 +25,7 @@ module.exports = {
         socket.on('game.left', this.userHasLeft);
         socket.on('game.piece.added', this.pieceWasAdded);
         socket.on('game.piece.drawn', this.userHasDrawnPiece);
+        socket.on('game.won', this.userHasWon);
 
         this.$on('game.piece.drawn', this.pieceWasDrawn);
 
@@ -46,6 +47,10 @@ module.exports = {
     },
 
     methods: {
+        userHasWon(response) {
+            console.log(response.data.name + ' has won!');
+        },
+
         pieceWasDrawn(piece) {
             if (!piece) {
                 return;
@@ -56,7 +61,7 @@ module.exports = {
             this.togglePlayerPieces();
         },
 
-        userHasDrawnPiece(response) {
+        userHasDrawnPiece() {
             this.game.yard_count -= 1;
         },
 

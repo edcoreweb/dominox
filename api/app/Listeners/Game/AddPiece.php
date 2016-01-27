@@ -35,8 +35,14 @@ class AddPiece extends WSListener
 
         $user->removePiece($piece['name']);
 
-        $game->addPiece($piece, $parent);
+        $game->addPiece($piece, $parent, $user->id);
         $game->player_turn = $this->nextPlayerTurn($game);
+
+        if (! $user->hasPieces()) {
+            $game->player_turn = null;
+            $game->round += 1;
+        }
+
         $game->save();
 
         foreach ($conn->gameClients($game) as $client) {
@@ -46,6 +52,12 @@ class AddPiece extends WSListener
                 'user_id' => $user->id,
                 'player_turn' => $game->player_turn,
             ]);
+        }
+
+        if (! $user->hasPieces()) {
+            foreach ($conn->gameClients($game) as $client) {
+                $this->send($client, 'game.won', $user);
+            }
         }
 
         echo "User " . $message->user()->name . " added piece " . $piece['name'] . "\n";

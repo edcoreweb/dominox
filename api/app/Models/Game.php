@@ -28,7 +28,7 @@ class Game extends Model
      *
      * @var array
      */
-    protected $casts = ['players' => 'integer', 'player_turn' => 'integer'];
+    protected $casts = ['players' => 'integer', 'player_turn' => 'integer', 'round' => 'integer'];
 
     /**
      * Find game by hash.
@@ -107,10 +107,10 @@ class Game extends Model
         return json_decode($value, true);
     }
 
-    public function addPiece($piece, $parent)
+    public function addPiece($piece, $parent, $userId)
     {
         if ($parent) {
-            $parent = GamePiece::findByName($parent['name']);
+            $parent = $this->findPieceByName($parent['name']);
         }
 
         $this->pieces()->save(
@@ -119,16 +119,26 @@ class Game extends Model
                 'vertical' => $piece['vertical'],
                 'direction' => $piece['direction'],
                 'corner' => $piece['corner'],
+                'round' => $this->round,
+                'user_id' => $userId,
                 'parent_id' => $parent ? $parent->id : null,
             ])
         );
+    }
+
+    public function findPieceByName($name)
+    {
+        return $this->pieces()->where(function ($query) use ($name) {
+            $query->where('name', $name)
+                ->orWhere('name', strrev($name));
+        })->first();
     }
 
     public function randomPiece()
     {
         $pieces = $this->yard;
 
-        if (!count($pieces)) {
+        if (! count($pieces)) {
             return;
         }
 
@@ -143,12 +153,22 @@ class Game extends Model
         return $piece;
     }
 
+    public function clearPieces()
+    {
+        //
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function pieces()
     {
-        return $this->hasMany(GamePiece::class);
+        return $this->roundPieces($this->round);
+    }
+
+    public function roundPieces($round)
+    {
+        return $this->hasMany(GamePiece::class)->where('round', $round);
     }
 
     /**

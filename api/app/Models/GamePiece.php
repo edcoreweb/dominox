@@ -12,7 +12,7 @@ class GamePiece extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'vertical', 'direction', 'corner', 'parent_id'
+        'name', 'vertical', 'direction', 'corner', 'parent_id', 'round', 'user_id'
     ];
 
     /**
@@ -20,12 +20,8 @@ class GamePiece extends Model
      *
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'parent_id' => 'integer', 'vertical' => 'boolean'];
-
-    public static function findByName($name)
-    {
-        return static::where('name', $name)
-                     ->orWhere('name', strrev($name))
-                     ->first();
-    }
+    protected $casts = [
+        'id' => 'integer', 'parent_id' => 'integer',
+        'vertical' => 'boolean', 'round' => 'integer', 'user_id' => 'integer'
+    ];
 }

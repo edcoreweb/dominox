@@ -15,6 +15,11 @@ trait PiecesTrait
         return json_decode($this->pivot->pieces, true);
     }
 
+    public function hasPieces()
+    {
+        return !! count($this->getPieces());
+    }
+
     public function hasPiece($piece)
     {
         return in_array($piece, $this->getPieces()) || in_array(strrev($piece), $this->getPieces());
