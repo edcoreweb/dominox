@@ -17,8 +17,9 @@ class Load extends WSListener
     public function handle($message, $conn)
     {
         $game = Game::findByHash($message->get('hash'));
+        $started = $message->user()->startedGame();
 
-        if ($game->id != $message->user()->games()->first()->id) {
+        if ($game->id != $started->id) {
             return $message->reply('Game not found.', 404);
         }
 

@@ -15,7 +15,7 @@ class Started extends WSListener
      */
     public function handle($message)
     {
-        $game = $message->user()->games()->first();
+        $game = $message->user()->activeGame();
 
         $message->reply($game);
     }

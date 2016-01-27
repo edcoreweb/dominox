@@ -71,14 +71,19 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
                      ->first();
     }
 
-    /**
-     * Determinte if the user has a started game.
-     *
-     * @return bool
-     */
-    public function hasGameStarted()
+    public function startedGame()
     {
-        return $this->games()->exists();
+        return $this->games->where('status', 'started')->first();
+    }
+
+    public function openGame()
+    {
+        return $this->games->where('status', 'open')->first();
+    }
+
+    public function activeGame()
+    {
+        return $this->games()->whereIn('status', ['open', 'started'])->first();
     }
 
     /**

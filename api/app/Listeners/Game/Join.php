@@ -20,9 +20,7 @@ class Join extends WSListener
 
         $game->load('users', 'countUsers');
 
-        if ($message->user()->hasGameStarted()) {
-            $started = $message->user()->games()->first();
-
+        if ($started = $message->user()->activeGame()) {
             if ($game->id != $started->id) {
                 return $message->reply('You\'ve already started a game.', 422);
             }

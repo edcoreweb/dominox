@@ -17,7 +17,7 @@ class Create extends WSListener
      */
     public function handle($message, $conn)
     {
-        if ($message->user()->hasGameStarted()) {
+        if ($message->user()->activeGame()) {
             return $message->reply(['You\'ve already started a game.'], 422);
         }
 

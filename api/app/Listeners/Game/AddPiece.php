@@ -18,7 +18,7 @@ class AddPiece extends WSListener
         // TODO: Validation.
         // if (invalid_move) abort();
 
-        $game = $message->user()->games()->first();
+        $game = $message->user()->startedGame();
 
         $user = $game->users->find($message->user()->id);
 
