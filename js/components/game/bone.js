@@ -22,6 +22,12 @@ Vue.component('bone', {
         this.parent = this.getParent();
         this.positionClasses = this.getPositionClassObject();
         this.generatePieceClasses();
+    },
+
+    ready() {
+        if (this.piece.isPlaceholder) {
+            this.droppable();
+        }
 
         this.$on('placeholders.add', (piece) => {
             if (this.piece.hasOpenEndSpots(piece.first)) {
@@ -43,12 +49,34 @@ Vue.component('bone', {
             this.piece.removePlaceholders();
             this.$broadcast('placeholders.remove');
         });
-    },
 
-    ready() {
-        if (this.piece.isPlaceholder) {
-            this.droppable();
-        }
+        this.$on('game.piece.add', (pieceData, parentData) => {
+            if (! parentData) {
+                let piece = new Piece(pieceData.name);
+
+                this.piece.name = piece.name;
+                this.piece.first = piece.first;
+                this.piece.second = piece.second;
+                this.piece.isPlaceholder = false;
+
+                this.positionClasses = this.getPositionClassObject();
+                this.generatePieceClasses();
+
+                try {
+                    $('.piece .piece-content').droppable('disable');
+                } catch (e) {
+                    //
+                }
+            } else if (parentData.name == this.piece.name) {
+                let piece = new Piece(pieceData.name, pieceData.vertical, pieceData.direction, pieceData.corner);
+
+                piece.calculateCoords(this.piece);
+
+                this.piece.addChild(piece);
+            }
+
+            this.$broadcast('game.piece.add', pieceData, parentData);
+        });
     },
 
     methods: {
@@ -68,8 +96,6 @@ Vue.component('bone', {
                         return;
                     }
 
-                    console.log(this.$el);
-
                     this.piece.setValue(selected.first, selected.second);
 
                     this.flip();
@@ -83,12 +109,9 @@ Vue.component('bone', {
                     this.piece.isPlaceholder = false;
                     this.generatePieceClasses();
 
-                    this.$dispatch('piece.dropped', selected);
+                    console.log(this.piece);
 
-                    socket.send('game.piece.add', {
-                        piece: this.piece.serialize(),
-                        parent: parent ? parent.serialize() : null
-                    });
+                    this.$dispatch('piece.dropped', selected, this.piece, parent);
                 }
             });
         },
@@ -192,7 +215,7 @@ Vue.component('bone', {
                 }
             }
 
-            for (let i = 0; i <pos.length; i++) {
+            for (let i = 0; i < pos.length; i++) {
                 pos[i].calculateCoords(this.piece);
             }
 

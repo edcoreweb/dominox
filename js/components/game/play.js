@@ -11,6 +11,7 @@ module.exports = {
         return {
             game: null,
             root: new Piece(null, false, 'root'),
+            currentPlayer: null,
 
             playerPieces: [],
             playerDisabled: true
@@ -21,6 +22,17 @@ module.exports = {
         socket.on('game.left', (response) => {
             let user = _.findWhere(this.game.users, {id: response.data.id});
             this.game.users.$remove(user);
+        });
+
+        socket.on('game.piece.added', (response) => {
+            this.setCurrentPlayer(response.data.player_turn);
+
+            if (response.data.user_id != Auth.user().id) {
+                this.$broadcast('game.piece.add', response.data.piece, response.data.parent);
+                // console.log('User ' + this.currentPlayer + ' has added piece', response.data.piece);
+            }
+
+            setTimeout(() => this.disablePlayerPieces(), 100);
         });
 
         this.loadGame();
@@ -64,8 +76,7 @@ module.exports = {
                 this.playerPieces.push(new Piece(response.data.pieces[i]));
             }
 
-            // If is not player turn, disable pieces.
-            this.playerDisabled = response.data.player_turn != Auth.user().id;
+            this.setCurrentPlayer(response.data.player_turn);
 
             this.root.calculateCoords(null);
             this.addGridPositions(this.root);
@@ -73,24 +84,19 @@ module.exports = {
             setTimeout(() => this.zoomable(), 10);
 
             // Remove player piece when dropped.
-            this.$on('piece.dropped', (piece) => {
-                this.playerPieces.$remove(piece);
+            this.$on('piece.dropped', (playerPiece, droppedPiece, parentPiece) => {
+                this.playerPieces.$remove(playerPiece);
 
-                this.check();
-                this.playerDisabled = false;
+                socket.send('game.piece.add', {
+                    piece: droppedPiece.serialize(),
+                    parent: parentPiece ? parentPiece.serialize() : null
+                });
+
+                this.playerDisabled = true;
+                this.disablePlayerPieces();
             });
 
-            this.check();
-        },
-
-        check() {
-            let placeable = [];
-
-            this.getPlaceablePieaces(this.root, this.playerPieces, placeable);
-
-            for (let i = 0; i < this.playerPieces.length; i++) {
-                this.playerPieces[i].disabled = placeable.indexOf(this.playerPieces[i]) == -1;
-            }
+            this.disablePlayerPieces();
         },
 
         /**
@@ -116,6 +122,16 @@ module.exports = {
             });
         },
 
+        /**
+         * Set the current player.
+         *
+         * @param {Numer} id
+         */
+        setCurrentPlayer(id) {
+            this.currentPlayer = id;
+            this.playerDisabled = id != Auth.user().id;
+        },
+
         onDragStart(piece) {
             this.$broadcast('placeholders.add', piece);
         },
@@ -124,17 +140,31 @@ module.exports = {
             this.$broadcast('placeholders.remove');
         },
 
+        disablePlayerPieces() {
+            let placeable = [];
+            let playerPieces = this.playerPieces.slice(0);
+
+            this.getPlaceablePieaces(this.root, playerPieces, placeable);
+
+            for (let i = 0; i < this.playerPieces.length; i++) {
+                this.playerPieces[i].disabled = this.playerDisabled || placeable.indexOf(this.playerPieces[i]) == -1;
+            }
+        },
+
         getPlaceablePieaces(piece, playerPieces, placeable) {
-            for (let i in playerPieces) {
-                if (piece.isRoot() && playerPieces[i].isDouble()) {
+            for (let i = 0; i < playerPieces.length; i++) {
+                if (piece.isPlaceholder && playerPieces[i].isDouble()) {
                     placeable.push(playerPieces[i]);
+                    playerPieces.splice(i, 1);
+                    i--;
                 }
 
-                if (piece.first == playerPieces[i].first ||
-                    piece.second == playerPieces[i].second ||
-                    piece.first == playerPieces[i].second ||
-                    piece.second == playerPieces[i].first) {
+                if (!playerPieces[i]) continue;
+
+                if (piece.hasOpenEndSpots(playerPieces[i].first) || piece.hasOpenEndSpots(playerPieces[i].second)) {
                     placeable.push(playerPieces[i]);
+                    playerPieces.splice(i, 1);
+                    i--;
                 }
             }
 

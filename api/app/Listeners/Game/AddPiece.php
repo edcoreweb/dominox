@@ -20,16 +20,17 @@ class AddPiece extends WSListener
 
         $game = $message->user()->games()->first();
 
-        $user_id = $message->user();
+        $user_id = $message->user()->id;
         $piece = $message->get('piece');
         $parent = $message->get('parent');
+        $player_turn = $user_id == 1 ? 2 : 1;
 
         foreach ($conn->gameClients($game) as $client) {
-            if ($client != $message->from()) {
-                $this->send($client, 'game.piece.add', compact('piece', 'parent', 'user_id'));
-            }
+            // if ($client != $message->from()) {
+                $this->send($client, 'game.piece.added', compact('piece', 'parent', 'user_id', 'player_turn'));
+            // }
         }
 
-        echo "User " . $message->user()->name . " add piece " . $piece['name'] . "\n";
+        echo "User " . $message->user()->name . " added piece " . $piece['name'] . "\n";
     }
 }

@@ -17,6 +17,8 @@ class Piece {
             this.second = parseInt(this.name.charAt(1));
             this.isPlaceholder = false;
         } else {
+            this.first = null;
+            this.second = null;
             this.isPlaceholder = true;
         }
 
@@ -31,7 +33,7 @@ class Piece {
 
     serialize() {
         return {
-            name: this.name,
+            name: this.first + '' + this.second,
             vertical: this.vertical,
             direction: this.direction,
             corner: this.corner

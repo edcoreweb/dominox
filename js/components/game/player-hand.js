@@ -1,5 +1,5 @@
 Vue.component('player-hand', {
-    props: ['pieces', 'onDragStart', 'onDragStop', 'disable'],
+    props: ['pieces', 'onDragStart', 'onDragStop'],
 
     template: require('./../../templates/game/player-hand.html'),
 
@@ -29,13 +29,14 @@ Vue.component('player-hand', {
          * Make pieces draggable.
          */
         draggable() {
+            // TODO
             try {
                 $('.player-piece').draggable('destroy');
             } catch (e) {
                 //
             }
 
-            $('.player-piece:not(.piece-disabled)').draggable({
+            $('.player-piece').draggable({
                 cursor: 'move',
                 helper: 'clone',
                 revert: 'invalid',

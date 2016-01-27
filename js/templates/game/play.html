@@ -1,7 +1,8 @@
 <div>
     <div class="game-screen" v-if="game">
         <div class="game-opponents">
-            <div v-for="player in opponents" class="game-opponent">
+            <div v-for="player in opponents" class="game-opponent"
+                :class="{'game-opponent-active': player.id == currentPlayer}">
                 <div class="game-opponent-cards">
                     <div class="game-opponent-cards-icon"></div>
                     <div class="game-opponent-cards-remaining">6</div>
