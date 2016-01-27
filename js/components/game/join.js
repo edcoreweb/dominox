@@ -10,13 +10,15 @@ module.exports = {
     },
 
     ready() {
+        let hash = this.$route.params.hash;
+
         // Listen for users joining the game.
         socket.on('game.joined', (response) => {
             this.game.users.push(response.data);
             this.game.joined += 1;
 
             if (this.isFull()) {
-                this.redirect();
+                this.redirect(hash);
             }
         });
 
@@ -35,12 +37,14 @@ module.exports = {
          * Join the game.
          */
         join() {
-            socket.send('game.join', {hash: this.$route.params.hash})
+            let hash = this.$route.params.hash;
+
+            socket.send('game.join', {hash: hash})
                 .then((response) => {
                     this.game = response.data;
 
                     if (this.isFull()) {
-                        this.redirect();
+                        this.redirect(hash);
                     }
                 })
                 .catch(this.onError);
@@ -80,8 +84,8 @@ module.exports = {
         /**
          * Redirect to play.
          */
-        redirect() {
-            this.$router.go({name: 'game.play', params: {hash: this.$route.params.hash}});
+        redirect(hash) {
+            this.$router.go({name: 'game.play', params: {hash: hash}});
         },
 
         /**
