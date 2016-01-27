@@ -1,4 +1,5 @@
 import './bone';
+import './boneyard';
 import './player-hand';
 import swal from 'sweetalert';
 import Auth from './../../Auth';
@@ -14,7 +15,10 @@ module.exports = {
             currentPlayer: null,
 
             playerPieces: [],
-            playerDisabled: true
+            playerDisabled: true,
+
+            boneyardPieces: 10,
+            boneyardDisabled: false
         };
     },
 
