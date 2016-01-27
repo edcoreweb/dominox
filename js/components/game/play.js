@@ -19,21 +19,8 @@ module.exports = {
     },
 
     ready() {
-        socket.on('game.left', (response) => {
-            let user = _.findWhere(this.game.users, {id: response.data.id});
-            this.game.users.$remove(user);
-        });
-
-        socket.on('game.piece.added', (response) => {
-            this.setCurrentPlayer(response.data.player_turn);
-
-            if (response.data.user_id != Auth.user().id) {
-                this.$broadcast('game.piece.add', response.data.piece, response.data.parent);
-                // console.log('User ' + this.currentPlayer + ' has added piece', response.data.piece);
-            }
-
-            setTimeout(() => this.disablePlayerPieces(), 100);
-        });
+        socket.on('game.left', this.userHasLeft);
+        socket.on('game.piece.added', this.pieceWasAdded);
 
         this.loadGame();
     },
@@ -53,6 +40,22 @@ module.exports = {
     },
 
     methods: {
+        userHasLeft(response) {
+            let user = _.findWhere(this.game.users, {id: response.data.id});
+
+            this.game.users.$remove(user);
+        },
+
+        pieceWasAdded(response) {
+            this.setCurrentPlayer(response.data.player_turn);
+
+            if (response.data.user_id != Auth.user().id) {
+                this.$broadcast('game.piece.add', response.data.piece, response.data.parent);
+            }
+
+            this.togglePlayerPieces();
+        },
+
         /**
          * Load the game.
          */
@@ -68,7 +71,6 @@ module.exports = {
          * @param  {Object} response
          */
         onLoadSuccess(response) {
-            // Set the game.
             this.game = response.data.game;
 
             // Set the player pieces.
@@ -93,10 +95,10 @@ module.exports = {
                 });
 
                 this.playerDisabled = true;
-                this.disablePlayerPieces();
+                this.togglePlayerPieces();
             });
 
-            this.disablePlayerPieces();
+            this.togglePlayerPieces();
         },
 
         /**
@@ -140,18 +142,18 @@ module.exports = {
             this.$broadcast('placeholders.remove');
         },
 
-        disablePlayerPieces() {
+        togglePlayerPieces() {
             let placeable = [];
             let playerPieces = this.playerPieces.slice(0);
 
-            this.getPlaceablePieaces(this.root, playerPieces, placeable);
+            this.placeablePieaces(this.root, playerPieces, placeable);
 
             for (let i = 0; i < this.playerPieces.length; i++) {
                 this.playerPieces[i].disabled = this.playerDisabled || placeable.indexOf(this.playerPieces[i]) == -1;
             }
         },
 
-        getPlaceablePieaces(piece, playerPieces, placeable) {
+        placeablePieaces(piece, playerPieces, placeable) {
             for (let i = 0; i < playerPieces.length; i++) {
                 if (piece.isPlaceholder && playerPieces[i].isDouble()) {
                     placeable.push(playerPieces[i]);
@@ -175,7 +177,7 @@ module.exports = {
             let children = piece.getChildren();
 
             for (let i = 0; i < children.length; i++) {
-                this.getPlaceablePieaces(children[i], playerPieces, placeable);
+                this.placeablePieaces(children[i], playerPieces, placeable);
             }
         },
 
