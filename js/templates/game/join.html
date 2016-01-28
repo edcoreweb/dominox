@@ -1,15 +1,27 @@
 <div class="game-join">
     <div class="container" v-if="game">
-        <div class="col-md-10 col-md-offset-1">
-            <button @click="leave" type="button" class="close game-join-close" title="Leave game">&times;</button>
+        <div class="row">
 
-            <h2>Waiting for players... {{ game.joined }} / {{ game.players }}</h2>
+            <div class="col-md-8 col-md-offset-2 card-head card-2">
+                <h2>
+                    <div class="game-name pull-left">[{{ game.name }}] </div>- Waiting for players ...
+                    <div class="pull-right label label-success">[{{ game.joined }} / {{ game.players }}]</div>
+                    <div class="clearfix"></div>
+                </h2>
+            </div>
 
-            <h4>{{ game.name }}</h4>
+            <div class="col-md-8 col-md-offset-2 card-content card-2">
 
-            <ul>
-                <li v-for="user in game.users">{{ user.name }}</li>
-            </ul>
+                <button @click="leave" type="button" class="close game-join-close" title="Leave game">&times;</button>
+                <h4></h4>
+
+                <ul>
+                    <li v-for="user in game.users" class="card card-2">
+                        <img :src="user.avatar">
+                        {{ user.name }}
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
