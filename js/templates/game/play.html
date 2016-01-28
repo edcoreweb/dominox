@@ -1,5 +1,7 @@
 <div>
     <div class="game-screen" v-if="game">
+        <button @click="leave" type="button" class="close game-close" title="Leave game">&times;</button>
+
         <div class="game-opponents">
             <div v-for="player in opponents" class="game-opponent"
                 :class="{'game-opponent-active': player.id == currentPlayer}">

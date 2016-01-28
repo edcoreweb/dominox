@@ -80,6 +80,10 @@ module.exports = {
             let user = _.findWhere(this.game.users, {id: response.data.id});
 
             this.game.users.$remove(user);
+
+            if (this.game.users.length == 0) {
+                this.$router.go({name: 'game.browse'});
+            }
         },
 
         pieceWasAdded(response) {
@@ -155,6 +159,23 @@ module.exports = {
                 confirmButtonText: 'Ok'
             }, () => {
                 this.$router.go({name: 'game.browse'});
+            });
+        },
+
+        /**
+         * Leave the game.
+         */
+        leave() {
+            swal({
+                type: 'warning',
+                title: 'Are you sure?',
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, I\'m sure!'
+            }, () => {
+                socket.send('game.leave', {hash: this.$route.params.hash})
+                    .then(() => this.$router.go({name: 'game.browse'}))
+                    .catch(() => swal('Opps!', 'Something went wrong. Please try again.', 'error'));
             });
         },
 
