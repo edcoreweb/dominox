@@ -48,7 +48,18 @@ module.exports = {
 
     methods: {
         userHasWon(response) {
-            console.log(response.data.name + ' has won!');
+            let user = response.data;
+
+            swal({
+                title: user.id == Auth.user().id ? 'You won this round!' : user.name + ' won this round!',
+                text: 'The next round will start in 2 seconds.',
+                timer: 2000
+            });
+
+            setTimeout(() => {
+                this.root = null;
+                this.loadGame();
+            }, 2000);
         },
 
         pieceWasDrawn(piece) {

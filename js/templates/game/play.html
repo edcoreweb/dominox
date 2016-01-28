@@ -28,7 +28,7 @@
         ></player-hand>
 
         <div class="game-board">
-            <div class="game-board-inner">
+            <div class="game-board-inner" v-if="root">
                 <bone :piece="root"></bone>
             </div>
         </div>
