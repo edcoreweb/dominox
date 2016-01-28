@@ -35,6 +35,7 @@ Vue.component('bone', {
 
     methods: {
         addPlaceholders(piece) {
+            console.log('bone-add');
             if (this.piece.hasOpenEndSpots(piece.first) ||
                 this.piece.hasOpenEndSpots(piece.second)) {
                 let placeholders = generatePlaceholders(this.piece, this.getRoot().piece);
