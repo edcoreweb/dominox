@@ -93,4 +93,21 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->belongsToMany(Game::class, 'game_players', 'user_id', 'game_id');
     }
+
+    /**
+     * Convert the model instance to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $attributes = parent::toArray();
+
+        if (isset($this->pivot)) {
+            $attributes['points'] = $this->getPoints();
+            $attributes['pieces']  = count($this->getPieces());
+        }
+
+        return $attributes;
+    }
 }

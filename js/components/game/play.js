@@ -25,6 +25,7 @@ module.exports = {
         socket.on('game.left', this.userHasLeft);
         socket.on('game.piece.added', this.pieceWasAdded);
         socket.on('game.piece.drawn', this.userHasDrawnPiece);
+        socket.on('game.round.won', this.userHasWonRound);
         socket.on('game.won', this.userHasWon);
 
         this.$on('game.piece.drawn', this.pieceWasDrawn);
@@ -47,9 +48,11 @@ module.exports = {
     },
 
     methods: {
-        userHasWon(response) {
-            let user = response.data.user;
+        userHasWonRound(response) {
             let points = response.data.points;
+            let user = this.findUser(response.data.user_id);
+
+            user.points = points;
 
             swal({
                 title: user.id == Auth.user().id ? `You won ${points} points!` : `${user.name} won ${points} points!`,
@@ -63,6 +66,18 @@ module.exports = {
             }, 2000);
         },
 
+        userHasWon(response) {
+            let user = this.findUser(response.data.user_id);
+
+            swal({
+                title: user.id == Auth.user().id ? `You won!` : `${user.name} won!`,
+                text: 'Redirecting back in 2 seconds.',
+                timer: 2000
+            });
+
+            setTimeout(() => this.$router.go({name: 'game.browse'}), 2000);
+        },
+
         pieceWasDrawn(piece) {
             if (!piece) {
                 return;
@@ -73,18 +88,16 @@ module.exports = {
             this.togglePlayerPieces();
         },
 
-        userHasDrawnPiece() {
+        userHasDrawnPiece(response) {
             this.game.yard_count -= 1;
+
+            let user = this.findUser(response.data.user_id);
+            user.pieces += 1;
         },
 
         userHasLeft(response) {
-            let user = _.findWhere(this.game.users, {id: response.data.id});
-
+            let user = this.findUser(response.data.id);
             this.game.users.$remove(user);
-
-            if (this.game.users.length == 0) {
-                this.$router.go({name: 'game.browse'});
-            }
         },
 
         pieceWasAdded(response) {
@@ -95,6 +108,13 @@ module.exports = {
             }
 
             this.togglePlayerPieces();
+
+            let user = this.findUser(response.data.user_id);
+            user.pieces -= 1;
+        },
+
+        findUser(id) {
+            return _.findWhere(this.game.users, {id: id});
         },
 
         /**
