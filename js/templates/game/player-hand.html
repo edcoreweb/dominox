@@ -1,9 +1,14 @@
 <div class="player-hand">
-    <div v-for="piece in pieces"
-        transition="fade"
-        class="player-piece"
-        :class="{'piece-disabled': piece.disabled }"
-        @mousedown="select(piece)">
-        <div class="piece-content piece-{{piece.first}}-{{piece.second}}"></div>
-    </div>
+    <button class="prev">&laquo;</button>
+    <button class="next">&raquo;</button>
+
+    <ul>
+        <li v-for="piece in pieces"
+            transition="fade"
+            class="player-piece"
+            :class="{'piece-disabled': piece.disabled }"
+            @mousedown="select(piece)">
+            <div class="piece-content piece-{{piece.first}}-{{piece.second}}"></div>
+        </li>
+    </ul>
 </div>

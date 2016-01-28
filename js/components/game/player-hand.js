@@ -1,3 +1,5 @@
+import Flickity from 'flickity';
+
 Vue.component('player-hand', {
     props: ['pieces', 'onDragStart', 'onDragStop'],
 
@@ -7,8 +9,26 @@ Vue.component('player-hand', {
         return { selected: null };
     },
 
+    created() {
+
+
+    },
+
     ready() {
-        this.draggable();
+        $('.player-hand').jCarouselLite({
+            btnNext: '.next',
+            btnPrev: '.prev'
+        });
+
+
+
+        $('li').draggable({
+            appendTo: 'body',
+            cancel: 'a.ui-icon',
+            revert: 'invalid',
+            helper: 'clone',
+            cursor: 'move'
+        });
 
         this.$watch('pieces', () => {
             setTimeout(() => this.draggable(), 100);
