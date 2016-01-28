@@ -1,5 +1,3 @@
-import Flickity from 'flickity';
-
 Vue.component('player-hand', {
     props: ['pieces', 'onDragStart', 'onDragStop'],
 
@@ -15,24 +13,24 @@ Vue.component('player-hand', {
     },
 
     ready() {
-        $('.player-hand').jCarouselLite({
+        $('.player-hand-inner').jCarouselLite({
             btnNext: '.next',
-            btnPrev: '.prev'
+            btnPrev: '.prev',
+            visible: 10
         });
 
+        this.draggable();
 
-
-        $('li').draggable({
-            appendTo: 'body',
-            cancel: 'a.ui-icon',
-            revert: 'invalid',
-            helper: 'clone',
-            cursor: 'move'
-        });
+        // $('li').draggable({
+        //     appendTo: 'body',
+        //     cancel: 'a.ui-icon',
+        //     revert: 'invalid',
+        //     helper: 'clone',
+        //     cursor: 'move'
+        // });
 
         this.$watch('pieces', () => {
             setTimeout(() => this.draggable(), 100);
-
         });
     },
 
@@ -62,7 +60,10 @@ Vue.component('player-hand', {
                 helper: 'clone',
                 revert: 'invalid',
                 revertDuration: 300,
+                scroll: false,
+                zIndex: 999,
                 containment: 'document',
+                appendTo: '.game-board',
 
                 start: (e, ui) => {
                     $(e.target).addClass('player-piece-drag');

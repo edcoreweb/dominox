@@ -20,17 +20,17 @@
 
         <boneyard :pieces="game.yard_count" :disable="boneyardDisabed"></boneyard>
 
+        <div class="game-board">
+            <div class="game-board-inner" v-if="root">
+                <bone :piece="root"></bone>
+            </div>
+        </div>
+
         <player-hand
             :pieces="playerPieces"
             :on-drag-start="onDragStart"
             :on-drag-stop="onDragStop"
             :disable="playerDisabled"
         ></player-hand>
-
-        <div class="game-board">
-            <div class="game-board-inner" v-if="root">
-                <bone :piece="root"></bone>
-            </div>
-        </div>
     </div>
 </div>

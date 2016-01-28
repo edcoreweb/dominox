@@ -84,7 +84,7 @@ Vue.component('bone', {
         droppable() {
             $(this.$el).find('.piece-content').droppable({
                 activeClass: 'ui-state-highlight',
-                accept: '.player-hand > .player-piece',
+                accept: '.player-hand .player-piece',
                 drop: this.onPieceDropped.bind(this)
             });
         },
