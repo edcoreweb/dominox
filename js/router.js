@@ -53,6 +53,11 @@ router.map({
         name: 'user.games',
         auth: true
     },
+    '/replay/:hash': {
+        component: require('./components/game/replay'),
+        name: 'game.replay',
+        auth: true
+    },
 
     // Singleplayer game.
     '/singleplayer': {

@@ -173,6 +173,11 @@ class Game extends Model
         return $this->hasMany(GamePiece::class)->where('round', $round);
     }
 
+    public function allPieces()
+    {
+        return $this->hasMany(GamePiece::class);
+    }
+
     /**
      * Scope a query to only include open games.
      *

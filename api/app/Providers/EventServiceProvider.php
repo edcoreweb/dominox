@@ -34,6 +34,7 @@ class EventServiceProvider extends ServiceProvider
 
         // User.
         'user.games' => ['App\Listeners\User\Games'],
+        'game.replay' => ['App\Listeners\User\Replay'],
         'user.settings' => ['App\Listeners\User\UpdateSettings'],
     ];
 }

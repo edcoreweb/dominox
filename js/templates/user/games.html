@@ -15,6 +15,7 @@
                             <th>Rounds</th>
                             <th>Won</th>
                             <th>Date</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -25,6 +26,9 @@
                             <td>{{ game.round }}</td>
                             <td>{{ game.winner == user_id ? 'Yes' : 'No' }}</td>
                             <td>{{ game.created_at }}</td>
+                            <th>
+                                <button @click="replay(game)" type="button" class="btn btn-success btn-sm">Replay</button>
+                            </th>
                         </tr>
 
                         <tr v-if="games.length == 0">

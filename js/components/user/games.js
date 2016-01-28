@@ -28,6 +28,9 @@ module.exports = {
                     this.won = response.data.won;
                     this.lost = response.data.lost;
                 });
+        },
+        replay(game) {
+            this.$router.go({name: 'game.replay', params: {hash: game.hash }});
         }
     }
 };

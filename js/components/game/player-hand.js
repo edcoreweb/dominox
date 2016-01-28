@@ -1,5 +1,5 @@
 Vue.component('player-hand', {
-    props: ['pieces', 'onDragStart', 'onDragStop'],
+    props: ['pieces', 'active', 'onDragStart', 'onDragStop'],
 
     template: require('./../../templates/game/player-hand.html'),
 

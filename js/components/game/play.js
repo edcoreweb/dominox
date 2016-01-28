@@ -44,6 +44,9 @@ module.exports = {
             }
 
             return players;
+        },
+        playerActive() {
+            return this.currentPlayer == Auth.user().id;
         }
     },
 
