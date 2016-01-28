@@ -28,7 +28,9 @@ class Game extends Model
      *
      * @var array
      */
-    protected $casts = ['players' => 'integer', 'player_turn' => 'integer', 'round' => 'integer'];
+    protected $casts = [
+        'players' => 'integer', 'player_turn' => 'integer', 'round' => 'integer', 'points' => 'integer'
+    ];
 
     /**
      * Find game by hash.
