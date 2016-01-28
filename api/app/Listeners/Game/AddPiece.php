@@ -63,6 +63,7 @@ class AddPiece extends WSListener
             $winner = $this->getWinner($game);
 
             if ($winner) {
+                $game->winner = $winner->id;
                 $game->status = 'finished';
                 $game->save();
             }

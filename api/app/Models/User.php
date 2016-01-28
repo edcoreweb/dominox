@@ -86,6 +86,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->games()->whereIn('status', ['open', 'started'])->first();
     }
 
+    public function finishedGames()
+    {
+        return $this->games()->whereIn('status', ['finished']);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
