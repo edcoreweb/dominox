@@ -81,31 +81,53 @@ module.exports = {
             this.placeablePieaces(this.root, botPieces, placeable);
 
             if (placeable.length) {
-                let placeholders = generatePlaceholders(placeable[0]._parent, this.root);
 
-                placeable[0]._parent.addChildren(placeholders);
+                this.addPiece(this.root, placeable[0], placeable[0]._parent.name);
 
-                console.log(placeholders);
+                this.setCurrentPlayer(USER);
+                this.togglePlayerPieces();
+                console.log('user turn');
 
-                // let pieceData = {
-                //     name:  placeable[0].name,
-                //     first: placeable[0].first,
-                //     second: placeable[0].second,
-                //     vertical: placeable[0].vertical,
-                //     direction: placeable[0].direction,
-                //     corner: placeable[0].corner
-                // };
-
-                // let parentData = {name: placeable[0].parentName};
-
-                // this.botPieces.$remove(placeable);
-
-                // console.log(pieceData, parentData);
-
-                // this.$broadcast('game.piece.add', pieceData, parentData);
             } else {
-                console.log('else');
+                console.log('asd');
+                this.botPieces.push(this.boneyard.splice(0, 1));
+                this.botMove();
             }
+        },
+
+        addPiece(node, piece, parentName) {
+            if (node.name == parentName || node.name == this.reverse(parentName)) {
+                this.flip(piece, node);
+                piece.calculateCoords(node);
+                node.addChild(piece);
+                return;
+            }
+
+            let children = node.getChildren();
+
+            if (children.length) {
+                for (let i = 0; i < children.length; i++) {
+                    this.addPiece(children[i], piece, parentName);
+                }
+            }
+        },
+
+        /**
+         * Flip current dropped piece if necessary.
+         */
+        flip(piece, parent) {
+
+            if (parent.vertical) {
+                if (piece.shouldFlipValuesVertical(parent)) {
+                    piece.setValue(piece.second, piece.first);
+                }
+            } else if (piece.shouldFlipValuesHorizontal(parent)) {
+                piece.setValue(piece.second, piece.first);
+            }
+        },
+
+        reverse(s) {
+            return s.split('').reverse().join('');
         },
 
         generateGame() {
@@ -160,6 +182,7 @@ module.exports = {
         },
 
         onDragStart(piece) {
+            console.log(piece);
             this.$broadcast('placeholders.add', piece);
         },
 
@@ -172,6 +195,7 @@ module.exports = {
             let playerPieces = this.playerPieces.slice(0);
 
             this.placeablePieaces(this.root, playerPieces, placeable);
+            console.log(placeable);
 
             for (let i = 0; i < this.playerPieces.length; i++) {
                 this.playerPieces[i].disabled = this.playerDisabled || placeable.indexOf(this.playerPieces[i]) == -1;
