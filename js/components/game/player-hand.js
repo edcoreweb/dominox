@@ -14,11 +14,12 @@ Vue.component('player-hand', {
 
     ready() {
         $('.player-hand-inner').jCarouselLite({
-            btnNext: '.next',
-            btnPrev: '.prev',
-            visible: 10,
+            btnNext: '.prev',
+            btnPrev: '.next',
+            visible: 3,
             circular: false,
-            speed: 150
+            speed: 150,
+            scroll: 3
         });
 
         this.draggable();

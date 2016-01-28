@@ -23,6 +23,11 @@
 
     @media (max-width: 360px) {
         height: 50px;
+        margin-bottom: 2px;
+
+        .player-hand-inner {
+            margin-top: -95px
+        }
     }
 
     .prev, .next {
@@ -32,6 +37,11 @@
         top: 35%;
         font-size: 2em;
         color: #fff;
+        opacity: 0.8;
+
+        &.disabled {
+            opacity: 0.5;
+        }
     }
 
     .prev {
