@@ -1,17 +1,17 @@
-var CACHE_NAME = 'dominox.cache';
+var CACHE_NAME = 'dominox.cache.v3';
 
 var pathname = '/dominox/';
 
 var requests = [
     '',
-    '/dist/js/app.js',
-    '/dist/css/app.css',
-    '/dist/img/logo.png',
-    '/dist/img/logo_test.png',
-    '/dist/img/bg.jpg',
-    '/dist/img/bones.jpg',
-    '/dist/img/bones2.jpg',
-    '/dist/img/game.jpg'
+    'dist/js/app.js',
+    'dist/css/app.css',
+    'dist/img/logo.png',
+    'dist/img/logo_test.png',
+    'dist/img/bg.jpg',
+    'dist/img/bones.png',
+    'dist/img/bones2.png',
+    'dist/img/game.png'
 ];
 
 var external = [
@@ -21,7 +21,7 @@ var external = [
 ];
 
 for (var i = 0; i < requests.length; i++) {
-    requests = pathname + requests[i];
+    requests[i] = pathname + requests[i];
 }
 
 requests = requests.concat(external);
