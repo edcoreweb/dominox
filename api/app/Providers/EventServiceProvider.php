@@ -33,6 +33,7 @@ class EventServiceProvider extends ServiceProvider
         'game.piece.draw' => ['App\Listeners\Game\DrawPiece'],
 
         // User.
+        'user.games' => ['App\Listeners\User\Games'],
         'user.settings' => ['App\Listeners\User\UpdateSettings'],
     ];
 }

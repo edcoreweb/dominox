@@ -15,7 +15,7 @@
                     <ul class="nav navbar-nav">
                         <li :class="{active: is('game.browse')}"><a href="#" v-link="{name: 'game.browse'}">Browse</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#create-game-modal">Create</a></li>
-                        <li><a href="#">My Games</a></li>
+                        <li :class="{active: is('user.games')}"><a href="#" v-link="{name: 'user.games'}">My Games</a></li>
                         <li><a v-link="{name: 'singleplayer'}">Singleplayer</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

@@ -48,6 +48,11 @@ router.map({
         name: 'game.browse',
         auth: true
     },
+    '/my-games': {
+        component: require('./components/user/games'),
+        name: 'user.games',
+        auth: true
+    },
 
     // Singleplayer game.
     '/singleplayer': {

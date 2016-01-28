@@ -1,0 +1,54 @@
+<div v-if="user">
+    <navbar :user="user"></navbar>
+
+    <div class="container">
+        <div class="col-md-10 col-md-offset-1 page-content">
+            <h3 class="page-header">My Games</h3>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Players</th>
+                            <th>Points</th>
+                            <th>Rounds</th>
+                            <th>Won</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="game in games">
+                            <td>{{ game.name }}</td>
+                            <td>{{ game.players }}</td>
+                            <td>{{ game.points }}</td>
+                            <td>{{ game.round }}</td>
+                            <td>{{ game.winner == user_id ? 'Yes' : 'No' }}</td>
+                            <td>{{ game.created_at }}</td>
+                        </tr>
+
+                        <tr v-if="games.length == 0">
+                            <td colspan="6">No games found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <table>
+                <tr>
+                    <td>Won: </td>
+                    <td>{{ won }}</td>
+                </tr>
+                <tr>
+                    <td>Lost: </td>
+                    <td>{{ lost }}</td>
+                </tr>
+                <tr>
+                    <td>Total: </td>
+                    <td>{{ total }}</td>
+                </tr>
+            </table>
+        </div>
+        </div>
+    </div>
+</div>
