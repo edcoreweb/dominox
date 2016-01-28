@@ -27,7 +27,9 @@ class Socket {
      * Connect to socket.
      */
     connect() {
-        this.ws = new WebSocket('ws://' + this.address + ':' + this.port);
+        let protocol = window.location.protocol == 'https:' ? 'wss' : 'ws';
+
+        this.ws = new WebSocket(protocol+'://' + this.address + ':' + this.port);
 
         this.ws.onerror = (e) => this._onerror(e);
         this.ws.onmessage = (e) => this._onmessage(e);
