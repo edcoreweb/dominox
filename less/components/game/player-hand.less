@@ -7,6 +7,12 @@
     padding: 15px;
     position: absolute;
 
+    border-radius: 8px 8px 0px 0px;
+    border-width: 2px 2px 0 2px;
+    border-color: #656565;
+    border-style: solid;
+    background-color: rgba(130, 130, 130, 0.42);
+
     height: 70px;
     max-width: 600px;
     margin-top: -73px;
@@ -18,15 +24,28 @@
     @media (max-width: 360px) {
         height: 50px;
     }
+
+    .prev, .next {
+        padding: 2px;
+        position: absolute;
+        z-index: 90;
+        top: 35%;
+        font-size: 2em;
+        color: #fff;
+    }
+
+    .prev {
+        left: -35px;
+    }
+
+    .next {
+        right: -35px;
+    }
 }
 
 .player-hand-inner {
-    margin-top: -73px;
-    border-radius: 8px 8px 0px 0px;
-    border-width: 2px 2px 0 2px;
-    border-color: #656565;
-    border-style: solid;
-    background-color: rgba(130, 130, 130, 0.42);
+    margin-top: -80px;
+    padding-top: 30px;
 }
 
 .player-piece {
@@ -37,7 +56,6 @@
     bottom: 0px;
 
     @media (max-width: 360px) {
-        bottom: 60px;
         transform: scale(0.8);
     }
 

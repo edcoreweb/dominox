@@ -16,18 +16,12 @@ Vue.component('player-hand', {
         $('.player-hand-inner').jCarouselLite({
             btnNext: '.next',
             btnPrev: '.prev',
-            visible: 10
+            visible: 10,
+            circular: false,
+            speed: 150
         });
 
         this.draggable();
-
-        // $('li').draggable({
-        //     appendTo: 'body',
-        //     cancel: 'a.ui-icon',
-        //     revert: 'invalid',
-        //     helper: 'clone',
-        //     cursor: 'move'
-        // });
 
         this.$watch('pieces', () => {
             setTimeout(() => this.draggable(), 100);
