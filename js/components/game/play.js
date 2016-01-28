@@ -48,10 +48,11 @@ module.exports = {
 
     methods: {
         userHasWon(response) {
-            let user = response.data;
+            let user = response.data.user;
+            let points = response.data.points;
 
             swal({
-                title: user.id == Auth.user().id ? 'You won this round!' : user.name + ' won this round!',
+                title: user.id == Auth.user().id ? `You won ${points} points!` : `${user.name} won ${points} points!`,
                 text: 'The next round will start in 2 seconds.',
                 timer: 2000
             });

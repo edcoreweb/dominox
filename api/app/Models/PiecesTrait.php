@@ -4,6 +4,17 @@ namespace App\Models;
 
 trait PiecesTrait
 {
+    public function addPoints($amount)
+    {
+        $this->pivot->points = (int) $this->pivot->points + $amount;
+        $this->pivot->save();
+    }
+
+    public function getPoints()
+    {
+        return (int) $this->pivot->points;
+    }
+
     public function setPieces(array $pieces)
     {
         $this->pivot->pieces = json_encode(array_values($pieces));
@@ -64,6 +75,17 @@ trait PiecesTrait
         }
 
         return false;
+    }
+
+    public function piecesSum()
+    {
+        $total = 0;
+
+        $this->forEachPiece(function ($piece) use (&$total) {
+            $total += (int) $piece[0] + (int) $piece[1];
+        });
+
+        return $total;
     }
 
     public function forEachPiece($callback)

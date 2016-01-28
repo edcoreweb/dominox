@@ -38,9 +38,14 @@ class AddPiece extends WSListener
         $game->addPiece($piece, $parent, $user->id);
         $game->player_turn = $this->nextPlayerTurn($game);
 
+        $points = 0;
+
         if (! $user->hasPieces()) {
             $game->player_turn = null;
             $game->round += 1;
+
+            $points = $this->calculatePoints($game);
+            $user->addPoints($points);
         }
 
         $game->save();
@@ -55,12 +60,44 @@ class AddPiece extends WSListener
         }
 
         if (! $user->hasPieces()) {
+            $winner = $this->getWinner($game);
+
+            if ($winner) {
+                $game->status = 'finished';
+                $game->save();
+            }
+
             foreach ($conn->gameClients($game) as $client) {
-                $this->send($client, 'game.won', $user);
+                if ($winner) {
+                    $this->send($client, 'game.won', [
+                        'points' => $winner->getPoints(),
+                        'user_id' => $user->id,
+                    ]);
+                } else {
+                    $this->send($client, 'game.round.won', [
+                        'points' => $points,
+                        'user_id' => $user->id,
+                    ]);
+                }
             }
         }
 
         echo "User " . $message->user()->name . " added piece " . $piece['name'] . "\n";
+    }
+
+    /**
+     * Get game winner.
+     *
+     * @param  \App\Models\Game $game
+     * @return bool
+     */
+    protected function getWinner($game)
+    {
+        foreach ($game->users as $user) {
+            if ($user->getPoints() >= $game->points) {
+                return $user;
+            }
+        }
     }
 
     /**
@@ -80,5 +117,24 @@ class AddPiece extends WSListener
                 }
             }
         }
+    }
+
+    /**
+     * Calculate points.
+     *
+     * @param  \App\Models\Game $game
+     * @return int
+     */
+    protected function calculatePoints($game)
+    {
+        $points = 0;
+
+        foreach ($game->users as $user) {
+            $points = $points + $user->piecesSum();
+        }
+
+        echo "Points: $points \n";
+
+        return $points;
     }
 }
