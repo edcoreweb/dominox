@@ -18,11 +18,13 @@
     </div>
 
     <script>
+        var hostname = window.location.hostname;
+
         window.Config = {
-            api: 'http://localhost' + (window.location.port ? ':8081' : '') + '/dominox/api/public',
+            api: 'http://' + hostname + '/api/public',
             serviceWorker: false,
             ws: {
-                address: '127.0.0.1',
+                address: hostname == 'dominox.app' ? '127.0.0.1' : '40.121.83.61',
                 port: 9090
             }
         };
