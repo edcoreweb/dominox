@@ -8,7 +8,7 @@ elixir.config.sourcemaps = true;
 elixir.config.publicPath = 'dist';
 elixir.config.js.browserify.options.debug = true;
 
-elixir(function(mix) {
+elixir(function (mix) {
     // Complie less.
     mix.less('app.less');
 

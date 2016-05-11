@@ -19,16 +19,11 @@
             "single"
         ],
         "linebreak-style": 0,
-        "semi": [
-            1,
-            "always"
-        ],
         "no-console": 0,
         "no-unused-vars": 1
     },
     "settings": {
         "import/ignore": [
-            "vue"
         ]
     },
     "env": {
@@ -39,8 +34,12 @@
     "ecmaFeatures": {
         "modules": true
     },
-    "plugins": [
-        "import"
-    ],
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "modules": true,
+            "sourceType": "module"
+        }
+    },
     "extends": "eslint:recommended"
 }

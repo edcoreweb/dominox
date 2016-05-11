@@ -10,7 +10,7 @@
     "jquery-ui": "^1.10.5",
     "jquery-ui-touch-punch": "^0.2.3",
     "jquery.panzoom": "^2.0.5",
-    "laravel-elixir": "git+ssh://git@github.com:laravel/elixir.git#master",
+    "laravel-elixir": "^5.0.0",
     "minivents": "^2.0.1",
     "project-name-generator": "^2.1.2",
     "sweetalert": "^1.1.3",
