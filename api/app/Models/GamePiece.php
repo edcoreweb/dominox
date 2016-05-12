@@ -25,7 +25,7 @@ class GamePiece extends Model
         'parent_id' => 'integer',
         'vertical' => 'boolean',
         'round' => 'integer',
-        'user_id' => 'integer'
+        'user_id' => 'integer',
         'game_id' => 'integer'
     ];
 }
