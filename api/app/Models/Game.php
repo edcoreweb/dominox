@@ -29,7 +29,13 @@ class Game extends Model
      * @var array
      */
     protected $casts = [
-        'players' => 'integer', 'player_turn' => 'integer', 'round' => 'integer', 'points' => 'integer'
+        'id' => 'integer',
+        'players' => 'integer',
+        'matches' => 'integer',
+        'points' => 'integer',
+        'player_turn' => 'integer',
+        'round' => 'integer',
+        'user_id' => 'integer'
     ];
 
     /**

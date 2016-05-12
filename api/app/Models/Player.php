@@ -19,7 +19,10 @@ class Player extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id'
+        'id' => 'integer',
+        'game_id' => 'integer',
+        'user_id' => 'integer',
+        'points' => 'integer',
     ];
 
     /**

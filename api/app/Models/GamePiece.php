@@ -21,7 +21,11 @@ class GamePiece extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer', 'parent_id' => 'integer',
-        'vertical' => 'boolean', 'round' => 'integer', 'user_id' => 'integer'
+        'id' => 'integer',
+        'parent_id' => 'integer',
+        'vertical' => 'boolean',
+        'round' => 'integer',
+        'user_id' => 'integer'
+        'game_id' => 'integer'
     ];
 }
