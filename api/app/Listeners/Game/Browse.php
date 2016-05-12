@@ -17,6 +17,6 @@ class Browse extends WSListener
     {
         $games = Game::open()->newest()->with('user', 'countUsers')->get();
 
-        $message->reply($games->toArray());
+        $message->reply($games);
     }
 }

@@ -4,6 +4,7 @@ namespace App\WS;
 
 use App\Models\User;
 use Illuminate\Support\Arr;
+use Illuminate\Contracts\Support\Arrayable;
 
 class Message
 {
@@ -117,6 +118,10 @@ class Message
 
     public static function sendTo($client, $event, $data = '', $status = 200)
     {
+        if ($data instanceof Arrayable) {
+            $data = $data->toArray();
+        }
+
         return $client->send(json_encode(compact('data', 'event', 'status')));
     }
 }
