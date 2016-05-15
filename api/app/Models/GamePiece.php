@@ -28,4 +28,11 @@ class GamePiece extends Model
         'user_id' => 'integer',
         'game_id' => 'integer'
     ];
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 }

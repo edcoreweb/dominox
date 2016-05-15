@@ -102,7 +102,7 @@ class Game extends Model
     {
         return $this->users()
                     ->selectRaw('game_id, count(user_id) as aggregate')
-                    ->groupBy('game_id');
+                    ->groupBy('game_id', 'user_id', 'pieces', 'points');
     }
 
     public function setYardAttribute($value)

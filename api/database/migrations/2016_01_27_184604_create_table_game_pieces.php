@@ -22,11 +22,11 @@ class CreateTableGamePieces extends Migration
             $table->enum('corner', ['up', 'down'])->nullable();
             $table->integer('parent_id')->unsigned()->nullable();
             $table->integer('user_id')->unsigned();
-            $table->timestamps();
+            // $table->timestamps();
 
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('parent_id')->references('id')->on('game_pieces')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
+            // $table->foreign('parent_id')->references('id')->on('game_pieces')->onDelete('cascade');
         });
     }
 

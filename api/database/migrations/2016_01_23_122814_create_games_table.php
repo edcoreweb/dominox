@@ -21,12 +21,12 @@ class CreateGamesTable extends Migration
             $table->integer('points')->default(100);
             $table->text('board')->nullable();
             $table->text('yard')->nullable();
-            $table->integer('player_turn');
+            $table->integer('player_turn')->nullable();
             $table->integer('round')->default(1);
             $table->integer('user_id')->unsigned();
             $table->integer('winner')->nullable();
             $table->enum('status', ['open', 'started', 'finished'])->default('open');
-            $table->timestamps();
+            $table->nullableTimestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
