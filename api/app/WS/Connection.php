@@ -241,6 +241,8 @@ class Connection implements MessageComponentInterface
      */
     protected function renderException(Exception $e)
     {
+        app('Illuminate\Contracts\Debug\ExceptionHandler')->report($e);
+
         app('Illuminate\Contracts\Debug\ExceptionHandler')->renderForConsole(new ConsoleOutput, $e);
     }
 }

@@ -21,7 +21,7 @@ class Game extends Model
      *
      * @var array
      */
-    protected $hidden = ['yard'];
+    protected $hidden = ['yard', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be cast to native types.
