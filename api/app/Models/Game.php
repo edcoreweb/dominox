@@ -21,7 +21,7 @@ class Game extends Model
      *
      * @var array
      */
-    protected $hidden = ['yard', 'created_at', 'updated_at'];
+    protected $hidden = ['yard'];
 
     /**
      * The attributes that should be cast to native types.
@@ -37,6 +37,13 @@ class Game extends Model
         'round' => 'integer',
         'user_id' => 'integer'
     ];
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * Find game by hash.
@@ -201,7 +208,7 @@ class Game extends Model
      */
     public function scopeNewest($query)
     {
-        return $query->orderBy('created_at', 'desc');
+        return $query->orderBy('id', 'desc');
     }
 
     /**

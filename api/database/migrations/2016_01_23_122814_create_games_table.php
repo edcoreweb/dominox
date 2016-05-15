@@ -26,7 +26,7 @@ class CreateGamesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('winner')->nullable();
             $table->enum('status', ['open', 'started', 'finished'])->default('open');
-            $table->nullableTimestamps();
+            // $table->nullableTimestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

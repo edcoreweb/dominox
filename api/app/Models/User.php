@@ -39,6 +39,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $casts = ['id' => 'integer'];
 
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * Find user by api token.
      *
      * @param  string $token
