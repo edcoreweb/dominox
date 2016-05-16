@@ -27,7 +27,9 @@ for (var i = 0; i < requests.length; i++) {
 requests = requests.concat(external);
 
 self.addEventListener('install', function(e) {
-    e.waitUntil(
+    self.skipWaiting();
+
+    /*e.waitUntil(
         caches.open(CACHE_NAME)
             .then(function(cache) {
                 console.log('Cached requests added!');
@@ -36,9 +38,9 @@ self.addEventListener('install', function(e) {
             .catch(function(err) {
                 console.log(err);
             })
-    );
+    );*/
 });
-
+/*
 self.addEventListener('fetch', function(e) {
     e.respondWith(
         caches.match(e.request)
@@ -66,5 +68,40 @@ self.addEventListener('fetch', function(e) {
                     }
                 );
             })
+    );
+});*/
+
+var notification = null;
+
+function fetchNotification() {
+    var port = self.location.port;
+
+    return fetch('http://localhost'+(port ? ':' + port : '')+'/dominox/api/public/notification').then((response) => response.json());
+}
+
+self.addEventListener('push', function (event) {
+    event.waitUntil(
+        fetchNotification()
+        .then(function (notif) {
+            self.registration.showNotification(notif.title, {
+                'body': notif.body,
+                'icon': 'images/icon.png'
+            });
+
+            notification = notif;
+        })
+    );
+});
+
+self.addEventListener('notificationclick', function (event) {
+    event.notification.close();
+
+    event.waitUntil(
+        clients.matchAll({type: 'window'})
+        .then(function () {
+            if (clients.openWindow) {
+                return clients.openWindow(notification.url);
+            }
+        })
     );
 });

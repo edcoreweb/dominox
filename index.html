@@ -7,6 +7,7 @@
     <title>Domino X</title>
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
     <link href="dist/css/app.css" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <div id="app" v-cloak>
@@ -22,9 +23,9 @@
 
         window.Config = {
             api: 'http://' + hostname + '/api/public',
-            serviceWorker: false,
+            serviceWorker: true,
             ws: {
-                address: hostname == 'dominox.app' ? '127.0.0.1' : '40.121.83.61',
+                address: (hostname == 'dominox.app' || hostname == 'localhost') ? '127.0.0.1' : '40.121.83.61',
                 port: 9090
             }
         };

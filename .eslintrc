@@ -7,7 +7,8 @@
         "jQuery": true,
         "Vue": true,
         "Config": true,
-        "http": true
+        "http": true,
+        "clients": true
     },
     "rules": {
         "indent": [

@@ -31,10 +31,13 @@ class EventServiceProvider extends ServiceProvider
         'game.load'   => ['App\Listeners\Game\Load'],
         'game.piece.add' => ['App\Listeners\Game\AddPiece'],
         'game.piece.draw' => ['App\Listeners\Game\DrawPiece'],
+        'game.invite' => ['App\Listeners\Game\Invite'],
 
         // User.
         'user.games' => ['App\Listeners\User\Games'],
         'game.replay' => ['App\Listeners\User\Replay'],
         'user.settings' => ['App\Listeners\User\UpdateSettings'],
+        'user.friends' => ['App\Listeners\User\GetFriends'],
+        'user.subscribe' => ['App\Listeners\User\Subscribe'],
     ];
 }

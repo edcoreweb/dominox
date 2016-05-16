@@ -5,7 +5,9 @@ module.exports = {
 
     data() {
         return {
-            game: null
+            game: null,
+            _$inviteModal: null,
+            friends: []
         };
     },
 
@@ -30,6 +32,8 @@ module.exports = {
         });
 
         this.join();
+
+        this.initInviteModal();
     },
 
     methods: {
@@ -103,6 +107,44 @@ module.exports = {
                     .then(() => this.$router.go({name: 'game.browse'}))
                     .catch(() => swal('Opps!', 'Something went wrong. Please try again.', 'error'));
             });
+        },
+
+        /**
+         * Show invite friends modal.
+         */
+        invite() {
+            this._$inviteModal.modal('show');
+        },
+
+        /**
+         * Invite friend.
+         * @param {Object} user
+         */
+        inviteFriend(user) {
+            socket.send('game.invite', {user_id: user.id})
+                .then((response) => {
+                    console.log(response);
+                });
+        },
+
+        /**
+         * Initialize modal events.
+         */
+        initInviteModal() {
+            this._$inviteModal = $('#invite-friends-modal');
+
+            this._$inviteModal.on('show.bs.modal', () => {
+
+            })
+            .on('hidden.bs.modal', () => {
+
+            });
+
+            // Fetch friends.
+            socket.send('user.friends')
+                .then((response) => {
+                    this.friends = response.data;
+                });
         }
     }
 };

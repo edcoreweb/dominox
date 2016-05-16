@@ -233,6 +233,11 @@ class Connection implements MessageComponentInterface
         return $clients;
     }
 
+    public function getTokens()
+    {
+        return array_values($this->tokens);
+    }
+
     /**
      * Render exception.
      *

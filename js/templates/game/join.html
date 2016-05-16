@@ -19,6 +19,31 @@
                         {{ user.name }}
                     </li>
                 </ul>
+
+                <div class="text-center" style="margin-top: 20px;">
+                    <button @click="invite" type="button" class="btn btn-success">Invite Friends</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="invite-friends-modal" data-animation="pop" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Invite friends</h4>
+                </div>
+
+                <div class="modal-body">
+                    <ul style="padding: 0;">
+                        <li v-for="user in friends">
+                            <img :src="user.avatar">
+                            {{ user.name }}
+                            <button @click="inviteFriend(user)" type="button" class="btn btn-success">Invite</button>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

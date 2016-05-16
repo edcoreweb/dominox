@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\NotificationHub;
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Database\Eloquent\Model;
@@ -104,6 +105,27 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function games()
     {
         return $this->belongsToMany(Game::class, 'game_players', 'user_id', 'game_id');
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function addNotification($game)
+    {
+        $this->notifications()->save(new Notification([
+            'payload' => json_encode([
+                'name' => $game->name,
+                'hash' => $game->hash,
+            ])
+        ]));
+
+        $message = '{"data":{"name":"'.$game->name.'"}}';
+
+        $notification = new NotificationHub\Notification('gcm', $message);
+
+        app('notification.hub')->sendNotification($notification, null);
     }
 
     /**

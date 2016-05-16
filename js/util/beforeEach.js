@@ -23,11 +23,15 @@ module.exports = (router, transition) => {
     // Attempt to authenticate the user
     // by the saved api token from local storage.
     Auth.retriveUserByToken()
-        .then(() => {})
-        .catch((err) => { console.log(err); })
+        .then(() => {
+            router.app.$dispatch('user.login', Auth.user());
+        })
+        .catch((err) => {
+            if (err) {
+                console.log(err);
+            }
+        })
         .then(() => {
             before(router, transition);
-
-            router.app.$dispatch('user.login', Auth.user());
         });
 };

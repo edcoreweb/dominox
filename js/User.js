@@ -9,6 +9,7 @@ class User {
         this.name = attributes.name;
         this.email = attributes.email;
         this.api_token = attributes.api_token;
+        this.subscription = attributes.subscription;
     }
 
     /**

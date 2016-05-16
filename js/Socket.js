@@ -1,8 +1,6 @@
 import Events from 'minivents';
 
-let instance = null;
-
-class Socket {
+export default class Socket {
     /**
      * Create a new web socket instance.
      *
@@ -10,17 +8,11 @@ class Socket {
      * @param {Number} {port}
      */
     constructor(address, port) {
-        if (!instance) {
-            instance = this;
+        this.port = port;
+        this.address = address;
+        this.events = new Events();
 
-            this.port = port;
-            this.address = address;
-            this.events = new Events();
-
-            this.connect();
-        }
-
-        return instance;
+        this.connect();
     }
 
     /**
@@ -30,7 +22,6 @@ class Socket {
         let protocol = window.location.protocol == 'https:' ? 'wss' : 'ws';
 
         this.ws = new WebSocket(protocol+'://' + this.address + ':' + this.port);
-
         this.ws.onerror = (e) => this._onerror(e);
         this.ws.onmessage = (e) => this._onmessage(e);
     }
@@ -148,5 +139,3 @@ class Socket {
         return this.ws.readyState == WebSocket.OPEN;
     }
 }
-
-module.exports = instance ? new Socket() : Socket;
