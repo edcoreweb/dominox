@@ -19,3 +19,4 @@ http://dominox.eastus.cloudapp.azure.com/
 - Service Worker API
 - Push API for push notifications
 
+> [Push Notifications Diagram](http://i.imgur.com/w9Efhq3.png)
