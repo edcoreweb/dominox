@@ -107,9 +107,15 @@ class Game extends Model
      */
     public function countUsers()
     {
-        return $this->users()
-                    ->selectRaw('game_id, count(user_id) as aggregate')
-                    ->groupBy('game_id', 'user_id', 'pieces', 'points');
+        $query = $this->users()->selectRaw('game_id, count(user_id) as aggregate');
+
+        if (config('database.default') === 'mysql') {
+            $query->groupBy('game_id');
+        } else {
+            $query->groupBy('game_id', 'user_id', 'pieces', 'points');
+        }
+
+        return $query;
     }
 
     public function setYardAttribute($value)
