@@ -8,7 +8,8 @@
         "Vue": true,
         "Config": true,
         "http": true,
-        "clients": true
+        "clients": true,
+        "storage": true
     },
     "rules": {
         "indent": [

@@ -80,7 +80,7 @@ class Auth {
      * @param  {Boolean} remember
      * @return {Promise}
      */
-    attempt(credentials, remember = false) {
+    attempt(credentials, remember = true) {
         return new Promise((resolve, reject) => {
             socket.send('api_token', credentials)
                 .then((response) => {
@@ -133,6 +133,8 @@ class Auth {
         }
 
         localStorage.setItem(STORAGE_KEY, token);
+
+        storage.set(STORAGE_KEY, token);
     }
 
     /**

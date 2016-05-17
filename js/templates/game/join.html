@@ -38,7 +38,7 @@
                 <div class="modal-body">
                     <ul style="padding: 0;">
                         <li v-for="user in friends">
-                            <img :src="user.avatar">
+                            <img :src="user.avatar" style="width: 50px;">
                             {{ user.name }}
                             <button @click="inviteFriend(user)" type="button" class="btn btn-success">Invite</button>
                         </li>

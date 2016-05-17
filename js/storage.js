@@ -1,61 +1,12 @@
 /*eslint-disable*/
-
-self.addEventListener('install', function(e) {
-    self.skipWaiting();
-});
-
-var notification = null;
-
-function fetchNotification(token) {
-    var port = self.location.port;
-    var url = 'http://localhost'+(port ? ':' + port : '')+'/dominox/api/public/notification?_api_token='+token;
-
-    return fetch(url).then(function (response) { return response.json(); });
-}
-
-self.addEventListener('push', function (event) {
-    event.waitUntil(
-        storage.get('_api_token')
-        .then(function (token) {
-            fetchNotification(token)
-            .then(function (notif) {
-                console.log(notif);
-
-                if (!notif.title) return;
-
-                self.registration.showNotification(notif.title, {
-                    'body': notif.body,
-                    'icon': 'images/icon.png'
-                });
-
-                notification = notif;
-            })
-        })
-    );
-});
-
-self.addEventListener('notificationclick', function (event) {
-    event.notification.close();
-
-    event.waitUntil(
-        clients.matchAll({type: 'window'})
-        .then(function () {
-            if (clients.openWindow) {
-                return clients.openWindow(notification.url);
-            }
-        })
-    );
-});
-
-/*eslint-disable*/
-self.storage = (function() {
+window.storage = (function() {
     "use strict";
 
     var DEBUG = false;
 
     function error(msg) {
         if (DEBUG === true) {
-            // window.console.error(msg);
+            window.console.error(msg);
         }
     }
 
@@ -73,7 +24,7 @@ self.storage = (function() {
                 return;
             }
 
-            var openreq = self.indexedDB.open(DBNAME, DBVERSION);
+            var openreq = window.indexedDB.open(DBNAME, DBVERSION);
             openreq.onerror = function withStoreOnError() {
                 error("storage.js: can't open database: '" + openreq.error.name + "'");
             };

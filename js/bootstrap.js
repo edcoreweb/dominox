@@ -24,5 +24,6 @@ window.http = Vue.http;
 window.jQuery = window.$ = $;
 
 require('bootstrap');
+require('./storage');
 require('./util/jquery.jcarousellite');
 require('./util/jquery.ui.touch-punch');
