@@ -29,8 +29,6 @@ window.onload = () => {
 
         methods: {
             initServiceWorker() {
-                console.log(this.user);
-
                 sw((registration) => {
                     if (!this.user.subscription) {
                         this.subscribe(registration);
